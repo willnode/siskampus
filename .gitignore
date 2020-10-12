@@ -1,0 +1,8 @@
+/nginx.exe
+/run.bat
+/temp
+/logs
+/docs
+/contrib
+/conf/*
+!/conf/nginx.conf
