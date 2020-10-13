@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Signin Template</title>
+    <title>Masuk</title>
 
     <!-- Bootstrap core CSS -->
     <link href="<?= module_url('bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
@@ -34,20 +34,13 @@
 <body class="text-center">
 
     <main class="form-signin">
-        <form>
+        <form method="POST">
             <img class="mb-4" src="<?= static_url('logo.png') ?>" alt="" width="72">
-            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-            <label for="inputEmail" class="visually-hidden">Email address</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-            <label for="inputPassword" class="visually-hidden">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" value="remember-me"> Remember me
-                </label>
-            </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
+            <h1 class="h3 mb-3 font-weight-normal">Mohon masuk</h1>
+            <input type="text" name="username" class="form-control" placeholder="ID" required autofocus>
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Masuk</button>
+            <p class="mt-5 mb-3 text-muted">&copy; <?= $site->long_name ?></p>
         </form>
     </main>
 
