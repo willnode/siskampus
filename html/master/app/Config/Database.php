@@ -32,6 +32,7 @@ class Database extends \CodeIgniter\Database\Config
 	public $master = [
 		'DSN'      => '',
 		'hostname' => 'localhost',
+		'scheme' => '',
 		'username' => '',
 		'password' => '',
 		'database' => '',

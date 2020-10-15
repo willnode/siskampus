@@ -6,8 +6,8 @@ use CodeIgniter\Model;
 
 class UserModel extends Model
 {
-    protected $table         = 'users';
-    protected $allowedFields = [];
+    protected $table         = 'master.users';
+    protected $allowedFields = [ 'otp', 'password' ];
     protected $primaryKey = 'username';
     protected $returnType = 'App\Entities\User';
 }

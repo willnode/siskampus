@@ -9,6 +9,7 @@ use CodeIgniter\Entity;
  * @property string $password
  * @property string $type
  * @property string $id
+ * @property string $otp
  */
 class User extends Entity
 {

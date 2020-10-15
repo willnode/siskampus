@@ -1,9 +1,18 @@
-<?php namespace Config;
+<?php
+
+namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
 
 class App extends BaseConfig
 {
+
+	public function __construct()
+	{
+		parent::__construct();
+
+		define('STATIC_URL', $_SERVER['STATIC_URL'] ?? 'http://static.localhost');
+	}
 
 	/*
 	|--------------------------------------------------------------------------
@@ -22,7 +31,6 @@ class App extends BaseConfig
 	|
 	*/
 	public $baseURL = 'http://localhost:8080/';
-	public $moduleURL = '';
 
 	/*
 	|--------------------------------------------------------------------------

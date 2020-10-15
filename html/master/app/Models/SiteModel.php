@@ -10,7 +10,7 @@ class SiteModel
 
     public function get()
     {
-        return new Site(json_decode(Database::connect()->table('site')->get()->getRowArray()['config'], true));
+        return new Site(json_decode(Database::connect()->table('master.site')->get()->getRowArray()['config'], true));
     }
 
     /**
@@ -18,6 +18,6 @@ class SiteModel
      */
     public function set($data)
     {
-        Database::connect()->table('site')->update(['config' => json_encode($data->toRawArray())], []);
+        Database::connect()->table('master.site')->update(['config' => json_encode($data->toRawArray())], []);
     }
 }

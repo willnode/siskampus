@@ -16,12 +16,6 @@ use Config\Services;
  * @link: https://codeigniter4.github.io/CodeIgniter4/
  */
 
-function module_url($url)
-{
-    return \Config\Services::request()->config->moduleURL . '/modules/' . $url;
-}
+define('SHAREDPATH', implode(DIRECTORY_SEPARATOR, [realpath(ROOTPATH . '../'), 'shared', '']));
 
-function static_url($url)
-{
-    return \Config\Services::request()->config->moduleURL . '/' . $url;
-}
+require SHAREDPATH . 'Common.php';

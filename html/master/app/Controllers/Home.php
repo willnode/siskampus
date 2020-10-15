@@ -13,14 +13,14 @@ class Home extends BaseController
 	{
 		if ($this->session->id) {
 			$site = (new SiteModel())->get();
-			$user = $this->db->table($this->session->type)
+			$user = $this->db->table('master.'.$this->session->type)
 				->where('id', $this->session->id)
 				->get()->getRow();
 			if ($user)
 				return view('bio', [
 					'site' => $site,
 					'bio' => new Bio(json_decode(
-						$user->bio,
+						$user->data,
 						true
 					)),
 					'type' => $this->session->type,
@@ -39,18 +39,19 @@ class Home extends BaseController
 
 	public function login()
 	{
-		if ($this->request->getMethod() === 'post') {
-			if ($this->validate([
-				'username' => 'required',
-				'password' => 'required',
-			])) {
-				/** @var User */
-				$user = (new UserModel())->find($this->request->getPost('username'));
-				if ($user && password_verify($_POST['password'], $user->password)) {
-					$this->session->id = $user->id;
-					$this->session->type = $user->type;
-					return $this->response->redirect('/');
-				}
+		if ($this->request->getMethod() === 'post' && isset($_POST['username'])) {
+			/** @var User */
+			$user = (new UserModel())->find($_POST['username']);
+			if ($user && !empty($_POST['password']) && password_verify($_POST['password'], $user->password)) {
+				$this->session->id = $user->username;
+				$this->session->type = $user->type;
+				return $this->response->redirect($_GET['r'] ?? '/');
+			} elseif ($user && $user->otp && !empty($_POST['otp']) && $_POST['otp'] === $user->otp) {
+				$this->session->id = $user->username;
+				$this->session->type = $user->type;
+				$user->otp = null;
+				(new UserModel())->save($user);
+				return $this->response->redirect($_GET['r'] ?? '/');
 			}
 		}
 		$site = (new SiteModel())->get();
