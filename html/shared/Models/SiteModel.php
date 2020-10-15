@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace Shared\Models;
 
 use Shared\Models\BaseModel;
 
 class SiteModel extends BaseModel
 {
     protected $table      = 'master.site';
-    protected $finalEntity = 'App\Entities\Site';
+    protected $finalEntity = 'Shared\Entities\Site';
 
     public function get()
     {

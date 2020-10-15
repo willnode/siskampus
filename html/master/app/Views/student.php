@@ -1,3 +1,6 @@
+<?php
+
+/** @var Shared\Entities\Student $user */ ?>
 <!doctype html>
 <html lang="id">
 
@@ -5,7 +8,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mahasiswa</title>
-
   <link href="<?= module_url('bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
 
 </head>
@@ -77,7 +79,7 @@
                 </tr>
                 <tr>
                   <td>Angkatan</td>
-                  <td><?= ($program = $user->program)->name ?></td>
+                  <td><?= $user->start_year ?></td>
                 </tr>
                 <tr>
                   <td>Program Studi</td>

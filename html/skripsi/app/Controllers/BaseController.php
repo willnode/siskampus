@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 /**
@@ -27,6 +28,10 @@ class BaseController extends Controller
 	 * @var array
 	 */
 	protected $helpers = [];
+	/** @var Session */
+	protected $session;
+	/** @var BaseConnection */
+	protected $db;
 
 	/**
 	 * Constructor.
@@ -41,6 +46,7 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		// E.g.:
 		// $this->session = \Config\Services::session();
+		$this->session = \Config\Services::session();
+		$this->db = \Config\Database::connect();
 	}
-
 }

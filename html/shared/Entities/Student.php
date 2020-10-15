@@ -8,6 +8,9 @@ use Shared\Models\ProgramModel;
 /**
  * @property string $id
  * @property string $name
+ * @property string $email
+ * @property string $phone
+ * @property string $address
  * @property string $status
  * @property string $birth_date
  * @property string $birth_place

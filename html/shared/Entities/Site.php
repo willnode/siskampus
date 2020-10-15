@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities;
+namespace Shared\Entities;
 
 use CodeIgniter\Entity;
 
