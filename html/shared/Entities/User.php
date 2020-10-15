@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities;
+namespace Shared\Entities;
 
 use CodeIgniter\Entity;
 
@@ -13,6 +13,4 @@ use CodeIgniter\Entity;
  */
 class User extends Entity
 {
-    protected $casts = [
-    ];
 }

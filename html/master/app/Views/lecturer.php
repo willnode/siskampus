@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Masuk</title>
+  <title>Dosen</title>
 
   <link href="<?= module_url('bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
 
@@ -37,9 +37,9 @@
           <div class="card-body">
             <table class="table">
               <tbody>
-                <?php foreach ($bio->toRawArray() as $key => $value) : ?>
+                <?php foreach ($user->toRawArray() as $key => $value) : ?>
                   <tr>
-                    <td> <?= lang(ucfirst($type) . ".$key") ?></td>
+                    <td> <?= lang("Lecturer.$key") ?></td>
                     <td><?= $value ?></td>
                   </tr>
                 <?php endforeach ?>

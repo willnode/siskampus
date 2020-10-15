@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace Shared\Models;
 
 use CodeIgniter\Model;
 
 class StudentModel extends BaseModel
 {
     protected $table      = 'master.student';
-    protected $returnType = 'App\Entities\Student';
+    protected $finalEntity = 'Shared\Entities\Student';
 }

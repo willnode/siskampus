@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Shared\Models;
 
 use CodeIgniter\Model;
 
@@ -9,5 +9,5 @@ class UserModel extends Model
     protected $table         = 'master.users';
     protected $allowedFields = [ 'otp', 'password' ];
     protected $primaryKey = 'username';
-    protected $returnType = 'App\Entities\User';
+    protected $returnType = 'Shared\Entities\User';
 }

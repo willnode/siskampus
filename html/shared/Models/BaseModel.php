@@ -21,27 +21,28 @@ class BaseModel extends Model
     {
         if (!isset($event['id'])) {
             foreach ($event['data'] as $key => $value) {
-                $event['data'][$key] = $this->realPostProcessGet($value->id, json_decode($value->data));
+                $event['data'][$key] = $this->realPostProcessGet($value['id'], json_decode($value['data'], true));
             }
         } else {
-            $event['data'] = $this->realPostProcessGet($event['data']->id, json_decode($event['data']->data));
+            $event['data'] = $this->realPostProcessGet($event['data']['id'], json_decode($event['data']['data'], true));
         }
         return $event;
     }
 
     public function realPostProcessGet($id, $data)
     {
-        $data->id = $id;
-        if (!empty($data->i18n)) {
+        $data['id'] = $id;
+        if (!empty($data['i18n'])) {
             $lang = Services::request()->getLocale();
-            $i18n = $data->i18n->{$lang} ?? [];
+            $i18n = $data['i18n'][$lang] ?? [];
             foreach ($i18n as $key => $value) {
-                $data->$key = $value;
+                $data[$key] = $value;
             }
             unset($i18n);
         }
         if ($this->finalEntity) {
-            $data = new ${$this->finalEntity}($data);
+            $en = $this->finalEntity;
+            $data = new $en($data);
         }
         return $data;
     }

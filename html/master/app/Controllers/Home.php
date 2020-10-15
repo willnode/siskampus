@@ -2,10 +2,11 @@
 
 namespace App\Controllers;
 
-use App\Entities\Bio;
-use App\Entities\User;
+use Shared\Entities\User;
 use App\Models\SiteModel;
-use App\Models\UserModel;
+use Shared\Models\LecturerModel;
+use Shared\Models\StudentModel;
+use Shared\Models\UserModel;
 
 class Home extends BaseController
 {
@@ -13,17 +14,18 @@ class Home extends BaseController
 	{
 		if ($this->session->id) {
 			$site = (new SiteModel())->get();
-			$user = $this->db->table('master.'.$this->session->type)
-				->where('id', $this->session->id)
-				->get()->getRow();
+			switch ($this->session->type) {
+				case 'student':
+					$user = (new StudentModel())->find($this->session->id);
+					break;
+				case 'lecturer':
+					$user = (new LecturerModel())->find($this->session->id);
+					break;
+			}
 			if ($user)
-				return view('bio', [
+				return view($this->session->type, [
 					'site' => $site,
-					'bio' => new Bio(json_decode(
-						$user->data,
-						true
-					)),
-					'type' => $this->session->type,
+					'user' => $user,
 				]);
 			else
 				return $this->logout();

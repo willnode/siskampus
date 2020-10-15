@@ -11,9 +11,5 @@ use CodeIgniter\Entity;
  */
 class Site extends Entity
 {
-    protected $casts = [
-        'short_name' => 'string',
-        'long_name' => 'string',
-        'website' => 'string',
-    ];
+
 }

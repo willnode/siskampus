@@ -2,22 +2,15 @@
 
 namespace App\Models;
 
-use App\Entities\Site;
-use Config\Database;
+use Shared\Models\BaseModel;
 
-class SiteModel
+class SiteModel extends BaseModel
 {
+    protected $table      = 'master.site';
+    protected $finalEntity = 'App\Entities\Site';
 
     public function get()
     {
-        return new Site(json_decode(Database::connect()->table('master.site')->get()->getRowArray()['config'], true));
-    }
-
-    /**
-     * @param Site $data
-     */
-    public function set($data)
-    {
-        Database::connect()->table('master.site')->update(['config' => json_encode($data->toRawArray())], []);
+        return $this->find(1);
     }
 }
