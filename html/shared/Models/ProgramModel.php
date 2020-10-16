@@ -2,8 +2,6 @@
 
 namespace Shared\Models;
 
-use CodeIgniter\Model;
-
 class ProgramModel extends BaseModel
 {
     protected $table      = 'master.program';

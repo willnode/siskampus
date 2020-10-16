@@ -29,7 +29,7 @@ class Home extends BaseController
 	public function index()
 	{
 		if ($user = $this->getUser()) {
-			return view($this->session->type, [
+			return view($this->session->type.'/index', [
 				'site' => (new SiteModel())->get(),
 				'user' => $user,
 			]);

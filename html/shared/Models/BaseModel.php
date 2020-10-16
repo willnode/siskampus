@@ -19,7 +19,7 @@ class BaseModel extends Model
 
     public function postProcessGet($event)
     {
-        if (!isset($event['id'])) {
+        if (is_array($event['id'])) {
             foreach ($event['data'] as $key => $value) {
                 $event['data'][$key] = $this->realPostProcessGet($value['id'], json_decode($value['data'], true));
             }
@@ -34,11 +34,11 @@ class BaseModel extends Model
         $data['id'] = $id;
         if (!empty($data['i18n'])) {
             $lang = Services::request()->getLocale();
-            $i18n = $data['i18n'][$lang] ?? [];
+            $i18n = $data['i18n'][$lang] ?? array_fill_keys($this->i18nFields, '');
             foreach ($i18n as $key => $value) {
                 $data[$key] = $value;
             }
-            unset($i18n);
+            unset($data['i18n']);
         }
         if ($this->finalEntity) {
             $en = $this->finalEntity;

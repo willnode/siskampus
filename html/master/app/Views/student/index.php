@@ -22,7 +22,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="//skipsi.localhost">Skripsi</a>
+            <a class="nav-link" href="/go/skripsi">Skripsi</a>
           </li>
         </ul>
         <form class="d-flex">

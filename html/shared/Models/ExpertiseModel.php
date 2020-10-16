@@ -2,14 +2,14 @@
 
 namespace Shared\Models;
 
-use Shared\Entities\Lecturer;
+use Shared\Entities\Expertise;
 
-class LecturerModel extends BaseModel
+class ExpertiseModel extends BaseModel
 {
-    protected $table      = 'master.lecturer';
-    protected $finalEntity = 'Shared\Entities\Lecturer';
+    protected $table      = 'master.expertise';
+    protected $finalEntity = 'Shared\Entities\Expertise';
 
-    /** @return Lecturer[] */
+    /** @return Expertise[] */
     public function findWithDepartment($id)
     {
 

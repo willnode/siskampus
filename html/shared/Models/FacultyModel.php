@@ -2,8 +2,6 @@
 
 namespace Shared\Models;
 
-use CodeIgniter\Model;
-
 class FacultyModel extends BaseModel
 {
     protected $table      = 'master.faculty';
