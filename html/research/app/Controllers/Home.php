@@ -73,7 +73,7 @@ class Home extends BaseController
 			$item->student_id = $user->id;
 			$item->status = 'pending';
 			if (($file = $this->request->getFile('file'))) {
-				$item->file = set_file('skripsi/proposal', $file);
+				$item->file = set_file('research/proposal', $file);
 			}
 		} else {
 			if (!$item) return;
@@ -83,7 +83,7 @@ class Home extends BaseController
 			if ($item->status != 'pending') {
 				return;
 			} else if (($file = $this->request->getFile('file')) && $file->isValid()) {
-				$item->file = set_file('skripsi/proposal', $file);
+				$item->file = set_file('research/proposal', $file);
 			}
 			unset($item->lecturer_id);
 		}
@@ -178,7 +178,7 @@ class Home extends BaseController
 			$this->session->type = $user->type;
 			return $this->response->redirect(parse_url($_GET['r'] ?? '/', PHP_URL_PATH));
 		} else {
-			return $this->response->redirect("//master.$_SERVER[HOST_URL]/check_login?r=/go/skripsi");
+			return $this->response->redirect("//master.$_SERVER[HOST_URL]/check_login?r=/go/research");
 		}
 	}
 

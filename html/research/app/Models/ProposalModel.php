@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 
 class ProposalModel extends Model
 {
-    protected $table      = 'skripsi.proposal';
+    protected $table      = 'research.proposal';
     protected $allowedFields = [
         'student_id', 'expertise_id', 'lecturer_id', 'title', 'abstract', 'status', 'file'
     ];

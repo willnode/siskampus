@@ -56,7 +56,7 @@ class Database extends \CodeIgniter\Database\Config
 	 *
 	 * @var array
 	 */
-	public $skripsi = [
+	public $research = [
 		'DSN'      => '',
 		'hostname' => 'localhost',
 		'username' => '',

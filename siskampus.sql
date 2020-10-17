@@ -39,13 +39,13 @@ COMMENT ON SCHEMA master IS 'standard public schema';
 
 --
 -- TOC entry 4 (class 2615 OID 16452)
--- Name: skripsi; Type: SCHEMA; Schema: -; Owner: postgres
+-- Name: research; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
-CREATE SCHEMA skripsi;
+CREATE SCHEMA research;
 
 
-ALTER SCHEMA skripsi OWNER TO postgres;
+ALTER SCHEMA research OWNER TO postgres;
 
 SET default_tablespace = '';
 
@@ -197,10 +197,10 @@ ALTER TABLE master.users OWNER TO postgres;
 
 --
 -- TOC entry 209 (class 1259 OID 16455)
--- Name: proposal; Type: TABLE; Schema: skripsi; Owner: postgres
+-- Name: proposal; Type: TABLE; Schema: research; Owner: postgres
 --
 
-CREATE TABLE skripsi.proposal (
+CREATE TABLE research.proposal (
     id integer NOT NULL,
     student_id character varying,
     lecturer_id character varying[],
@@ -214,14 +214,14 @@ CREATE TABLE skripsi.proposal (
 );
 
 
-ALTER TABLE skripsi.proposal OWNER TO postgres;
+ALTER TABLE research.proposal OWNER TO postgres;
 
 --
 -- TOC entry 208 (class 1259 OID 16453)
--- Name: proposal_id_seq; Type: SEQUENCE; Schema: skripsi; Owner: postgres
+-- Name: proposal_id_seq; Type: SEQUENCE; Schema: research; Owner: postgres
 --
 
-CREATE SEQUENCE skripsi.proposal_id_seq
+CREATE SEQUENCE research.proposal_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -230,23 +230,23 @@ CREATE SEQUENCE skripsi.proposal_id_seq
     CACHE 1;
 
 
-ALTER TABLE skripsi.proposal_id_seq OWNER TO postgres;
+ALTER TABLE research.proposal_id_seq OWNER TO postgres;
 
 --
 -- TOC entry 3069 (class 0 OID 0)
 -- Dependencies: 208
--- Name: proposal_id_seq; Type: SEQUENCE OWNED BY; Schema: skripsi; Owner: postgres
+-- Name: proposal_id_seq; Type: SEQUENCE OWNED BY; Schema: research; Owner: postgres
 --
 
-ALTER SEQUENCE skripsi.proposal_id_seq OWNED BY skripsi.proposal.id;
+ALTER SEQUENCE research.proposal_id_seq OWNED BY research.proposal.id;
 
 
 --
 -- TOC entry 211 (class 1259 OID 16466)
--- Name: seminar; Type: TABLE; Schema: skripsi; Owner: postgres
+-- Name: seminar; Type: TABLE; Schema: research; Owner: postgres
 --
 
-CREATE TABLE skripsi.seminar (
+CREATE TABLE research.seminar (
     id integer NOT NULL,
     location character varying,
     start_at time without time zone,
@@ -256,14 +256,14 @@ CREATE TABLE skripsi.seminar (
 );
 
 
-ALTER TABLE skripsi.seminar OWNER TO postgres;
+ALTER TABLE research.seminar OWNER TO postgres;
 
 --
 -- TOC entry 210 (class 1259 OID 16464)
--- Name: seminar_id_seq; Type: SEQUENCE; Schema: skripsi; Owner: postgres
+-- Name: seminar_id_seq; Type: SEQUENCE; Schema: research; Owner: postgres
 --
 
-CREATE SEQUENCE skripsi.seminar_id_seq
+CREATE SEQUENCE research.seminar_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -272,15 +272,15 @@ CREATE SEQUENCE skripsi.seminar_id_seq
     CACHE 1;
 
 
-ALTER TABLE skripsi.seminar_id_seq OWNER TO postgres;
+ALTER TABLE research.seminar_id_seq OWNER TO postgres;
 
 --
 -- TOC entry 3070 (class 0 OID 0)
 -- Dependencies: 210
--- Name: seminar_id_seq; Type: SEQUENCE OWNED BY; Schema: skripsi; Owner: postgres
+-- Name: seminar_id_seq; Type: SEQUENCE OWNED BY; Schema: research; Owner: postgres
 --
 
-ALTER SEQUENCE skripsi.seminar_id_seq OWNED BY skripsi.seminar.id;
+ALTER SEQUENCE research.seminar_id_seq OWNED BY research.seminar.id;
 
 
 --
@@ -293,18 +293,18 @@ ALTER TABLE ONLY master.site ALTER COLUMN id SET DEFAULT nextval('master.site_id
 
 --
 -- TOC entry 2906 (class 2604 OID 16458)
--- Name: proposal id; Type: DEFAULT; Schema: skripsi; Owner: postgres
+-- Name: proposal id; Type: DEFAULT; Schema: research; Owner: postgres
 --
 
-ALTER TABLE ONLY skripsi.proposal ALTER COLUMN id SET DEFAULT nextval('skripsi.proposal_id_seq'::regclass);
+ALTER TABLE ONLY research.proposal ALTER COLUMN id SET DEFAULT nextval('research.proposal_id_seq'::regclass);
 
 
 --
 -- TOC entry 2907 (class 2604 OID 16469)
--- Name: seminar id; Type: DEFAULT; Schema: skripsi; Owner: postgres
+-- Name: seminar id; Type: DEFAULT; Schema: research; Owner: postgres
 --
 
-ALTER TABLE ONLY skripsi.seminar ALTER COLUMN id SET DEFAULT nextval('skripsi.seminar_id_seq'::regclass);
+ALTER TABLE ONLY research.seminar ALTER COLUMN id SET DEFAULT nextval('research.seminar_id_seq'::regclass);
 
 
 --
@@ -390,19 +390,19 @@ ALTER TABLE ONLY master.users
 
 --
 -- TOC entry 2925 (class 2606 OID 16463)
--- Name: proposal proposal_pkey; Type: CONSTRAINT; Schema: skripsi; Owner: postgres
+-- Name: proposal proposal_pkey; Type: CONSTRAINT; Schema: research; Owner: postgres
 --
 
-ALTER TABLE ONLY skripsi.proposal
+ALTER TABLE ONLY research.proposal
     ADD CONSTRAINT proposal_pkey PRIMARY KEY (id);
 
 
 --
 -- TOC entry 2927 (class 2606 OID 16474)
--- Name: seminar seminar_pkey; Type: CONSTRAINT; Schema: skripsi; Owner: postgres
+-- Name: seminar seminar_pkey; Type: CONSTRAINT; Schema: research; Owner: postgres
 --
 
-ALTER TABLE ONLY skripsi.seminar
+ALTER TABLE ONLY research.seminar
     ADD CONSTRAINT seminar_pkey PRIMARY KEY (id);
 
 

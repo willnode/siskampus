@@ -14,13 +14,13 @@ Goal:
 Modul:
 + Master (basis akun)
 + Meeting (arsip rapat)
-+ Proposal (tugas akhir)
++ Research (tugas akhir)
 + Payment (pembayaran gaji)
 + Welcome (pendaftaran baru)
 + Course (rumusan akademik)
 + Asset (pengelolaan aset)
 
-Daftar Sponsor:
+Sponsor:
 + [UNWAHA](//unwaha.ac.id)
 + [Kampus anda?](mailto:willnode@wellosoft.net?subject=Saya+ingin+menjadi+partner+siskampus)
 

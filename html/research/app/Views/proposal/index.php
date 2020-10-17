@@ -34,7 +34,7 @@
                       <?= lang('Proposal.statutes')[$status] ?>
                     </span></h4>
 
-                  <a href="<?= get_file('skripsi/proposal', $item->file) ?>" download class="btn btn-success ml-2 btn-sm">
+                  <a href="<?= get_file('research/proposal', $item->file) ?>" download class="btn btn-success ml-2 btn-sm">
                     <img src="<?= module_url('bootstrap-icons/icons/download.svg') ?>" style="filter: contrast(0) brightness(2);" />
                   </a>
                   <?php if (($type !== 'lecturer') && (($item->status) === 'pending' || $status === 'rejected')) : ?>

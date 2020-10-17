@@ -61,8 +61,8 @@
       <div class="col-md-6 col-lg-8 mb-3">
         <div class="card h-100">
           <div class="card-body">
-            <object data="<?= get_file('skripsi/proposal', $item->file, 'embeds') ?>" type="application/pdf" class="h-100 w-100">
-              <a href="<?= get_file('skripsi/proposal', $item->file, 'embeds') ?>">View in browser</a>
+            <object data="<?= get_file('research/proposal', $item->file, 'embeds') ?>" type="application/pdf" class="h-100 w-100">
+              <a href="<?= get_file('research/proposal', $item->file, 'embeds') ?>">View in browser</a>
             </object>
           </div>
         </div>
