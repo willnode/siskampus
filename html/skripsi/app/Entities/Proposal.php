@@ -14,6 +14,7 @@ use Shared\Models\StudentModel;
  * @property string $id
  * @property string $student_id
  * @property string $expertise_id
+ * @property string $file
  * @property string[] $lecturer_id
  * @property Student $student
  * @property Expertise $expertise

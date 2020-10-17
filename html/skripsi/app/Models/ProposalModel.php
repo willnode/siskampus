@@ -8,7 +8,11 @@ use CodeIgniter\Model;
 class ProposalModel extends Model
 {
     protected $table      = 'skripsi.proposal';
+    protected $allowedFields = [
+        'student_id', 'expertise_id', 'lecturer_id', 'title', 'abstract', 'status', 'file'
+    ];
     protected $returnType = 'App\Entities\Proposal';
+    protected $useTimestamps = true;
 
     /** @return Proposal[] */
     public function findWithStudent($student_id)

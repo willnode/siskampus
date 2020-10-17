@@ -1,5 +1,7 @@
 <?php
 
+define('STATICPATH', implode(DIRECTORY_SEPARATOR, [realpath(ROOTPATH . '../'), 'static', '']));
+
 function module_url($url)
 {
     return STATIC_URL . '/modules/' . $url;
@@ -9,6 +11,26 @@ function static_url($url)
 {
     return STATIC_URL . '/' . $url;
 }
+
+/** @param CodeIgniter\HTTP\Files\UploadedFile $file */
+function set_file($directory, $file)
+{
+    if ($file->isValid() && !$file->hasMoved()) {
+        $path = STATICPATH . 'uploads' . DIRECTORY_SEPARATOR . $directory;
+        if (!is_dir($path)) {
+            mkdir($path, 0750, true);
+        }
+        $file->move($path, date('Ymd') . '-' . $file->getClientName());
+        return $file->getName();
+    }
+    return false;
+}
+
+function get_file($directory, $file, $collection = 'uploads')
+{
+    return STATIC_URL . "/$collection/$directory/$file";
+}
+
 
 function tokenBasedLogin($token)
 {

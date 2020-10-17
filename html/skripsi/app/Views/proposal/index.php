@@ -2,49 +2,77 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link href="<?= module_url('bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
-  <link href="<?= module_url('datatables.net-dt/css/jquery.dataTables.min.css') ?>" rel="stylesheet">
-  <script src="<?= module_url('jquery/dist/jquery.min.js') ?>"></script>
-  <script src="<?= module_url('datatables.net/js/jquery.dataTables.min.js') ?>"></script>
+  <?= view('head') ?>
 </head>
 
 <body>
 
   <?= view('navbar') ?>
 
-  <div class="container my-5">
+  <div class="container mb-5 mt-3">
     <div class="row">
+      <?php if ($type === 'lecturer') : ?>
+        <ul class="nav nav-tabs mb-3 mx-2">
+          <?php foreach (['pending', 'review', 'final', 'rejected'] as $mode) : ?>
+            <li class="nav-item">
+              <a class="nav-link <?= $mode === ($_GET['mode'] ?? '') ? 'active' : '' ?>" href="?mode=<?= $mode ?>"><?= lang('Proposal.statutes')[$mode] ?></a>
+            </li>
+          <?php endforeach ?>
+        </ul>
+      <?php elseif ($type === 'operator') : ?>
+      <?php endif ?>
       <?php /** @var \App\Entities\Proposal[] $list */ ?>
       <?php foreach ($list as $item) : ?>
+        <?php $status = ($rvs = explode('-', $item->status, 2))[0] ?>
+        <?php $status === 'final' && $has_final = 1 ?>
+        <?php if ($type === 'lecturer' && $status !== ($_GET['mode'] ?? '')) continue; ?>
         <div class="col-md-6 col-lg-4">
           <div class="card">
             <div class="card-body">
-              <a href="/proposal/<?= $item->id ?>" class="float-right btn btn-warning">
-                <img src="<?= module_url('bootstrap-icons/icons/pencil-square.svg') ?>" />
-              </a>
-              <div class="card-head">
-                <h3 class="mb-3"><?= esc($item->title) ?></h3>
+              <div class="d-flex align-items-center mb-3">
+                <h4 class="m-0 mr-auto"><span class="badge bg-<?= lang('Proposal.statutes-color')[($status)] ?>">
+                    <?= lang('Proposal.statutes')[$status] ?>
+                  </span></h4>
+
+                <a href="<?= get_file('skripsi/proposal', $item->file) ?>" download class="btn btn-success ml-2 btn-sm">
+                  <img src="<?= module_url('bootstrap-icons/icons/download.svg') ?>" style="filter: contrast(0) brightness(2);" />
+                </a>
+                <?php if (($type !== 'lecturer') && (($item->status) === 'pending' || $status === 'rejected')) : ?>
+                  <a href="/proposal/<?= $item->id ?>" class="btn btn-warning ml-2 btn-sm">
+                    <img src="<?= module_url('bootstrap-icons/icons/pencil-square.svg') ?>" />
+                  </a>
+                <?php else : ?>
+                  <a href="/proposal/<?= $item->id ?>" class="btn btn-info ml-2 btn-sm">
+                    <img src="<?= module_url('bootstrap-icons/icons/eye-fill.svg') ?>" />
+                  </a>
+                <?php endif ?>
+
               </div>
-              <p><b>Status</b>: <span class="badge bg-primary"><?= $item->status ?></span></p>
-              <p><b>RMK</b>: <?= $item->expertise->name ?></p>
-              <p><b>Abstrak</b>:</p>
-              <p><?= esc($item->abstract) ?></p>
-              <?php foreach ($item->lecturer as $i => $l) : ?>
-                <p><b>Pembimbing <?= $i + 1 ?></b>: <?= esc($l->name) ?></p>
-              <?php endforeach ?>
+
+              <p><?= $item->student->id ?> &bullet; <?= $item->student->name ?> &bullet; <?= $item->expertise->name ?></p>
+              <h3 class="mb-3"><?= esc(mb_strimwidth($item->title, 0, 150, "…")) ?></h3>
+              <div><b>Diperbarui: </b> <?= $item->updated_at->humanize() ?></div>
+              <div><b>Pembimbing: </b></div>
+              <ul>
+                <?php foreach ($item->lecturer as $lecturer) : ?>
+                  <li>
+                    <?= esc($lecturer->name) ?>
+                  <?= array_search($lecturer->id, $rvs) ? '<span class="badge bg-success">Disetujui</span>' : '' ?>
+                </li>
+                <?php endforeach ?>
+              </ul>
             </div>
           </div>
         </div>
       <?php endforeach ?>
-      <div class="col-md-6 col-lg-4">
-        <a href="/proposal/new" class="btn btn-success p-5 h-100 w-100 d-flex flex-column align-items-center justify-content-center">
-          <img src="<?= module_url('bootstrap-icons/icons/plus-circle-fill.svg') ?>" style="filter: contrast(0) brightness(2);" width="50px" />
-          <div class="my-3">Tambah Baru</div>
-        </a>
-      </div>
+      <?php if ($type === 'student' && !isset($has_final)) : ?>
+        <div class="col-md-6 col-lg-4">
+          <a href="/proposal/new" class="btn btn-success p-5 h-100 w-100 d-flex flex-column align-items-center justify-content-center">
+            <img src="<?= module_url('bootstrap-icons/icons/plus-circle-fill.svg') ?>" style="filter: contrast(0) brightness(2);" width="50px" />
+            <div class="my-3">Tambah Baru</div>
+          </a>
+        </div>
+      <?php endif ?>
     </div>
   </div>
 </body>

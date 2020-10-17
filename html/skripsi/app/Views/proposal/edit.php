@@ -2,24 +2,19 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link href="<?= module_url('bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
-  <link href="<?= module_url('datatables.net-dt/css/jquery.dataTables.min.css') ?>" rel="stylesheet">
-  <script src="<?= module_url('jquery/dist/jquery.min.js') ?>"></script>
-  <script src="<?= module_url('datatables.net/js/jquery.dataTables.min.js') ?>"></script>
+<?= view('head') ?>
+
 </head>
 
 <body>
 
   <?= view('navbar') ?>
 
-  <div class="container-fluid my-5" enctype='multipart/form-data'>
+  <div class="container-fluid my-5">
     <?php /** @var \App\Entities\Proposal $item */ ?>
-    <form class="row">
+    <form class="row" method="POST" enctype='multipart/form-data'>
       <div class="col-md-6 col-lg-4 mb-3">
-        <div class="card" id="form" data-department="<?= esc($user->program->department_id) ?>">
+        <div class="card" id="form" data-department="<?= esc($user->program->department_id ?? $item->student->program->department_id) ?>">
           <div class="card-body">
             <div class="mb-3">
               <label class="form-label">Judul</label>
@@ -38,7 +33,7 @@
 
             <div class="mb-3">
               <label class="form-label">Berkas Proposal</label>
-              <input type="file" class="form-control" name="proposal_file">
+              <input type="file" class="form-control" name="file" accept="application/pdf" <?= $item->id ? '' : 'required' ?>>
             </div>
 
             <div class="mb-3 d-flex">
@@ -56,8 +51,8 @@
               <?php for ($i = 0; $i < 2; $i++) : ?>
                 <div class="col-lg-6 mb-3">
                   <label class="form-label">Dosen Pembimbing <?= $i + 1 ?></label>
-                  <input type="hidden" id="lecturer_id_<?= $i ?>" name="lecturer_id[<?= $i ?>]" value="<?= esc($lecturers[$i]->id ?? '') ?>">
-                  <input type="text" class="form-control" disabled id="lecturer_id_<?= $i ?>_name" value="<?= esc($lecturers[$i]->name ?? '') ?>">
+                  <input type="hidden" required id="lecturer_id_<?= $i ?>" name="lecturer_id[<?= $i ?>]" value="<?= esc($lecturers[$i]->id ?? '') ?>">
+                  <input type="text" required class="form-control" readonly placeholder="Silahkan pilih dosen" id="lecturer_id_<?= $i ?>_name" value="<?= esc($lecturers[$i]->name ?? '') ?>">
                 </div>
               <?php endfor ?>
             </div>
@@ -65,6 +60,7 @@
               <thead>
                 <th>1</th>
                 <th>2</th>
+                <th>NID</th>
                 <th>Nama</th>
                 <th>Alokasi</th>
               </thead>
@@ -90,32 +86,40 @@
       })
     })($('#expertise_id'), '/api/expertises');
 
-
     fetch('/api/lecturers?department_id=' + department).then(x => x.json()).then(x => {
       $('#table').DataTable({
         data: x,
-        columns: [{
+        columns: [
+          ...[0, 1].map(i => ({
+            data: 'id',
             orderable: false,
             width: 1,
             render: function(data, type, row, meta) {
-              return '<a href="' + data + '">Download</a>';
+              return row.free > 0 ? `<button type="button" class="btn btn-sm btn-success pb-2"
+                onclick="selectLecturer(${i}, \`${row.id}\`, \`${row.name}\`)">
+              <img src="<?= module_url('bootstrap-icons/icons/plus-square.svg') ?>"
+                style="filter: contrast(0) brightness(2);" />
+              </button>` : '';
             }
-          },
+          })),
           {
-            orderable: false,
             width: 1,
-            render: function(data, type, row, meta) {
-              return '<a href="' + data + '">Download</a>';
-            }
+            data: 'id',
           },
           {
             data: 'name'
           },
           {
-            data: 'free'
+            width: 1,
+            data: 'free',
           }
         ]
       });
     });
+
+    function selectLecturer(i, id, name) {
+      $(`#lecturer_id_${i}`).val(id);
+      $(`#lecturer_id_${i}_name`).val(name);
+    }
   </script>
 </body>

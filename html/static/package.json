@@ -15,6 +15,7 @@
     "bootstrap-select": "^1.13.18",
     "datatables.net": "^1.10.22",
     "datatables.net-dt": "^1.10.22",
-    "jquery": "^3.5.1"
+    "jquery": "^3.5.1",
+    "pdfjs-dist": "^2.5.207"
   }
 }

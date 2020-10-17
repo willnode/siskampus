@@ -10,10 +10,10 @@
           <a class="nav-link" href="/">Beranda</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/proposal">Proposal</a>
+          <a class="nav-link <?= ($page ?? '') === 'proposal' ? 'active' : '' ?>" href="/proposal">Proposal</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/seminar">Seminar</a>
+          <a class="nav-link <?= ($page ?? '') === 'seminar' ? 'active' : '' ?>" href="/seminar">Seminar</a>
         </li>
       </ul>
       <form class="d-flex">
@@ -22,3 +22,17 @@
     </div>
   </div>
 </nav>
+
+<div class="container">
+<?php if ($msg = \Config\Services::session()->get('message')) : ?>
+  <div class="alert alert-info alert-dismissable m-2" role="alert">
+    <?= esc($msg) ?>
+    <button type="button" class="btn-close float-right" data-dismiss="alert" aria-label="Close"></button>
+  </div>
+<?php endif ?>
+<?php if ($msg = \Config\Services::session()->get('error')) : ?>
+  <div class="alert alert-danger alert-dismissable m-2">
+    <?= esc($msg) ?>
+  </div>
+<?php endif ?>
+</div>

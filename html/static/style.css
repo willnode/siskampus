@@ -1,0 +1,7 @@
+.img-white {
+  filter: contrast(0) brightness(2);
+}
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
