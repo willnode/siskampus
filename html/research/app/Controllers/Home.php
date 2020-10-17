@@ -112,6 +112,36 @@ class Home extends BaseController
 		$this->session->setFlashdata('message', 'Data berhasil disimpan');
 		return $this->response->redirect('/proposal');
 	}
+	/** @param User $user */
+	protected function proposalPostOperator($user, $id)
+	{
+		$model = (new ProposalModel());
+		/** @var Proposal */
+		if (!($item = $model->find($id))) return;
+		switch ($action = $this->request->getPost('action')) {
+			case 'choose':
+				// reject other from student
+				$all = $model->findWithStudent($item->student_id);
+				foreach ($all as $a) {
+					if ($a->status !== 'rejected') {
+						$a->status = 'rejected';
+						$model->save($a);
+					}
+				}
+				$item->status = 'final';
+				$model->save($item);
+				break;
+			case 'delete':
+				$model->delete($item->id);
+				break;
+		}
+		if (!$action) {
+			$item->fill($this->request->getPost());
+			$model->save($item);
+		}
+		$this->session->setFlashdata('message', 'Data berhasil disimpan');
+		return $this->response->redirect('/proposal');
+	}
 	public function proposal($id = null)
 	{
 		if (($user = $this->getUser()) && ($type = $this->session->type)) {
@@ -121,13 +151,20 @@ class Home extends BaseController
 						return $this->proposalPostStudent($user, $id);
 					case 'lecturer':
 						return $this->proposalPostLecturer($user, $id);
+					case 'operator':
+						return $this->proposalPostOperator($user, $id);
 					default:
 						throw new PageNotFoundException();
 				}
 			} else if ($this->request->getMethod() === 'get') {
 				if ($id === null) {
-					if ($type === 'lecturer' && empty($_GET['mode'])) {
-						return $this->response->redirect('?mode=pending');
+					if (empty($_GET['mode'])) {
+						switch ($type) {
+							case 'lecturer':
+								return $this->response->redirect('?mode=pending');
+							case 'operator':
+								return $this->response->redirect('?mode=review');
+						}
 					}
 					return view('proposal/index', [
 						'page' => 'proposal',

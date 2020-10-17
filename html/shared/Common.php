@@ -1,5 +1,7 @@
 <?php
 
+use Shared\Entities\Operator;
+
 define('STATICPATH', implode(DIRECTORY_SEPARATOR, [realpath(ROOTPATH . '../'), 'static', '']));
 
 function module_url($url)
@@ -31,6 +33,10 @@ function get_file($directory, $file, $collection = 'uploads')
     return STATIC_URL . "/$collection/$directory/$file";
 }
 
+function check_access($user, $check)
+{
+    return $user instanceof Operator && array_search($check, $user->access, true) !== false;
+}
 
 function tokenBasedLogin($token)
 {

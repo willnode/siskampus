@@ -14,7 +14,6 @@ class ClearUsers extends BaseCommand
 
     public function run(array $params)
     {
-
         $db = Database::connect();
         $db->table('master.users')->truncate();
         echo 'OK';

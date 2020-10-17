@@ -25,4 +25,15 @@ class ProposalModel extends Model
     {
         return $this->builder()->where("'$lecturer_id' = ANY(lecturer_id)")->get()->getResult($this->returnType);
     }
+    /** @return Proposal[] */
+    public function findWithStatus($status)
+    {
+        if ($status === 'pending') {
+            return $this->builder()->like('status', $status, 'left')->get()->getResult($this->returnType);
+
+        } else {
+
+            return $this->builder()->where('status', $status)->get()->getResult($this->returnType);
+        }
+    }
 }

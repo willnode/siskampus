@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<?= view('head') ?>
+  <?= view('head') ?>
 
 </head>
 
@@ -34,6 +34,25 @@
               <label class="form-label">Berkas Proposal</label>
               <input type="file" class="form-control" name="file" accept="application/pdf" <?= $item->id ? '' : 'required' ?>>
             </div>
+            <?php if ($type === 'operator') : ?>
+              <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select name="status" id="status" class="form-select" required>
+                  <?php foreach ((array)lang('Proposal.statutes') as $key => $value) : ?>
+                    <option <?= $key === $item->status ? 'selected' : '' ?> value="<?= $key ?>"><?= esc($value) ?></option>
+                  <?php endforeach ?>
+                </select>
+
+                <?php if ($item->status !== 'final') : ?>
+                  <div class="text-right">
+
+                    <button name="action" value="choose" class="btn btn-outline-success my-1 btn-sm">
+                      Pilih sebagai final
+                    </button>
+                  </div>
+                <?php endif ?>
+              </div>
+            <?php endif ?>
             <div class="mb-3 d-flex">
               <input type="submit" class="btn btn-primary" value="Submit">
               <a href="/proposal" class="ml-auto btn btn-outline-secondary">Batalkan</a>

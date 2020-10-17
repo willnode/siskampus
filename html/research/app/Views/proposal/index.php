@@ -34,7 +34,7 @@
                       <?= lang('Proposal.statutes')[$status] ?>
                     </span></h4>
 
-                  <a href="<?= get_file('research/proposal', $item->file) ?>" download class="btn btn-success ml-2 btn-sm">
+                  <a href="<?= get_file('research/proposal', $item->file) ?>" class="btn btn-success ml-2 btn-sm">
                     <img src="<?= module_url('bootstrap-icons/icons/download.svg') ?>" style="filter: contrast(0) brightness(2);" />
                   </a>
                   <?php if (($type !== 'lecturer') && (($item->status) === 'pending' || $status === 'rejected')) : ?>
@@ -72,23 +72,72 @@
               <div class="my-3">Tambah Baru</div>
             </a>
           </div>
+        <?php elseif (!isset($lecturer)) : ?>
+          <p class="text-center text-muted">Tidak ada apapun disini</p>
         <?php endif ?>
-      <?php else : // operator done with ajax
-      ?>
-        <table id="table">
+      <?php else : ?>
+        <table id="table" class="w-100">
           <thead>
             <tr>
               <th>NRP</th>
               <th>Mahasiswa</th>
-              <th>Departemen</th>
+              <th>Program Studi</th>
               <th>Judul</th>
-              <th>Status</th>
               <th>Aksi</th>
             </tr>
           </thead>
         </table>
         <script>
-
+          fetch('/api/proposals?mode=<?= $mode = $_GET['mode'] ?? '' ?>').then(x => x.json()).then(x => {
+            $('#table').DataTable({
+              data: x,
+              responsive: true,
+              columns: [{
+                data: 'student.id',
+              }, {
+                data: 'student.name',
+              }, {
+                data: 'student.program.name',
+              }, {
+                data: 'title',
+                orderable: false,
+                render: function(data, type, row) {
+                  return type === 'display' && data.length > 40 ?
+                    data.substr(0, 40) + '…' :
+                    data;
+                }
+              }, {
+                orderable: false,
+                render: function(data, type, row) {
+                  return `
+                  <?php if ($mode === 'final' && check_access($user, 'research/seminar')) : ?>
+                    <a href="/seminar/new?from=${row.id}"  class="btn btn-info ml-2 btn-sm">
+                      <img src="<?= module_url('bootstrap-icons/icons/clock.svg') ?>" />
+                    </a>
+                  <?php endif ?>
+                  <?php if (check_access($user, 'research/proposal')) : ?>
+                    <a href="<?= get_file('research/proposal', '') ?>${row.file}"  class="btn btn-success ml-2 btn-sm">
+                      <img src="<?= module_url('bootstrap-icons/icons/download.svg') ?>" />
+                    </a>
+                    <a href="/proposal/${row.id}"  class="btn btn-warning ml-2 btn-sm">
+                      <img src="<?= module_url('bootstrap-icons/icons/pencil-square.svg') ?>" />
+                    </a>
+                  <?php elseif ($mode === 'review' && check_access($user, 'research/reviewer')) : ?>
+                    <form method="POST" action="/proposal/${row.id}">
+                    <button name="action" value="choose" class="btn btn-info ml-2 btn-sm">
+                      <img src="<?= module_url('bootstrap-icons/icons/check-circle.svg') ?>" />
+                    </button>
+                    <a href="/proposal/${row.id}"  class="btn btn-info ml-2 btn-sm">
+                      <img src="<?= module_url('bootstrap-icons/icons/eye-fill.svg') ?>" />
+                    </a>
+                    </form>
+                  <?php endif ?>
+                  `
+                }
+              }, ],
+              language: <?php include lang('Interface.datatables-lang') ?>
+            })
+          });
         </script>
       <?php endif ?>
 
