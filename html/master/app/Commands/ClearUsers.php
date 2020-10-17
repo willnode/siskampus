@@ -16,7 +16,7 @@ class ClearUsers extends BaseCommand
     {
 
         $db = Database::connect();
-        $db->table('users')->truncate();
+        $db->table('master.users')->truncate();
         echo 'OK';
     }
 }

@@ -30,12 +30,10 @@
                 <option selected value="<?= esc($item->expertise_id) ?>"><?= esc($item->expertise->name) ?></option>
               </select>
             </div>
-
             <div class="mb-3">
               <label class="form-label">Berkas Proposal</label>
               <input type="file" class="form-control" name="file" accept="application/pdf" <?= $item->id ? '' : 'required' ?>>
             </div>
-
             <div class="mb-3 d-flex">
               <input type="submit" class="btn btn-primary" value="Submit">
               <a href="/proposal" class="ml-auto btn btn-outline-secondary">Batalkan</a>

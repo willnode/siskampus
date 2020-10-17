@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Shared\Entities\User;
 use Shared\Models\SiteModel;
 use Shared\Models\LecturerModel;
+use Shared\Models\OperatorModel;
 use Shared\Models\StudentModel;
 use Shared\Models\UserModel;
 
@@ -15,13 +16,12 @@ class Home extends BaseController
 		if ($this->session->id) {
 			switch ($this->session->type) {
 				case 'student':
-					$user = (new StudentModel())->find($this->session->id);
-					break;
+					return (new StudentModel())->find($this->session->id);
 				case 'lecturer':
-					$user = (new LecturerModel())->find($this->session->id);
-					break;
+					return (new LecturerModel())->find($this->session->id);
+				case 'operator':
+					return (new OperatorModel())->find($this->session->id);
 			}
-			return $user ?? null;
 		}
 		return null;
 	}
@@ -29,7 +29,7 @@ class Home extends BaseController
 	public function index()
 	{
 		if ($user = $this->getUser()) {
-			return view($this->session->type.'/index', [
+			return view($this->session->type . '/index', [
 				'site' => (new SiteModel())->get(),
 				'user' => $user,
 			]);

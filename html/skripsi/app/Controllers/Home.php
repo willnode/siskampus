@@ -7,6 +7,7 @@ use App\Models\ProposalModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use Shared\Entities\User;
 use Shared\Models\LecturerModel;
+use Shared\Models\OperatorModel;
 use Shared\Models\SiteModel;
 use Shared\Models\StudentModel;
 
@@ -20,6 +21,8 @@ class Home extends BaseController
 					return (new StudentModel())->find($this->session->id);
 				case 'lecturer':
 					return (new LecturerModel())->find($this->session->id);
+				case 'operator':
+					return (new OperatorModel())->find($this->session->id);
 			}
 		}
 		return null;
@@ -138,12 +141,16 @@ class Home extends BaseController
 						'site' => (new SiteModel())->get(),
 						'item' => new Proposal(),
 						'user' => $user,
+						'type' => $type,
 					]);
 				} else if (($item = (new ProposalModel())->find($id))) {
-					return view($type === 'lecturer' ?'proposal/detail'  : 'proposal/edit', [
+					return view($type === 'lecturer' || ($type === 'student' &&
+						$item->status !== 'review' && $item->status !== 'rejected') ?
+						'proposal/detail'  : 'proposal/edit', [
 						'site' => (new SiteModel())->get(),
 						'item' => $item,
 						'user' => $user,
+						'type' => $type,
 					]);
 				} else
 					throw new PageNotFoundException();
