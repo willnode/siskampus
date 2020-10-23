@@ -5,13 +5,8 @@
 <html lang="id">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dosen</title>
-  <link href="<?= module_url('bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
-
+  <?= view('head') ?>
 </head>
-
 
 <body>
 

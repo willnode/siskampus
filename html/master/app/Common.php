@@ -1,6 +1,7 @@
 <?php
 
 use Config\Services;
+use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * The goal of this file is to allow developers a location
@@ -19,3 +20,17 @@ use Config\Services;
 define('SHAREDPATH', implode(DIRECTORY_SEPARATOR, [realpath(ROOTPATH . '../'), 'shared', '']));
 
 require SHAREDPATH . 'Common.php';
+
+function is_profile_free_edit($user, $config)
+{
+    if (is_bool($config)) {
+        return $config;
+    }
+    else if (is_array($config)) {
+        foreach ($config as $key => $value)
+            if ($user->$key != $value)
+                return false;
+        return true;
+    } else
+        return false;
+}

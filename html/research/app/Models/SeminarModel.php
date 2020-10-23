@@ -8,6 +8,11 @@ use CodeIgniter\Model;
 class SeminarModel extends Model
 {
     protected $table      = 'research.seminar';
+
+    protected $allowedFields = [
+        'proposal_id', 'location', 'start_at', 'end_at', 'status'
+    ];
+
     protected $finalEntity = 'App\Entities\Seminar';
 
     /** @return Seminar[] */

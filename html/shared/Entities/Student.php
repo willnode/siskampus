@@ -14,8 +14,9 @@ use Shared\Models\ProgramModel;
  * @property string $status
  * @property string $birth_date
  * @property string $birth_place
- * @property string $start_year
+ * @property string $class_of
  * @property string $program_id
+ * @property string $type
  * @property Program $program
  */
 class Student extends Entity
@@ -25,4 +26,8 @@ class Student extends Entity
         return $this->program_id ? (new ProgramModel())->find($this->program_id) : new Program();
     }
 
+    public function getType()
+    {
+        return 'student';
+    }
 }

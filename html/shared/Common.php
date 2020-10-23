@@ -1,5 +1,6 @@
 <?php
 
+use Config\Services;
 use Shared\Entities\Operator;
 
 define('STATICPATH', implode(DIRECTORY_SEPARATOR, [realpath(ROOTPATH . '../'), 'static', '']));
@@ -25,7 +26,23 @@ function set_file($directory, $file)
         $file->move($path, date('Ymd') . '-' . $file->getClientName());
         return $file->getName();
     }
-    return false;
+    return null;
+}
+
+function try_set_file(&$object, $name, $directory)
+{
+    $file = Services::request()->getFile($name);
+    if ($file && ($r = set_file($directory, $file))) {
+        if (is_object($object))
+            $object->$name = $r;
+        elseif (is_array($object))
+            $object[$name] = $r;
+    } else {
+        if (is_object($object))
+            unset($object->$name);
+        elseif (is_array($object))
+            unset($object[$name]);
+    }
 }
 
 function get_file($directory, $file, $collection = 'uploads')

@@ -5,11 +5,7 @@
 <html lang="id">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mahasiswa</title>
-  <link href="<?= module_url('bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
-
+  <?= view('head') ?>
 </head>
 
 <body>
@@ -63,7 +59,7 @@
                 </tr>
                 <tr>
                   <td>Angkatan</td>
-                  <td><?= $user->start_year ?></td>
+                  <td><?= $user->class_of ?></td>
                 </tr>
                 <tr>
                   <td>Program Studi</td>

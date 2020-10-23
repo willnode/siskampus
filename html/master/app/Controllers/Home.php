@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\Entity;
+use Config\Services;
 use Shared\Entities\User;
 use Shared\Models\SiteModel;
 use Shared\Models\LecturerModel;
@@ -11,6 +13,7 @@ use Shared\Models\UserModel;
 
 class Home extends BaseController
 {
+	/** @return Entity */
 	protected function getUser()
 	{
 		if ($this->session->id) {
@@ -30,7 +33,44 @@ class Home extends BaseController
 	{
 		if ($user = $this->getUser()) {
 			return view($this->session->type . '/index', [
-				'site' => (new SiteModel())->get(),
+				'user' => $user,
+			]);
+		} else
+			return $this->response->redirect('/login');
+	}
+
+	public function profile()
+	{
+		if ($user = $this->getUser()) {
+			$unlocks = array_flip(Services::site()->master->{$user->type . '_editable_columns'} ?: []);
+			$free = is_profile_free_edit($user, Services::site()->master->{$user->type . '_editable_filters'});
+			if ($this->request->getMethod() === 'post' && $free) {
+				$data = array_filter(array_intersect_key($this->request->getPost(), $unlocks));
+				if (isset($unlocks['avatar'])) {
+					try_set_file($data, 'avatar', 'master/avatar');
+				}
+				$user->fill($data);
+				switch ($user->type) {
+					case 'student':
+						(new StudentModel())->save($user);
+						break;
+					case 'lecturer':
+						(new LecturerModel())->save($user);
+						break;
+					case 'operator':
+						(new OperatorModel())->save($user);
+						break;
+				}
+				$this->session->setFlashdata('message', 'Data berhasil disimpan');
+			}
+			if (($p = $this->request->getPost('password')) && ($login = (new UserModel())->find($user->id))) {
+				$login->password = password_hash($p, PASSWORD_BCRYPT);
+				(new UserModel())->save($login);
+				$this->session->setFlashdata('message', 'Data berhasil disimpan');
+			}
+			return view($this->session->type . '/profile', [
+				'unlocked' => $unlocks,
+				'free' => $free,
 				'user' => $user,
 			]);
 		} else
@@ -55,6 +95,7 @@ class Home extends BaseController
 		$this->session->destroy();
 		return $this->response->redirect('/login');
 	}
+
 	public function check_login()
 	{
 		if ($this->session->id) {

@@ -31,7 +31,7 @@
               <?php foreach ($item->lecturer as $lecturer) : ?>
                 <li>
                   <?= esc($lecturer->name) ?>
-                  <?= array_search($lecturer->id, $rvs) ? '<span class="badge bg-success">Disetujui</span>' : '' ?>
+                  <?= $status === 'review' || array_search($lecturer->id, $rvs) ? '<span class="badge bg-success">Disetujui</span>' : '' ?>
                 </li>
               <?php endforeach ?>
             </ul>
@@ -39,17 +39,17 @@
               <a href="/proposal" class="btn btn-outline-secondary btn-sm">
                 <img src="<?= module_url('bootstrap-icons/icons/arrow-left-circle-fill.svg') ?>" />
               </a>
-              <?php if ($type === 'lecturer') : ?>
-                <?php if ($status === 'pending' && !array_search($user->id, $rvs)) : ?>
-                  <button name="action" value="accept" class="mx-2 btn-sm flex-grow-1 btn btn-primary">Setujui</button>
-                  <button name="action" value="reject" class="btn btn-sm btn-danger">
-                    <img src="<?= module_url('bootstrap-icons/icons/trash.svg') ?>" />
-                  </button>
-                <?php elseif ($status === 'pending') : ?>
-                  <div class="text-muted flex-grow-1 text-center small">Anda sudah menyetujui ini.</div>
-                <?php else : ?>
-                  <div class="text-muted flex-grow-1 text-center small">Proposal ini tidak dalam masa review.</div>
-                <?php endif ?>
+              <?php if ($status === 'pending' && $type === 'lecturer' && !array_search($user->id, $rvs)) : ?>
+                <button name="action" value="accept" class="mx-2 btn-sm flex-grow-1 btn btn-primary">Setujui</button>
+                <button name="action" value="reject" class="btn btn-sm btn-danger">
+                  <img src="<?= module_url('bootstrap-icons/icons/trash.svg') ?>" />
+                </button>
+              <?php elseif ($status === 'pending') : ?>
+                <div class="text-muted flex-grow-1 text-center small">Anda sudah menyetujui ini.</div>
+              <?php elseif ($status === 'review' && check_access($user, 'research/reviewer')) : ?>
+                <button name="action" value="choose" class="mx-2 btn-sm flex-grow-1 btn btn-primary">Pilih</button>
+              <?php else : ?>
+                <div class="text-muted flex-grow-1 text-center small">Proposal ini tidak dalam masa review.</div>
               <?php endif ?>
             </form>
             <hr>

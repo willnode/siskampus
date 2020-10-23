@@ -1,4 +1,6 @@
-<?php namespace Config;
+<?php
+
+namespace Config;
 
 use CodeIgniter\Config\Services as CoreServices;
 
@@ -17,14 +19,15 @@ use CodeIgniter\Config\Services as CoreServices;
  */
 class Services extends CoreServices
 {
+	/**
+	 * @return \Shared\Libraries\SiteConfig
+	 */
+	public static function site($getShared = true)
+	{
+		if ($getShared) {
+			return static::getSharedInstance('site');
+		}
 
-	//    public static function example($getShared = true)
-	//    {
-	//        if ($getShared)
-	//        {
-	//            return static::getSharedInstance('example');
-	//        }
-	//
-	//        return new \CodeIgniter\Example();
-	//    }
+		return new \Shared\Libraries\SiteConfig();
+	}
 }

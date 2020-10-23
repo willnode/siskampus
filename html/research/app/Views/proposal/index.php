@@ -122,20 +122,15 @@
                     <a href="/proposal/${row.id}"  class="btn btn-warning ml-2 btn-sm">
                       <img src="<?= module_url('bootstrap-icons/icons/pencil-square.svg') ?>" />
                     </a>
-                  <?php elseif ($mode === 'review' && check_access($user, 'research/reviewer')) : ?>
-                    <form method="POST" action="/proposal/${row.id}">
-                    <button name="action" value="choose" class="btn btn-info ml-2 btn-sm">
-                      <img src="<?= module_url('bootstrap-icons/icons/check-circle.svg') ?>" />
-                    </button>
+                  <?php else/*if ($mode === 'review' && check_access($user, 'research/reviewer')) */: ?>
                     <a href="/proposal/${row.id}"  class="btn btn-info ml-2 btn-sm">
                       <img src="<?= module_url('bootstrap-icons/icons/eye-fill.svg') ?>" />
                     </a>
-                    </form>
                   <?php endif ?>
                   `
                 }
               }, ],
-              language: <?php include lang('Interface.datatables-lang') ?>
+              language: <?php (@include lang('Interface.datatables-lang')) ?: '{}' ?>
             })
           });
         </script>

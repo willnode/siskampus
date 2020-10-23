@@ -19,10 +19,9 @@ class BaseModel extends Model
 
     public function postProcessGet($event)
     {
-        if (is_array($event['id'])) {
-            foreach ($event['data'] as $key => $value) {
+        if (empty($event['id']) || is_array($event['id'])) {
+            foreach ($event['data'] as $key => $value)
                 $event['data'][$key] = $this->realPostProcessGet($value['id'], json_decode($value['data'], true));
-            }
         } else {
             $event['data'] = $this->realPostProcessGet($event['data']['id'], json_decode($event['data']['data'], true));
         }
@@ -68,7 +67,7 @@ class BaseModel extends Model
             'data' => json_encode($final),
         ];
         $sql = $this->builder()->set($data)->getCompiledInsert();
-        $sql .= ' ON CONFLICT (id) DO UPDATE SET data = data::jsonb || excluded.data::jsonb ;';
-        return Database::connect()->query($sql);
+        $sql .= ' ON CONFLICT (id) DO UPDATE SET data = ' . $this->table . '.data::jsonb || excluded.data::jsonb ;';
+        return Database::connect()->simpleQuery($sql) !== false;
     }
 }
