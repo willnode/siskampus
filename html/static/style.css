@@ -5,3 +5,28 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+.navbar-brand img {
+  height: 60px;
+}
+.navbar-brand span {
+  margin-left: 0.5em;
+  display: none;
+}
+#navbar-profile {
+  display: flex;
+  align-items: center;
+  text-align: right;
+  justify-content: center;
+}
+#navbar-profile img {
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+  border-radius: 100px;
+  margin-left: 5px;
+}

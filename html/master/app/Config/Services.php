@@ -2,7 +2,9 @@
 
 namespace Config;
 
-use CodeIgniter\Config\Services as CoreServices;
+require_once SHAREDPATH . 'Config' . DIRECTORY_SEPARATOR . 'Services.php';
+
+use Shared\Config\Services as SharedServices;
 
 /**
  * Services Configuration file.
@@ -17,17 +19,6 @@ use CodeIgniter\Config\Services as CoreServices;
  * method format you should use for your service methods. For more examples,
  * see the core Services file at system/Config/Services.php.
  */
-class Services extends CoreServices
+class Services extends SharedServices
 {
-	/**
-	 * @return \Shared\Libraries\SiteConfig
-	 */
-	public static function site($getShared = true)
-	{
-		if ($getShared) {
-			return static::getSharedInstance('site');
-		}
-
-		return new \Shared\Libraries\SiteConfig();
-	}
 }

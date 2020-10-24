@@ -1,6 +1,3 @@
-<?php
-
-/** @var Shared\Entities\Student $user */ ?>
 <!doctype html>
 <html lang="id">
 
@@ -77,7 +74,7 @@
                       <?php (new \Shared\Models\ProgramModel())->makeDropdownOptions($user->program_id)  ?>
                     </select>
                   <?php else : ?>
-                    <input type="text" name="program_id" id="program_id" class="form-control" value="<?= esc($user->program->name) ?>" disabled>
+                    <input type="text" name="program_id" id="program_id" class="form-control" value="<?= esc($user->program->name ?? '') ?>" disabled>
                   <?php endif ?>
                 </div>
               </div>

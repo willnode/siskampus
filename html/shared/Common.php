@@ -37,6 +37,11 @@ function try_set_file(&$object, $name, $directory)
             $object->$name = $r;
         elseif (is_array($object))
             $object[$name] = $r;
+    } elseif (Services::request()->getPost($name) === 'delete') {
+        if (is_object($object))
+            $object->$name = '';
+        elseif (is_array($object))
+            $object[$name] = '';
     } else {
         if (is_object($object))
             unset($object->$name);
@@ -66,4 +71,14 @@ function tokenBasedLogin($token)
     $user->otp = null;
     $model->save($user);
     return $user;
+}
+
+function shared_view(string $name, array $data = [], array $options = []): string
+{
+    $renderer = Services::shared_renderer();
+
+    $saveData = config(View::class)->saveData;
+
+    return $renderer->setData($data, 'raw')
+        ->render($name, $options, $saveData);
 }

@@ -24,7 +24,7 @@ https://github.com/willnode/siskampus/-->
             <input type="text" name="username" class="form-control" placeholder="ID" required autofocus>
             <input type="password" name="password" class="form-control" placeholder="Password" required>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Masuk</button>
-            <p class="mt-5 mb-3 text-muted">&copy; <?= $site->long_name ?></p>
+            <p class="mt-5 mb-3 text-muted">&copy; <?= date('Y') ?> <?= \Config\Services::site()->shared->long_name ?></p>
         </form>
     </main>
 

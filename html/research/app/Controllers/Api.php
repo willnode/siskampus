@@ -3,12 +3,9 @@
 namespace App\Controllers;
 
 use App\Models\ProposalModel;
-use App\Entities\Proposal;
-use App\Entities\Seminar;
-use App\Models\SeminarModel;
+use Shared\Controllers\BaseController;
 use Shared\Models\ExpertiseModel;
 use Shared\Models\LecturerModel;
-use Shared\Models\StudentModel;
 
 class Api extends BaseController
 {
@@ -38,7 +35,7 @@ class Api extends BaseController
             unset($r['abstract']);
             unset($r['student_id']);
             return $r;
-        }, isset($_GET['mode']) ?  (new ProposalModel())->findWithStatus($_GET['mode']) : (new ProposalModel())->findAll());
+        }, isset($_GET['mode']) ? (new ProposalModel())->findWithStatus($_GET['mode']) : (new ProposalModel())->findAll());
         return $this->response->setJSON($data);
     }
 }

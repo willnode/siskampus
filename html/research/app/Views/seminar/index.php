@@ -13,7 +13,7 @@
   <div class="container my-3">
     <div class="row">
       <?php /** @var \App\Entities\Seminar[] $list */ ?>
-      <?php if ($type !== 'operator') : ?>
+      <?php if ($user->type !== 'operator') : ?>
         <div class="col-md-6 col-lg-4">
           <div class="card">
             <div class="card-body">

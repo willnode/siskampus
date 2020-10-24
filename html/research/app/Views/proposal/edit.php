@@ -34,7 +34,7 @@
               <label class="form-label">Berkas Proposal</label>
               <input type="file" class="form-control" name="file" accept="application/pdf" <?= $item->id ? '' : 'required' ?>>
             </div>
-            <?php if ($type === 'operator') : ?>
+            <?php if ($user->type === 'operator') : ?>
               <div class="mb-3">
                 <label class="form-label">Status</label>
                 <select name="status" id="status" class="form-select" required>
@@ -91,46 +91,48 @@
 
   </div>
   <script>
-    var department = $('#form').data('department');
+    window.addEventListener('DOMContentLoaded', function() {
+      var department = $('#form').data('department');
 
-    (function(select, uri) {
-      fetch(uri + '?department_id=' + department).then(x => x.json()).then(x => {
-        var d = select.val();
-        select.html('<option></option>' + x.map(y => `
+      (function(select, uri) {
+        fetch(uri + '?department_id=' + department).then(x => x.json()).then(x => {
+          var d = select.val();
+          select.html('<option></option>' + x.map(y => `
         <option value="${y.id}" ${d == y.id ? 'selected' : ''}>${y.name}</option>
       `).join(''))
-        select.prop('disabled', false);
-      })
-    })($('#expertise_id'), '/api/expertises');
+          select.prop('disabled', false);
+        })
+      })($('#expertise_id'), '/api/expertises');
 
-    fetch('/api/lecturers?department_id=' + department).then(x => x.json()).then(x => {
-      $('#table').DataTable({
-        data: x,
-        columns: [
-          ...[0, 1].map(i => ({
-            data: 'id',
-            orderable: false,
-            width: 1,
-            render: function(data, type, row, meta) {
-              return row.free > 0 ? `<button type="button" class="btn btn-sm btn-success pb-2"
+      fetch('/api/lecturers?department_id=' + department).then(x => x.json()).then(x => {
+        $('#table').DataTable({
+          data: x,
+          columns: [
+            ...[0, 1].map(i => ({
+              data: 'id',
+              orderable: false,
+              width: 1,
+              render: function(data, type, row, meta) {
+                return row.free > 0 ? `<button type="button" class="btn btn-sm btn-success pb-2"
                 onclick="selectLecturer(${i}, \`${row.id}\`, \`${row.name}\`)">
               <img src="<?= module_url('bootstrap-icons/icons/plus-square.svg') ?>"
                 style="filter: contrast(0) brightness(2);" />
               </button>` : '';
+              }
+            })),
+            {
+              width: 1,
+              data: 'id',
+            },
+            {
+              data: 'name'
+            },
+            {
+              width: 1,
+              data: 'free',
             }
-          })),
-          {
-            width: 1,
-            data: 'id',
-          },
-          {
-            data: 'name'
-          },
-          {
-            width: 1,
-            data: 'free',
-          }
-        ]
+          ]
+        });
       });
     });
 

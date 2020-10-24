@@ -6,9 +6,9 @@ use CodeIgniter\Entity;
 use Config\Database;
 
 /**
- * @property-read SiteConfigShared $shared
- * @property-read SiteConfigMaster $master
- * @property-read SiteConfigResearch $research
+ * @property SiteConfigShared $shared
+ * @property SiteConfigMaster $master
+ * @property SiteConfigResearch $research
  */
 class SiteConfig
 {
@@ -38,8 +38,13 @@ class SiteConfig
 // Below are just for metadata fancies
 
 /**
- * @property string[]|null $profile_allow_edit
- * @property array|bool|null $profile_unlock_filter
+ * @property string[]|null $student_editable_columns
+ * @property string[]|null $lecturer_editable_columns
+ * @property string[]|null $operator_editable_columns
+ * @property array|bool|null $student_editable_filters
+ * @property array|bool|null $lecturer_editable_filters
+ * @property array|bool|null $operator_editable_filters
+ * @property string[]|null $operator_list_access
  */
 class SiteConfigMaster extends Entity
 {
@@ -49,6 +54,7 @@ class SiteConfigMaster extends Entity
  * @property string|null $website
  * @property string|null $long_name
  * @property string|null $short_name
+ * @property string|null $navbar_theme
  */
 class SiteConfigShared extends Entity
 {

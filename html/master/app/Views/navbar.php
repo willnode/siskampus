@@ -1,33 +1,31 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light">
+<nav class="navbar navbar-expand-md <?= \Config\Services::site()->shared->navbar_theme ?>">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/"><?= \Config\Services::site()->shared->short_name ?></a>
+    <a class="navbar-brand" href="/">
+      <img src="<?= static_url('logo.png') ?>">
+      <span><?= \Config\Services::site()->shared->short_name ?></span>
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+      <hr class="d-md-none">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item">
+          <a class="nav-link <?= ($page ?? '') === 'index' ? 'active' : '' ?>" href="/"><i class="fa fa-home"></i> Beranda</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <?= ($page ?? '') === 'profile' ? 'active' : '' ?>" href="/profile">Edit Profil</a>
+        </li>
+        <li class="d-none d-md-block border-right mx-2"></li>
+        <li class="nav-item ">
           <a class="nav-link" href="/go/research">Penelitian</a>
         </li>
+        <li class="nav-divider"></li>
       </ul>
-      <form class="d-flex">
-        <a class="mr-auto btn btn-link" href="/profile">Profile</a>
-        <a class="btn btn-outline-success" href="/logout">Logout</a>
-      </form>
+      <hr class="d-md-none">
+      <?= shared_view('navbar/dropdown') ?>
     </div>
   </div>
 </nav>
 
-<div class="container">
-<?php if ($msg = \Config\Services::session()->get('message')) : ?>
-  <div class="alert alert-info alert-dismissable m-2" role="alert">
-    <?= esc($msg) ?>
-    <button type="button" class="btn-close float-right" data-dismiss="alert" aria-label="Close"></button>
-  </div>
-<?php endif ?>
-<?php if ($msg = \Config\Services::session()->get('error')) : ?>
-  <div class="alert alert-danger alert-dismissable m-2">
-    <?= esc($msg) ?>
-  </div>
-<?php endif ?>
-</div>
+<?= shared_view('navbar/alerts') ?>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace Shared\Controllers;
 
 /**
  * Class BaseController
@@ -16,6 +16,11 @@ namespace App\Controllers;
  */
 
 use CodeIgniter\Controller;
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
+use Psr\Log\LoggerInterface;
+use Shared\Libraries\SiteConfig;
+use Shared\Libraries\UserSession;
 
 class BaseController extends Controller
 {
@@ -30,13 +35,17 @@ class BaseController extends Controller
 	protected $helpers = [];
 	/** @var Session */
 	protected $session;
+	/** @var UserSession */
+	protected $user;
+	/** @var SiteConfig */
+	protected $site;
 	/** @var BaseConnection */
 	protected $db;
 
 	/**
 	 * Constructor.
 	 */
-	public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
+	public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
 	{
 		// Do Not Edit This Line
 		parent::initController($request, $response, $logger);
@@ -47,6 +56,8 @@ class BaseController extends Controller
 		// E.g.:
 		// $this->session = \Config\Services::session();
 		$this->session = \Config\Services::session();
+		$this->site = \Config\Services::site();
+		$this->user = \Config\Services::user();
 		$this->db = \Config\Database::connect();
 	}
 }

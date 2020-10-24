@@ -6,37 +6,20 @@ use App\Entities\Proposal;
 use App\Models\ProposalModel;
 use App\Models\SeminarModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
+use Shared\Controllers\BaseController;
 use Shared\Entities\User;
-use Shared\Models\LecturerModel;
-use Shared\Models\OperatorModel;
 use Shared\Models\SiteModel;
-use Shared\Models\StudentModel;
 
 class Home extends BaseController
 {
-	/** @return Entity */
-	protected function getUser()
-	{
-		if ($this->session->id) {
-			switch ($this->session->type) {
-				case 'student':
-					return (new StudentModel())->find($this->session->id);
-				case 'lecturer':
-					return (new LecturerModel())->find($this->session->id);
-				case 'operator':
-					return (new OperatorModel())->find($this->session->id);
-			}
-		}
-		return null;
-	}
 
 	protected function getProposal()
 	{
-		switch ($this->session->type) {
+		switch ($this->user->type) {
 			case 'student':
-				return (new ProposalModel())->findWithStudent($this->session->id);
+				return (new ProposalModel())->findWithStudent($this->user->id);
 			case 'lecturer':
-				return (new ProposalModel())->findWithLecturer($this->session->id);
+				return (new ProposalModel())->findWithLecturer($this->user->id);
 			default:
 				return;
 		}
@@ -44,11 +27,11 @@ class Home extends BaseController
 
 	protected function getSeminar()
 	{
-		switch ($this->session->type) {
+		switch ($this->user->type) {
 			case 'student':
-				return (new SeminarModel())->findWithStudent($this->session->id);
+				return (new SeminarModel())->findWithStudent($this->user->id);
 			case 'lecturer':
-				return (new SeminarModel())->findWithLecturer($this->session->id);
+				return (new SeminarModel())->findWithLecturer($this->user->id);
 			default:
 				return;
 		}
@@ -56,10 +39,8 @@ class Home extends BaseController
 
 	public function index()
 	{
-		if ($user = $this->getUser()) {
+		if ($this->user->id) {
 			return view('index', [
-				'site' => (new SiteModel())->get(),
-				'user' => $user,
 				'page' => 'index',
 			]);
 		} else
@@ -67,9 +48,8 @@ class Home extends BaseController
 	}
 
 	/** @param User $user */
-	protected function proposalPostStudent($user, $id)
+	protected function proposalPostStudent($id)
 	{
-
 		if (!$this->validate([
 			'lecturer_id.0' => 'required',
 			'lecturer_id.1' => 'required',
@@ -85,7 +65,7 @@ class Home extends BaseController
 		$post = $this->request->getPost();
 		if ($id === 'new') {
 			unset($item->id);
-			$item->student_id = $user->id;
+			$item->student_id = $this->user->id;
 			$item->status = 'pending';
 			try_set_file($item, 'file', 'research/proposal');
 		} else {
@@ -103,13 +83,13 @@ class Home extends BaseController
 		return $this->response->redirect('/proposal');
 	}
 	/** @param User $user */
-	protected function proposalPostLecturer($user, $id)
+	protected function proposalPostLecturer($id)
 	{
 		/** @var Proposal */
 		if (!($item = (new ProposalModel())->find($id))) return;
 		switch ($this->request->getPost('action')) {
 			case 'accept':
-				$item->status = str_replace('-' . $user->id, '', $item->status) . '-' . $user->id;
+				$item->status = str_replace('-' . $this->user->id, '', $item->status) . '-' . $this->user->id;
 				if (count(explode('-', $item->status)) > count($item->lecturer_id)) {
 					$item->status = 'review';
 				}
@@ -123,7 +103,7 @@ class Home extends BaseController
 		return $this->response->redirect('/proposal');
 	}
 	/** @param User $user */
-	protected function proposalPostOperator($user, $id)
+	protected function proposalPostOperator($id)
 	{
 		$model = (new ProposalModel());
 		/** @var Proposal */
@@ -154,22 +134,22 @@ class Home extends BaseController
 	}
 	public function proposal($id = null)
 	{
-		if (($user = $this->getUser()) && ($type = $this->session->type)) {
+		if ($this->user->id) {
 			if ($this->request->getMethod() === 'post') {
-				switch ($type) {
+				switch ($this->user->type) {
 					case 'student':
-						return $this->proposalPostStudent($user, $id);
+						return $this->proposalPostStudent($id);
 					case 'lecturer':
-						return $this->proposalPostLecturer($user, $id);
+						return $this->proposalPostLecturer($id);
 					case 'operator':
-						return $this->proposalPostOperator($user, $id);
+						return $this->proposalPostOperator($id);
 					default:
 						throw new PageNotFoundException();
 				}
 			} else if ($this->request->getMethod() === 'get') {
 				if ($id === null) {
 					if (empty($_GET['mode'])) {
-						switch ($type) {
+						switch ($this->user->type) {
 							case 'lecturer':
 								return $this->response->redirect('?mode=pending');
 							case 'operator':
@@ -180,24 +160,21 @@ class Home extends BaseController
 						'page' => 'proposal',
 						'site' => (new SiteModel())->get(),
 						'list' => $this->getProposal(),
-						'user' => $user,
-						'type' => $type,
+						'user' => $this->user,
 					]);
-				} else if ($id === 'new' && $type !== 'lecturer') {
+				} else if ($id === 'new' && $this->user->type !== 'lecturer') {
 					return view('proposal/edit', [
 						'site' => (new SiteModel())->get(),
 						'item' => new Proposal(),
-						'user' => $user,
-						'type' => $type,
+						'user' => $this->user,
 					]);
 				} else if (($item = (new ProposalModel())->find($id))) {
-					return view($type === 'lecturer' || ($type === 'student' &&
-						$item->status !== 'review' && $item->status !== 'rejected') || ($type === 'operator' && !check_access($user, 'research/proposal')) ?
+					return view($this->user->type === 'lecturer' || ($this->user->type === 'student' &&
+						$item->status !== 'review' && $item->status !== 'rejected') || ($this->user->type === 'operator' && !check_access($this->user, 'research/proposal')) ?
 						'proposal/detail'  : 'proposal/edit', [
 						'site' => (new SiteModel())->get(),
 						'item' => $item,
-						'user' => $user,
-						'type' => $type,
+						'user' => $this->user,
 					]);
 				} else
 					throw new PageNotFoundException();
@@ -208,9 +185,9 @@ class Home extends BaseController
 
 	public function seminar($id = null)
 	{
-		if (($user = $this->getUser()) && ($type = $this->session->type)) {
+		if ($this->user->id) {
 			if ($this->request->getPost()) {
-				if (check_access($user, 'skripsi/seminar')) {
+				if (check_access($this->user, 'skripsi/seminar')) {
 					$post = $this->request->getPost();
 					if ($id === 'new') {
 						$post->status = 'scheduled';
@@ -227,9 +204,8 @@ class Home extends BaseController
 					return view('seminar/index', [
 						'page' => 'seminar',
 						'site' => (new SiteModel())->get(),
-						'user' => $user,
+						'user' => $this->user,
 						'list' => $this->getSeminar(),
-						'type' => $type,
 					]);
 				}
 				if ($id === 'new') {
@@ -237,13 +213,13 @@ class Home extends BaseController
 						'page' => 'seminar',
 						'site' => (new SiteModel())->get(),
 						'proposal' => (new ProposalModel())->find($_GET['from']),
-						'user' => $user,
+						'user' => $this->user,
 					]);
 				} else if (($item = (new SeminarModel())->find($id))) {
 					return view('seminar/edit', [
 						'site' => (new SiteModel())->get(),
 						'item' => $item,
-						'user' => $user,
+						'user' => $this->user,
 					]);
 				} else {
 					throw new PageNotFoundException();
