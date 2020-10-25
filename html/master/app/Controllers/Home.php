@@ -38,6 +38,9 @@ class Home extends BaseController
 				(new UserModel())->save($login);
 				$this->session->setFlashdata('message', 'Data berhasil disimpan');
 			}
+			if ($this->request->getMethod() === 'post') {
+				return $this->response->redirect(previous_url());
+			}
 			return view($this->session->type . '/profile', [
 				'unlocked' => $unlocks,
 				'user' => $this->user->getEntity(),

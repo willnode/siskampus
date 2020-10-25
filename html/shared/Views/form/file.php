@@ -9,6 +9,5 @@
             <button type="button" class="btn btn-danger" onclick="this.form['<?= $name ?>'].parentElement.innerHTML = `<input type='hidden' name='<?= $name ?>' value='delete'><i class='form-control'>Akan dihapus</i>`"><i class="fa fa-trash"></i></button>
         <?php endif ?>
         <a href="<?= get_file($path, $value) ?>" class="btn btn-success"><i class="fa fa-download"></i></a>
-
     <?php endif ?>
 </div>

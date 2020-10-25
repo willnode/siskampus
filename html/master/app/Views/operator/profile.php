@@ -58,7 +58,7 @@
             </div>
             <div class="mb-3">
               <label for="id" class="form-label">Foto Profil</label>
-              <input type="file" name="avatar" id="avatar" class="form-control" value="<?= esc($user->avatar) ?>" <?= $free && isset($unlocked['avatar']) ? '' : 'disabled' ?>>
+              <?= shared_view('form/file', ['name' => 'avatar', 'value' => $user->avatar, 'path' => 'master/avatar', 'disabled' => !$free || !isset($unlocked['avatar'])]) ?>
             </div>
             <div class="mb-3">
               <label for="department_id" class="form-label">Area Departemen</label>
