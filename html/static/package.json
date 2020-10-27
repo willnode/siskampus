@@ -1,7 +1,7 @@
 {
   "name": "static",
   "version": "1.0.0",
-  "description": "",
+  "description": "Siskampus static files",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,6 +13,7 @@
     "@fortawesome/fontawesome-free": "^5.15.1",
     "bootstrap": "^5.0.0-alpha2",
     "bootstrap-select": "^1.13.18",
+    "bootstrap-toggle": "^2.2.2",
     "datatables.net": "^1.10.22",
     "datatables.net-dt": "^1.10.22",
     "datatables.net-plugins": "^1.10.20",

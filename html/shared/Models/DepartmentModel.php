@@ -6,6 +6,7 @@ class DepartmentModel extends BaseModel
 {
     protected $table      = 'master.department';
     protected $finalEntity = 'Shared\Entities\Department';
+    protected $i18nFields = ['name'];
 
     public function makeDropdownOptions($selected)
     {

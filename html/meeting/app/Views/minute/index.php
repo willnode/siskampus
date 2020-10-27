@@ -35,15 +35,15 @@
                       <?= lang('Proposal.statutes')[$status] ?>
                     </span></h4>
 
-                  <a href="<?= get_file('research/proposal', $item->file) ?>" class="btn btn-success ml-2 btn-sm">
+                  <a href="<?= get_file('meeting/minute', $item->file) ?>" class="btn btn-success ml-2 btn-sm">
                     <i class="fa fa-download"></i>
                   </a>
                   <?php if (($user->type !== 'lecturer') && (($item->status) === 'pending' || $status === 'rejected')) : ?>
-                    <a href="/proposal/<?= $item->id ?>" class="btn btn-warning ml-2 btn-sm">
+                    <a href="/minute/<?= $item->id ?>" class="btn btn-warning ml-2 btn-sm">
                       <i class="fa fa-pencil-alt"></i>
                     </a>
                   <?php else : ?>
-                    <a href="/proposal/<?= $item->id ?>" class="btn btn-info ml-2 btn-sm">
+                    <a href="/minute/<?= $item->id ?>" class="btn btn-info ml-2 btn-sm">
                       <i class="fa fa-eye"></i>
                     </a>
                   <?php endif ?>
@@ -68,7 +68,7 @@
         <?php endforeach ?>
         <?php if ($user->type === 'student' && !isset($has_final)) : ?>
           <div class="col-md-6 col-lg-4">
-            <a href="/proposal/new" class="btn btn-success p-5 h-100 w-100 d-flex flex-column align-items-center justify-content-center">
+            <a href="/minute/new" class="btn btn-success p-5 h-100 w-100 d-flex flex-column align-items-center justify-content-center">
               <i class="fa fa-plus-circle fa-3x"></i>
               <div class="my-3">Tambah Baru</div>
             </a>
@@ -89,7 +89,7 @@
           </thead>
         </table>
         <script>
-          fetch('/api/proposals?mode=<?= $mode = $_GET['mode'] ?? '' ?>').then(x => x.json()).then(x => {
+          fetch('/api/minutes?mode=<?= $mode = $_GET['mode'] ?? '' ?>').then(x => x.json()).then(x => {
             $('#table').DataTable({
               data: x,
               responsive: true,
@@ -111,20 +111,20 @@
                 orderable: false,
                 render: function(data, type, row) {
                   return `
-                  <?php if ($mode === 'final' && check_access($user, 'research/seminar')) : ?>
+                  <?php if ($mode === 'final' && check_access($user, 'minute/seminar')) : ?>
                     <a href="/seminar/new?from=${row.id}"  class="btn btn-info ml-2 btn-sm">
                       <i class="fa fa-clock"></i>
                     </a>
                   <?php endif ?>
-                  <?php if (check_access($user, 'research/proposal')) : ?>
-                    <a href="<?= get_file('research/proposal', '') ?>${row.file}"  class="btn btn-success ml-2 btn-sm">
+                  <?php if (check_access($user, 'meeting/minute')) : ?>
+                    <a href="<?= get_file('meeting/minute', '') ?>${row.file}"  class="btn btn-success ml-2 btn-sm">
                       <i class="fa fa-download"></i>
                     </a>
-                    <a href="/proposal/${row.id}"  class="btn btn-warning ml-2 btn-sm">
+                    <a href="/minute/${row.id}"  class="btn btn-warning ml-2 btn-sm">
                       <i class="fa fa-pencil-alt"></i>
                     </a>
-                  <?php else/*if ($mode === 'review' && check_access($user, 'research/reviewer')) */ : ?>
-                    <a href="/proposal/${row.id}"  class="btn btn-info ml-2 btn-sm">
+                  <?php else/*if ($mode === 'review' && check_access($user, 'minute/reviewer')) */ : ?>
+                    <a href="/minute/${row.id}"  class="btn btn-info ml-2 btn-sm">
                       <i class="fa fa-eye"></i>
                     </a>
                   <?php endif ?>

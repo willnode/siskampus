@@ -6,6 +6,7 @@ class ProgramModel extends BaseModel
 {
     protected $table      = 'master.program';
     protected $finalEntity = 'Shared\Entities\Program';
+    protected $i18nFields = ['name'];
 
     public function makeDropdownOptions($selected)
     {

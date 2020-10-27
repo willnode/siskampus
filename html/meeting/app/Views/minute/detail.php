@@ -11,7 +11,7 @@
   <?= view('navbar') ?>
 
   <div class="container-fluid my-3">
-    <?php /** @var \App\Entities\Proposal $item */ ?>
+    <?php /** @var \App\Entities\Minute $item */ ?>
     <div class="row">
       <div class="col-md-6 col-lg-4 mb-3">
         <?php $status = ($rvs = explode('-', $item->status, 2))[0] ?>

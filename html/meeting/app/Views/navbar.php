@@ -14,10 +14,7 @@
           <a class="nav-link <?= ($page ?? '') === 'index' ? 'active' : '' ?>" href="/">Beranda</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link <?= ($page ?? '') === 'proposal' ? 'active' : '' ?>" href="/proposal">Proposal</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link <?= ($page ?? '') === 'seminar' ? 'active' : '' ?>" href="/seminar">Seminar</a>
+          <a class="nav-link <?= ($page ?? '') === 'minute' ? 'active' : '' ?>" href="/minute">Laporan</a>
         </li>
       </ul>
       <hr class="d-md-none">
@@ -26,16 +23,4 @@
   </div>
 </nav>
 
-<div class="container">
-  <?php if ($msg = \Config\Services::session()->get('message')) : ?>
-    <div class="alert alert-info alert-dismissable m-2" role="alert">
-      <?= esc($msg) ?>
-      <button type="button" class="btn-close float-right" data-dismiss="alert" aria-label="Close"></button>
-    </div>
-  <?php endif ?>
-  <?php if ($msg = \Config\Services::session()->get('error')) : ?>
-    <div class="alert alert-danger alert-dismissable m-2">
-      <?= esc($msg) ?>
-    </div>
-  <?php endif ?>
-</div>
+<?= shared_view('navbar/alerts') ?>
