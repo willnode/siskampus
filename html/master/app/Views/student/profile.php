@@ -71,7 +71,7 @@
                   <label for="program_id" class="form-label">Program Studi</label>
                   <?php if ($free && isset($unlocked['program_id'])) : ?>
                     <select class="form-select" name="program_id" id="program_id">
-                      <?php (new \Shared\Models\ProgramModel())->makeDropdownOptions($user->program_id)  ?>
+                      <?php (new \Shared\Models\ProgramModel())->renderOptions($user->program_id)  ?>
                     </select>
                   <?php else : ?>
                     <input type="text" name="program_id" id="program_id" class="form-control" value="<?= esc($user->program->name ?? '') ?>" disabled>

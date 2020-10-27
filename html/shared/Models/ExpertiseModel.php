@@ -9,14 +9,12 @@ class ExpertiseModel extends BaseModel
     protected $table      = 'master.expertise';
     protected $finalEntity = 'Shared\Entities\Expertise';
 
-    /** @return Expertise[] */
-    public function findWithDepartment($id)
+    public function withDepartment($id)
     {
-
-        $eventData = $this->trigger('afterFind', ['id' => [], 'data' =>
-        $this->builder()->where("data ->> 'department_id' = '$id'", null, false)
-            ->get()->getResult('array')]);
-
-        return $eventData['data'];
+        $builder = $this->builder();
+        if ($id) {
+            $builder->where("data ->> 'department_id' = '$id'", null, false);
+        }
+        return $this;
     }
 }

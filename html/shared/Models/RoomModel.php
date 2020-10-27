@@ -9,13 +9,12 @@ class RoomModel extends BaseModel
 
     protected $i18nFields = ['name'];
 
-    public function makeDropdownOptions($selected)
+    public function withDepartment($id)
     {
-?>
-        <?php /** @var \Shared\Entities\Room $room */ ?>
-        <?php foreach ($this->findAll() as $room) : ?>
-            <option <?= $selected === $room->id ? 'selected' : '' ?> value="<?= esc($room->id) ?>"><?= esc($room->name) ?></option>
-        <?php endforeach ?>
-<?php
+        $builder = $this->builder();
+        if ($id) {
+            $builder->where("data ->> 'department_id' = '$id'", null, false);
+        }
+        return $this;
     }
 }

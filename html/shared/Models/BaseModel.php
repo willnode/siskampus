@@ -70,4 +70,20 @@ class BaseModel extends Model
         $sql .= ' ON CONFLICT (id) DO UPDATE SET data = ' . $this->table . '.data::jsonb || excluded.data::jsonb ;';
         return Database::connect()->simpleQuery($sql) !== false;
     }
+
+    public function renderOptions($selected, $property = 'name')
+    {
+?>
+        <?php foreach ($this->findAll() as $room) : ?>
+            <option <?= $selected === $room->id ? 'selected' : '' ?> value="<?= esc($room->id) ?>"><?= esc($room->$property) ?></option>
+        <?php endforeach ?>
+<?php
+    }
+
+    public function renderJSON($columns = [])
+    {
+        if ($columns)
+            $this->builder()->select($columns);
+        echo json_encode($this->findAll());
+    }
 }

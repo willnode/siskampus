@@ -11,13 +11,13 @@ class Api extends BaseController
 {
     public function expertises()
     {
-        $data = (new ExpertiseModel())->findWithDepartment($_GET['department_id']);
+        $data = (new ExpertiseModel())->withDepartment($this->request->getGet('department_id'))->findAll();
         return $this->response->setJSON($data);
     }
 
     public function lecturers()
     {
-        $data = (new LecturerModel())->findWithDepartment($_GET['department_id']);
+        $data = (new LecturerModel())->withDepartment($this->request->getGet('department_id'))->findAll();
         foreach ($data as $key => $value) {
             $data[$key]->free = 10 - count((new ProposalModel())->findWithLecturer($value->id));
         }

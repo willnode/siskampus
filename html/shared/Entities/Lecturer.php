@@ -8,6 +8,7 @@ use Shared\Models\DepartmentModel;
 /**
  * @property string $id
  * @property string $name
+ * @property string $title
  * @property string $status
  * @property string $department_id
  * @property string $type

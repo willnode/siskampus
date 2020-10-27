@@ -65,7 +65,7 @@
               <?php if ($free && isset($unlocked['department_id'])) : ?>
                 <select class="form-select" name="department_id" id="department_id">
                   <option value="">(Semuanya)</option>
-                  <?php (new \Shared\Models\DepartmentModel())->makeDropdownOptions($user->department_id)  ?>
+                  <?php (new \Shared\Models\DepartmentModel())->renderOptions($user->department_id)  ?>
                 </select>
               <?php else : ?>
                 <input type="text" name="department_id" id="department_id" class="form-control" value="<?= esc($user->department->name ?? 'Semuanya') ?>" disabled>

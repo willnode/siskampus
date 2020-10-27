@@ -9,14 +9,12 @@ class LecturerModel extends BaseModel
     protected $table      = 'master.lecturer';
     protected $finalEntity = 'Shared\Entities\Lecturer';
 
-    /** @return Lecturer[] */
-    public function findWithDepartment($id)
+    public function withDepartment($id)
     {
-
-        $eventData = $this->trigger('afterFind', ['id' => [], 'data' =>
-        $this->builder()->where("data ->> 'department_id' = '$id'", null, false)
-            ->get()->getResult('array')]);
-
-        return $eventData['data'];
+        $builder = $this->builder();
+        if ($id) {
+            $builder->where("data ->> 'department_id' = '$id'", null, false);
+        }
+        return $this;
     }
 }

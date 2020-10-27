@@ -82,3 +82,57 @@ function shared_view(string $name, array $data = [], array $options = []): strin
     return $renderer->setData($data, 'raw')
         ->render($name, $options, $saveData);
 }
+
+function pg_array_encode($set) {
+    settype($set, 'array'); // can be called with a scalar or array
+    $result = array();
+    foreach ($set as $t) {
+        if (is_array($t)) {
+            $result[] = pg_array_encode($t);
+        } else {
+            $t = str_replace('"', '\\"', $t); // escape double quote
+            if (! is_numeric($t)) // quote only non-numeric values
+                $t = '"' . $t . '"';
+            $result[] = $t;
+        }
+    }
+    return '{' . implode(",", $result) . '}'; // format
+}
+
+function pg_array_decode($s, $start = 0, &$end = null)
+{
+    if (empty($s) || $s[0] != '{') return [];
+    $return = array();
+    $string = false;
+    $quote='';
+    $len = strlen($s);
+    $v = '';
+    for ($i = $start + 1; $i < $len; $i++) {
+        $ch = $s[$i];
+
+        if (!$string && $ch == '}') {
+            if ($v !== '' || !empty($return)) {
+                $return[] = $v;
+            }
+            $end = $i;
+            break;
+        } elseif (!$string && $ch == '{') {
+            $v = pg_array_decode($s, $i, $i);
+        } elseif (!$string && $ch == ','){
+            $return[] = $v;
+            $v = '';
+        } elseif (!$string && ($ch == '"' || $ch == "'")) {
+            $string = true;
+            $quote = $ch;
+        } elseif ($string && $ch == $quote && $s[$i - 1] == "\\") {
+            $v = substr($v, 0, -1) . $ch;
+        } elseif ($string && $ch == $quote && $s[$i - 1] != "\\") {
+            $string = false;
+        } else {
+            $v .= $ch;
+        }
+    }
+
+    return $return;
+}
+

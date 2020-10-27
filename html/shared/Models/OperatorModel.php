@@ -9,14 +9,12 @@ class OperatorModel extends BaseModel
     protected $table      = 'master.operator';
     protected $finalEntity = 'Shared\Entities\Operator';
 
-    /** @return Lecturer[] */
-    public function findWithDepartment($id)
+    public function withDepartment($id)
     {
-
-        $eventData = $this->trigger('afterFind', ['id' => [], 'data' =>
-        $this->builder()->where("data ->> 'department_id' = '$id'", null, false)
-            ->get()->getResult('array')]);
-
-        return $eventData['data'];
+        $builder = $this->builder();
+        if ($id) {
+            $builder->where("data ->> 'department_id' = '$id'", null, false);
+        }
+        return $this;
     }
 }

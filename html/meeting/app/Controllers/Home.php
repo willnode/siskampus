@@ -3,19 +3,11 @@
 namespace App\Controllers;
 
 use App\Entities\Minute;
-use App\Entities\Proposal;
 use App\Models\MinuteModel;
-use App\Models\ProposalModel;
-use App\Models\SeminarModel;
-use CodeIgniter\Exceptions\PageNotFoundException;
 use Shared\Controllers\BaseController;
-use Shared\Entities\User;
-use Shared\Models\LecturerModel;
-use Shared\Models\SiteModel;
 
 class Home extends BaseController
 {
-
 	public function minute($id = null)
 	{
 		if ($this->user->id) {
@@ -30,7 +22,6 @@ class Home extends BaseController
 					'user' => $this->user,
 					'page' => 'edit',
 					'item' => new Minute(),
-					'lecturers' => (new LecturerModel())->findAll(),
 				]);
 			}
 		} else

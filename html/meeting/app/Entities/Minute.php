@@ -3,7 +3,6 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity;
-use MinutePerson;
 use Shared\Entities\Department;
 use Shared\Entities\Room;
 use Shared\Models\DepartmentModel;
@@ -36,11 +35,7 @@ class Minute extends Entity
         'time',
     ];
 
-    protected $casts = [
-        'participants' => 'json',
-        'chairman' => 'json',
-        'reporter' => 'json',
-    ];
+    protected $casts = [];
 
     public function getRoom()
     {
@@ -54,12 +49,32 @@ class Minute extends Entity
 
     public function getChairman()
     {
-        return new MinutePerson(json_decode($this->attributes['chairman'] ?? '{}'));
+        return new MinutePerson(json_decode($this->attributes['chairman'] ?? '{}', true));
     }
 
     public function getReporter()
     {
-        return  new MinutePerson(json_decode($this->attributes['reporter'] ?? '{}'));
+        return  new MinutePerson(json_decode($this->attributes['reporter'] ?? '{}', true));
+    }
+
+    public function getGalleries()
+    {
+        return pg_array_decode($this->attributes['galleries'] ?? '');
+    }
+
+    public function setGalleries($x)
+    {
+        $this->attributes['galleries'] = pg_array_encode($x);
+    }
+
+    public function getDocuments()
+    {
+        return pg_array_decode($this->attributes['documents'] ?? '');
+    }
+
+    public function setDocuments($x)
+    {
+        $this->attributes['documents'] = pg_array_encode($x);
     }
 
     public function getParticipants()
