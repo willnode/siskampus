@@ -132,7 +132,7 @@ class Home extends BaseController
 		$this->session->setFlashdata('message', 'Data berhasil disimpan');
 		return $this->response->redirect('/proposal');
 	}
-	public function proposal($id = null)
+	public function proposal($page = 'list', $id = null)
 	{
 		if ($this->user->id) {
 			if ($this->request->getMethod() === 'post') {
@@ -149,12 +149,7 @@ class Home extends BaseController
 			} else if ($this->request->getMethod() === 'get') {
 				if ($id === null) {
 					if (empty($_GET['mode'])) {
-						switch ($this->user->type) {
-							case 'lecturer':
-								return $this->response->redirect('?mode=pending');
-							case 'operator':
-								return $this->response->redirect('?mode=review');
-						}
+						return $this->response->redirect($this->user->type === 'lecturer' ? '?mode=pending' : '?mode=review');
 					}
 					return view('proposal/index', [
 						'page' => 'proposal',
@@ -169,9 +164,8 @@ class Home extends BaseController
 						'user' => $this->user,
 					]);
 				} else if (($item = (new ProposalModel())->find($id))) {
-					return view($this->user->type === 'lecturer' || ($this->user->type === 'student' &&
-						$item->status !== 'review' && $item->status !== 'rejected') || ($this->user->type === 'operator' && !check_access($this->user, 'research/proposal')) ?
-						'proposal/detail'  : 'proposal/edit', [
+//					$this->user->type === 'lecturer' || ($this->user->type === 'student' && $item->status !== 'review' && $item->status !== 'rejected') || ($this->user->type === 'operator' && !check_access($this->user, 'research/proposal')) ?
+					return view($page == 'edit' ? 'proposal/detail'  : 'proposal/edit', [
 						'site' => (new SiteModel())->get(),
 						'item' => $item,
 						'user' => $this->user,

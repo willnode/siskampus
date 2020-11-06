@@ -40,11 +40,11 @@
             </div>
             <div class="mb-3">
               <label class="form-label">Waktu</label>
-              <input type="datetime-local" class="form-control">
+              <input type="datetime-local" name="time" class="form-control">
             </div>
             <div class="mb-3">
               <label class="form-label">Ruang</label>
-              <select class="form-select">
+              <select class="form-select" name="room_id">
                 <?php (new \Shared\Models\RoomModel())->withDepartment(\Config\Services::user()->department_id)->renderOptions($item->room_id) ?>
               </select>
             </div>

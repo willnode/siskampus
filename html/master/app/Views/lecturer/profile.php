@@ -20,6 +20,10 @@
               <label for="name" class="form-label">Nama</label>
               <input type="text" name="name" id="name" class="form-control" value="<?= esc($user->name) ?>" <?= $free && isset($unlocked['name']) ? '' : 'disabled' ?>>
             </div>
+            <div class="mb-3">
+              <label for="title" class="form-label">Jabatan</label>
+              <input type="text" name="title" id="title" class="form-control" value="<?= esc($user->title) ?>" <?= $free && isset($unlocked['title']) ? '' : 'disabled' ?>>
+            </div>
             <div class="row">
               <div class="col-md-6">
                 <div class="mb-3">

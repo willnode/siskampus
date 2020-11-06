@@ -83,4 +83,11 @@ class Minute extends Entity
             return new MinutePerson($x ?: []);
         }, json_decode($this->attributes['participants'] ?? '[]'));
     }
+
+    public function setParticipants($x)
+    {
+        $this->attributes['participants'] = json_encode(array_map(function ($x) {
+            return is_array($x) ? $x : $x->toRawArray();
+        }, $x));
+    }
 }

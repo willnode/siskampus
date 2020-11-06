@@ -39,11 +39,11 @@
                     <i class="fa fa-download"></i>
                   </a>
                   <?php if (($user->type !== 'lecturer') && (($item->status) === 'pending' || $status === 'rejected')) : ?>
-                    <a href="/proposal/<?= $item->id ?>" class="btn btn-warning ml-2 btn-sm">
+                    <a href="/proposal/edit/<?= $item->id ?>" class="btn btn-warning ml-2 btn-sm">
                       <i class="fa fa-pencil-alt"></i>
                     </a>
                   <?php else : ?>
-                    <a href="/proposal/<?= $item->id ?>" class="btn btn-info ml-2 btn-sm">
+                    <a href="/proposal/view/<?= $item->id ?>" class="btn btn-info ml-2 btn-sm">
                       <i class="fa fa-eye"></i>
                     </a>
                   <?php endif ?>
@@ -120,11 +120,11 @@
                     <a href="<?= get_file('research/proposal', '') ?>${row.file}"  class="btn btn-success ml-2 btn-sm">
                       <i class="fa fa-download"></i>
                     </a>
-                    <a href="/proposal/${row.id}"  class="btn btn-warning ml-2 btn-sm">
+                    <a href="/proposal/edit/${row.id}"  class="btn btn-warning ml-2 btn-sm">
                       <i class="fa fa-pencil-alt"></i>
                     </a>
                   <?php else/*if ($mode === 'review' && check_access($user, 'research/reviewer')) */ : ?>
-                    <a href="/proposal/${row.id}"  class="btn btn-info ml-2 btn-sm">
+                    <a href="/proposal/view/${row.id}"  class="btn btn-info ml-2 btn-sm">
                       <i class="fa fa-eye"></i>
                     </a>
                   <?php endif ?>

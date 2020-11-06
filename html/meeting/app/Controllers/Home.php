@@ -8,6 +8,23 @@ use Shared\Controllers\BaseController;
 
 class Home extends BaseController
 {
+	public function postMinute($id)
+	{
+		// if (!$this->validate([
+		// 	'title' => 'required',
+		// 	'note' => 'required',
+		// 	'time' => 'required',
+		// 	'duration' => 'required',
+		// 	'room_id' => 'required',
+		// ])) {
+		// 	$this->session->setFlashdata('error', $this->validator->listErrors());
+		// 	return $this->response->redirect("/minute/$id");
+		// }
+		$minute = (new Minute($_POST));
+		$id = (new MinuteModel())->insert($minute);
+		return $this->response->redirect("/minute/$id");
+	}
+
 	public function minute($id = null)
 	{
 		if ($this->user->id) {
@@ -18,11 +35,15 @@ class Home extends BaseController
 					'list' => (new MinuteModel())->findAll(),
 				]);
 			} else if ($id === 'new') {
-				return view('minute/edit', [
-					'user' => $this->user,
-					'page' => 'edit',
-					'item' => new Minute(),
-				]);
+				if ($this->request->getMethod() === 'post') {
+					return $this->postMinute($id);
+				} else {
+					return view('minute/edit', [
+						'user' => $this->user,
+						'page' => 'edit',
+						'item' => new Minute(),
+					]);
+				}
 			}
 		} else
 			return $this->response->redirect('/login');
@@ -45,7 +66,7 @@ class Home extends BaseController
 			$this->session->type = $user->type;
 			return $this->response->redirect(parse_url($_GET['r'] ?? '/', PHP_URL_PATH));
 		} else {
-			return $this->response->redirect("//master.$_SERVER[HOST_URL]/check_login?r=/go/minute");
+			return $this->response->redirect("//master.$_SERVER[HOST_URL]/check_login?r=/go/meeting");
 		}
 	}
 
