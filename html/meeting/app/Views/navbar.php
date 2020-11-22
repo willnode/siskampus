@@ -14,7 +14,7 @@
           <a class="nav-link <?= ($page ?? '') === 'index' ? 'active' : '' ?>" href="/">Beranda</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link <?= ($page ?? '') === 'minute' ? 'active' : '' ?>" href="/minute">Laporan</a>
+          <a class="nav-link <?= ($page ?? '') === 'minute' ? 'active' : '' ?>" href="/minute/">Laporan</a>
         </li>
       </ul>
       <hr class="d-md-none">

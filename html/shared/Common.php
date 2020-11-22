@@ -83,7 +83,8 @@ function shared_view(string $name, array $data = [], array $options = []): strin
         ->render($name, $options, $saveData);
 }
 
-function pg_array_encode($set) {
+function pg_array_encode($set)
+{
     settype($set, 'array'); // can be called with a scalar or array
     $result = array();
     foreach ($set as $t) {
@@ -91,7 +92,7 @@ function pg_array_encode($set) {
             $result[] = pg_array_encode($t);
         } else {
             $t = str_replace('"', '\\"', $t); // escape double quote
-            if (! is_numeric($t)) // quote only non-numeric values
+            if (!is_numeric($t)) // quote only non-numeric values
                 $t = '"' . $t . '"';
             $result[] = $t;
         }
@@ -104,7 +105,7 @@ function pg_array_decode($s, $start = 0, &$end = null)
     if (empty($s) || $s[0] != '{') return [];
     $return = array();
     $string = false;
-    $quote='';
+    $quote = '';
     $len = strlen($s);
     $v = '';
     for ($i = $start + 1; $i < $len; $i++) {
@@ -118,7 +119,7 @@ function pg_array_decode($s, $start = 0, &$end = null)
             break;
         } elseif (!$string && $ch == '{') {
             $v = pg_array_decode($s, $i, $i);
-        } elseif (!$string && $ch == ','){
+        } elseif (!$string && $ch == ',') {
             $return[] = $v;
             $v = '';
         } elseif (!$string && ($ch == '"' || $ch == "'")) {
@@ -136,3 +137,24 @@ function pg_array_decode($s, $start = 0, &$end = null)
     return $return;
 }
 
+function find_with_filter(\CodeIgniter\Model $model)
+{
+    $req = Services::request();
+    $page = intval($req->getGet('page'));
+    $size = intval($req->getGet('size'));
+    $offset = intval($req->getGet('offset'));
+    if ($size === 0) $size = 500;
+    else if ($size < 0) $size = 0;
+    if ($offset === 0)
+        $offset = max(0, $page - 1) * $size;
+    if ($offset > 0)
+        $c = $model->countAllResults(false);
+    $r = $model->findAll($size, $offset);
+    // generate pagination
+    $_SERVER['pagination'] = [
+        'page' => ($size == 0 ? 0 : floor($offset / $size)) + 1,
+        'max' => isset($c) ? ceil($c / $size) : ceil((count($r) + 1) / $size),
+        'certain' => isset($c),
+    ];
+    return $r;
+}

@@ -25,16 +25,16 @@ class Home extends BaseController
 		return $this->response->redirect("/minute/$id");
 	}
 
-	public function minute($id = null)
+	public function minute($page = 'list', $id = null)
 	{
 		if ($this->user->id) {
-			if ($id === null) {
+			if ($page === 'list') {
 				return view('minute/index', [
 					'user' => $this->user,
 					'page' => 'index',
-					'list' => (new MinuteModel())->findAll(),
+					'list' => find_with_filter(new MinuteModel()),
 				]);
-			} else if ($id === 'new') {
+			} else if ($page === 'add') {
 				if ($this->request->getMethod() === 'post') {
 					return $this->postMinute($id);
 				} else {
