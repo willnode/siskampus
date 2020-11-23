@@ -17,7 +17,7 @@ use phpDocumentor\Reflection\Types\Boolean;
  * @link: https://codeigniter4.github.io/CodeIgniter4/
  */
 
-define('SHAREDPATH', implode(DIRECTORY_SEPARATOR, [realpath(ROOTPATH . '../'), 'shared', '']));
+define('SHAREDPATH', implode(DIRECTORY_SEPARATOR, [realpath(ROOTPATH . '../'), 'shared', 'app', '']));
 
 require SHAREDPATH . 'Common.php';
 
