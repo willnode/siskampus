@@ -4,37 +4,31 @@ namespace App\Controllers;
 
 use App\Entities\Minute;
 use App\Models\MinuteModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 use Shared\Controllers\BaseController;
 
 class Home extends BaseController
 {
-	public function postMinute($id)
+	protected function postMinute($id)
 	{
-		// if (!$this->validate([
-		// 	'title' => 'required',
-		// 	'note' => 'required',
-		// 	'time' => 'required',
-		// 	'duration' => 'required',
-		// 	'room_id' => 'required',
-		// ])) {
-		// 	$this->session->setFlashdata('error', $this->validator->listErrors());
-		// 	return $this->response->redirect("/minute/$id");
-		// }
 		$minute = (new Minute($_POST));
 		$id = (new MinuteModel())->insert($minute);
-		return $this->response->redirect("/minute/$id");
+		return $this->response->redirect("/minute/detail/$id");
 	}
 
 	public function minute($page = 'list', $id = null)
 	{
-		if ($this->user->id) {
-			if ($page === 'list') {
+		if (!$this->user->id) {
+			return $this->response->redirect('/login');
+		}
+		switch ($page) {
+			case 'list':
 				return view('minute/index', [
 					'user' => $this->user,
 					'page' => 'index',
 					'list' => find_with_filter(new MinuteModel()),
 				]);
-			} else if ($page === 'add') {
+			case 'add':
 				if ($this->request->getMethod() === 'post') {
 					return $this->postMinute($id);
 				} else {
@@ -44,9 +38,27 @@ class Home extends BaseController
 						'item' => new Minute(),
 					]);
 				}
-			}
-		} else
-			return $this->response->redirect('/login');
+			case 'detail':
+				if (!($item = (new MinuteModel())->find($id))) {
+					throw new PageNotFoundException();
+				}
+				return view('minute/detail', [
+					'user' => $this->user,
+					'page' => 'detail',
+					'item' => $item,
+				]);
+			case 'edit':
+				if (!($item = (new MinuteModel())->find($id))) {
+					throw new PageNotFoundException();
+				}
+				return view('minute/detail', [
+					'user' => $this->user,
+					'page' => 'detail',
+					'item' => $item,
+				]);
+			default:
+				throw new PageNotFoundException();
+		}
 	}
 
 	public function index()

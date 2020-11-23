@@ -4,6 +4,7 @@
 <link rel="shortcut icon" href="<?= static_url('logo.png') ?>">
 <link href="<?= module_url('bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
 <link href="<?= module_url('select2/dist/css/select2.min.css') ?>" rel="stylesheet">
+<link href="<?= module_url('@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css"') ?>" rel="stylesheet">
 <link href="<?= module_url('datatables.net-dt/css/jquery.dataTables.min.css') ?>" rel="stylesheet">
 <link href="<?= module_url('datatables.net-select-bs4/css/select.bootstrap4.min.css') ?>" rel="stylesheet">
 <link href="<?= module_url('@fortawesome/fontawesome-free/css/all.min.css') ?>" rel="stylesheet">
