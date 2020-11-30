@@ -12,7 +12,6 @@ use Shared\Models\SiteModel;
 
 class Home extends BaseController
 {
-
 	protected function getProposal()
 	{
 		switch ($this->user->type) {
@@ -20,6 +19,8 @@ class Home extends BaseController
 				return (new ProposalModel())->findWithStudent($this->user->id);
 			case 'lecturer':
 				return (new ProposalModel())->findWithLecturer($this->user->id);
+			case 'operator':
+				return (new ProposalModel())->findAll();
 			default:
 				return;
 		}
@@ -32,6 +33,8 @@ class Home extends BaseController
 				return (new SeminarModel())->findWithStudent($this->user->id);
 			case 'lecturer':
 				return (new SeminarModel())->findWithLecturer($this->user->id);
+			case 'operator':
+				return (new SeminarModel())->findAll();
 			default:
 				return;
 		}
@@ -80,7 +83,7 @@ class Home extends BaseController
 		$item->fill($post);
 		(new ProposalModel())->save($item);
 		$this->session->setFlashdata('message', 'Data berhasil disimpan');
-		return $this->response->redirect('/proposal');
+		return $this->response->redirect('/proposal/');
 	}
 	/** @param User $user */
 	protected function proposalPostLecturer($id)
@@ -100,7 +103,7 @@ class Home extends BaseController
 		}
 		(new ProposalModel())->save($item);
 		$this->session->setFlashdata('message', 'Data berhasil disimpan');
-		return $this->response->redirect('/proposal');
+		return $this->response->redirect('/proposal/');
 	}
 	/** @param User $user */
 	protected function proposalPostOperator($id)
@@ -130,96 +133,105 @@ class Home extends BaseController
 			$model->save($item);
 		}
 		$this->session->setFlashdata('message', 'Data berhasil disimpan');
-		return $this->response->redirect('/proposal');
+		return $this->response->redirect('/proposal/');
 	}
 	public function proposal($page = 'list', $id = null)
 	{
-		if ($this->user->id) {
-			if ($this->request->getMethod() === 'post') {
-				switch ($this->user->type) {
-					case 'student':
-						return $this->proposalPostStudent($id);
-					case 'lecturer':
-						return $this->proposalPostLecturer($id);
-					case 'operator':
-						return $this->proposalPostOperator($id);
-					default:
-						throw new PageNotFoundException();
-				}
-			} else if ($this->request->getMethod() === 'get') {
-				if ($id === null) {
-					if (empty($_GET['mode'])) {
-						return $this->response->redirect($this->user->type === 'lecturer' ? '?mode=pending' : '?mode=review');
-					}
-					return view('proposal/index', [
-						'page' => 'proposal',
-						'site' => (new SiteModel())->get(),
-						'list' => $this->getProposal(),
-						'user' => $this->user,
-					]);
-				} else if ($id === 'new' && $this->user->type !== 'lecturer') {
-					return view('proposal/edit', [
-						'site' => (new SiteModel())->get(),
-						'item' => new Proposal(),
-						'user' => $this->user,
-					]);
-				} else if (($item = (new ProposalModel())->find($id))) {
-					return view($page == 'edit' ? 'proposal/detail'  : 'proposal/edit', [
-						'site' => (new SiteModel())->get(),
-						'item' => $item,
-						'user' => $this->user,
-					]);
-				} else
+		if (!$this->user->id) {
+			return $this->response->redirect('/login');
+		}
+		if ($this->request->getMethod() === 'post') {
+			switch ($this->user->type) {
+				case 'student':
+					return $this->proposalPostStudent($id);
+				case 'lecturer':
+					return $this->proposalPostLecturer($id);
+				case 'operator':
+					return $this->proposalPostOperator($id);
+				default:
 					throw new PageNotFoundException();
 			}
-		} else
-			return $this->response->redirect('/login');
+		}
+		switch ($page) {
+			case 'list':
+				return view('proposal/index', [
+					'page' => 'proposal',
+					'site' => (new SiteModel())->get(),
+					'list' => $this->getProposal(),
+					'user' => $this->user,
+				]);
+			case 'add':
+				return view('proposal/edit', [
+					'site' => (new SiteModel())->get(),
+					'item' => new Proposal(),
+					'user' => $this->user,
+				]);
+			case 'detail':
+			case 'download':
+			case 'edit':
+				/** @var Proposal */
+				if (!($item = (new ProposalModel())->find($id))) {
+					throw new PageNotFoundException();
+				}
+				if ($page === 'download') {
+					return $this->response->redirect(get_file('research/proposal',  $item->file));
+				}
+				return view('proposal/' . $page, [
+					'site' => (new SiteModel())->get(),
+					'item' => $item,
+					'user' => $this->user,
+				]);
+			default:
+				throw new PageNotFoundException();
+		}
 	}
 
-	public function seminar($id = null)
+	public function seminar($page = 'list', $id = null)
 	{
-		if ($this->user->id) {
-			if ($this->request->getPost()) {
-				if (check_access($this->user, 'skripsi/seminar')) {
-					$post = $this->request->getPost();
-					if ($id === 'new') {
-						$post->status = 'scheduled';
-						unset($post->id);
-					} else {
-						$post->id = $id;
-					}
-					(new SeminarModel())->save($post);
-					return $this->response->redirect('/seminar');
-				}
-				return;
-			} else {
-				if ($id === null) {
-					return view('seminar/index', [
-						'page' => 'seminar',
-						'site' => (new SiteModel())->get(),
-						'user' => $this->user,
-						'list' => $this->getSeminar(),
-					]);
-				}
+		if (!$this->user->id) {
+			return $this->response->redirect('/login');
+		}
+		if ($this->request->getMethod() === 'post') {
+			if (check_access($this->user, 'skripsi/seminar')) {
+				$post = $this->request->getPost();
 				if ($id === 'new') {
-					return view('seminar/edit', [
-						'page' => 'seminar',
-						'site' => (new SiteModel())->get(),
-						'proposal' => (new ProposalModel())->find($_GET['from']),
-						'user' => $this->user,
-					]);
-				} else if (($item = (new SeminarModel())->find($id))) {
-					return view('seminar/edit', [
-						'site' => (new SiteModel())->get(),
-						'item' => $item,
-						'user' => $this->user,
-					]);
+					$post->status = 'scheduled';
+					unset($post->id);
 				} else {
+					$post->id = $id;
+				}
+				(new SeminarModel())->save($post);
+				return $this->response->redirect('/seminar');
+			}
+			throw new PageNotFoundException();
+		}
+		switch ($page) {
+			case 'list':
+				return view('seminar/index', [
+					'page' => 'seminar',
+					'site' => (new SiteModel())->get(),
+					'user' => $this->user,
+					'list' => $this->getSeminar(),
+				]);
+			case 'add':
+				return view('seminar/edit', [
+					'page' => 'seminar',
+					'site' => (new SiteModel())->get(),
+					'proposal' => (new ProposalModel())->find($_GET['from']),
+					'user' => $this->user,
+				]);
+			case 'edit':
+				if (!($item = (new SeminarModel())->find($id))) {
 					throw new PageNotFoundException();
 				}
-			}
-		} else
-			return $this->response->redirect('/login');
+				return view('seminar/edit', [
+					'site' => (new SiteModel())->get(),
+					'item' => $item,
+					'user' => $this->user,
+				]);
+			default:
+				throw new PageNotFoundException();
+		}
 	}
 
 	public function login()

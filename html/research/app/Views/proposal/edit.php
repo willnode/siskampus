@@ -45,7 +45,6 @@
 
                 <?php if ($item->status !== 'final') : ?>
                   <div class="text-right">
-
                     <button name="action" value="choose" class="btn btn-outline-success my-1 btn-sm">
                       Pilih sebagai final
                     </button>
@@ -115,8 +114,7 @@
               render: function(data, type, row, meta) {
                 return row.free > 0 ? `<button type="button" class="btn btn-sm btn-success pb-2"
                 onclick="selectLecturer(${i}, \`${row.id}\`, \`${row.name}\`)">
-              <img src="<?= module_url('bootstrap-icons/icons/plus-square.svg') ?>"
-                style="filter: contrast(0) brightness(2);" />
+              <i class="fa fa-plus-circle"></i>
               </button>` : '';
               }
             })),

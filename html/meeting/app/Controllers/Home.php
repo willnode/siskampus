@@ -21,6 +21,10 @@ class Home extends BaseController
 		if (!$this->user->id) {
 			return $this->response->redirect('/login');
 		}
+
+		if ($this->request->getMethod() === 'post') {
+			return $this->postMinute($id);
+		}
 		switch ($page) {
 			case 'list':
 				return view('minute/index', [
@@ -30,7 +34,6 @@ class Home extends BaseController
 				]);
 			case 'add':
 				if ($this->request->getMethod() === 'post') {
-					return $this->postMinute($id);
 				} else {
 					return view('minute/edit', [
 						'user' => $this->user,
@@ -39,27 +42,15 @@ class Home extends BaseController
 					]);
 				}
 			case 'detail':
-				if (!($item = (new MinuteModel())->find($id))) {
-					throw new PageNotFoundException();
-				}
-				return view('minute/detail', [
-					'user' => $this->user,
-					'page' => 'detail',
-					'item' => $item,
-				]);
 			case 'edit':
 				if (!($item = (new MinuteModel())->find($id))) {
 					throw new PageNotFoundException();
 				}
-				if ($this->request->getMethod() === 'post') {
-					return $this->postMinute($id);
-				} else {
-					return view('minute/edit', [
-						'user' => $this->user,
-						'page' => 'edit',
-						'item' => $item,
-					]);
-				}
+				return view('minute/'.$page, [
+					'user' => $this->user,
+					'page' => $page,
+					'item' => $item,
+				]);
 			default:
 				throw new PageNotFoundException();
 		}

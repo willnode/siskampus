@@ -143,7 +143,7 @@ function find_with_filter(\CodeIgniter\Model $model)
     $page = intval($req->getGet('page'));
     $size = intval($req->getGet('size'));
     $offset = intval($req->getGet('offset'));
-    if ($size === 0) $size = 2;
+    if ($size === 0) $size = 500;
     else if ($size < 0) $size = 0;
     if ($offset === 0)
         $offset = max(0, $page - 1) * $size;

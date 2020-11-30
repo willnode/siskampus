@@ -37,12 +37,12 @@
             </ul>
             <form method="POST" class="d-flex mb-3 align-items-center">
               <a href="/proposal" class="btn btn-outline-secondary btn-sm">
-                <img src="<?= module_url('bootstrap-icons/icons/arrow-left-circle-fill.svg') ?>" />
+                <i class="fa fa-arrow-left"></i>
               </a>
               <?php if ($status === 'pending' && $user->type === 'lecturer' && !array_search($user->id, $rvs)) : ?>
                 <button name="action" value="accept" class="mx-2 btn-sm flex-grow-1 btn btn-primary">Setujui</button>
                 <button name="action" value="reject" class="btn btn-sm btn-danger">
-                  <img src="<?= module_url('bootstrap-icons/icons/trash.svg') ?>" />
+                  <i class="fa fa-trash"></i>
                 </button>
               <?php elseif ($status === 'pending') : ?>
                 <div class="text-muted flex-grow-1 text-center small">Anda sudah menyetujui ini.</div>
@@ -50,6 +50,11 @@
                 <button name="action" value="choose" class="mx-2 btn-sm flex-grow-1 btn btn-primary">Pilih</button>
               <?php else : ?>
                 <div class="text-muted flex-grow-1 text-center small">Proposal ini tidak dalam masa review.</div>
+                <?php if ($status === 'final') : ?>
+                  <a href="/seminar/add?from=<?= $item->id ?>" class="btn btn-primary btn-sm">
+                    <i class="fa fa-clock"></i>
+                  </a>
+                <?php endif ?>
               <?php endif ?>
             </form>
             <hr>

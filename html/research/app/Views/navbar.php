@@ -14,10 +14,10 @@
           <a class="nav-link <?= ($page ?? '') === 'index' ? 'active' : '' ?>" href="/">Beranda</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link <?= ($page ?? '') === 'proposal' ? 'active' : '' ?>" href="/proposal">Proposal</a>
+          <a class="nav-link <?= ($page ?? '') === 'proposal' ? 'active' : '' ?>" href="/proposal/">Proposal</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link <?= ($page ?? '') === 'seminar' ? 'active' : '' ?>" href="/seminar">Seminar</a>
+          <a class="nav-link <?= ($page ?? '') === 'seminar' ? 'active' : '' ?>" href="/seminar/">Seminar</a>
         </li>
       </ul>
       <hr class="d-md-none">
