@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table my-3">
     <thead>
         <tr>
             <?php foreach ($columns as $key => $value) : ?>

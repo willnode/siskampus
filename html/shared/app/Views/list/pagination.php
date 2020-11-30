@@ -12,7 +12,7 @@
             <?php endif ?>
         <?php endif ?>
         <?php if ($_SERVER['pagination']['page'] > 1) : ?>
-            <div class="page-item"><a href="<?= $p . ($_SERVER['pagination']['page'] - 1) ?>">
+            <div class="page-item"><a class="page-link" href="<?= $p . ($_SERVER['pagination']['page'] - 1) ?>">
                     <?= $_SERVER['pagination']['page'] - 1 ?>
                 </a></div>
         <?php endif ?>
@@ -22,7 +22,7 @@
             </a></div>
 
         <?php if ($_SERVER['pagination']['page'] <= $_SERVER['pagination']['max'] - 1) : ?>
-            <div class="page-item"><a href="<?= $p . ($_SERVER['pagination']['page'] + 1) ?>">
+            <div class="page-item"><a class="page-link" href="<?= $p . ($_SERVER['pagination']['page'] + 1) ?>">
                     <?= $_SERVER['pagination']['page'] + 1 ?>
                 </a></div>
         <?php endif ?>

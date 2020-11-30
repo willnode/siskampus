@@ -13,17 +13,17 @@
     <div class="d-flex">
       <div class="ml-auto">
         <?= shared_view('list/button', [
-            'actions' => ['add'],
-            'target' => '',
-            'size' => 'btn-lg'
-          ]); ?>
+          'actions' => ['add', 'view'],
+          'target' => '',
+          'size' => 'btn-lg'
+        ]); ?>
       </div>
     </div>
-    <?= shared_view('list/table', [
+    <?= ($_GET['view'] ?? '') !== 'grid' ? shared_view('list/table', [
       'data' => $list,
       'columns' => [
-        'Chairman' => function (\App\Entities\Minute $x) {
-          return $x->chairman->name;
+        'Title' => function (\App\Entities\Minute $x) {
+          return $x->title;
         },
         'Room' => function (\App\Entities\Minute $x) {
           return $x->room->name;
@@ -36,10 +36,29 @@
             'actions' => ['detail', 'edit'],
             'target' => $x->id,
             'size' => 'btn-sm'
-            ]);
+          ]);
         },
       ]
-    ]); ?>
+    ]) : shared_view('list/grid', [
+      'data' => $list,
+      'render' =>  function (\App\Entities\Minute $x) {
+    ?>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><?= $x->title ?></h5>
+          <h6 class="card-subtitle text-muted mb-2"><?= $x->room->name.', '.$x->time->humanize() ?></h6>
+          <div>
+            <?= shared_view('list/button', [
+            'actions' => ['detail', 'edit'],
+            'target' => $x->id,
+            'size' => 'btn-sm'
+          ]); ?>
+          </div>
+        </div>
+      </div>
+    <?php
+      }
+    ]) ?>
     <?= shared_view('list/pagination') ?>
   </div>
 </body>

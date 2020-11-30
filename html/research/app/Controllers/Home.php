@@ -164,7 +164,6 @@ class Home extends BaseController
 						'user' => $this->user,
 					]);
 				} else if (($item = (new ProposalModel())->find($id))) {
-//					$this->user->type === 'lecturer' || ($this->user->type === 'student' && $item->status !== 'review' && $item->status !== 'rejected') || ($this->user->type === 'operator' && !check_access($this->user, 'research/proposal')) ?
 					return view($page == 'edit' ? 'proposal/detail'  : 'proposal/edit', [
 						'site' => (new SiteModel())->get(),
 						'item' => $item,

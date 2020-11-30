@@ -51,11 +51,15 @@ class Home extends BaseController
 				if (!($item = (new MinuteModel())->find($id))) {
 					throw new PageNotFoundException();
 				}
-				return view('minute/detail', [
-					'user' => $this->user,
-					'page' => 'detail',
-					'item' => $item,
-				]);
+				if ($this->request->getMethod() === 'post') {
+					return $this->postMinute($id);
+				} else {
+					return view('minute/edit', [
+						'user' => $this->user,
+						'page' => 'edit',
+						'item' => $item,
+					]);
+				}
 			default:
 				throw new PageNotFoundException();
 		}

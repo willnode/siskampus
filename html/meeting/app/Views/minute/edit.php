@@ -45,7 +45,7 @@
             <div class="mb-3">
               <label class="form-label">Ruang</label>
               <select class="form-select" name="room_id">
-                <?php (new \Shared\Models\RoomModel())->withDepartment(\Config\Services::user()->department_id)->renderOptions($item->room_id) ?>
+                <?php (new \Shared\Models\RoomModel())/*->withDepartment(\Config\Services::user()->department_id)*/->renderOptions($item->room_id) ?>
               </select>
             </div>
             <div class="mb-3 d-flex">

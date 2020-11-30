@@ -143,13 +143,16 @@ function find_with_filter(\CodeIgniter\Model $model)
     $page = intval($req->getGet('page'));
     $size = intval($req->getGet('size'));
     $offset = intval($req->getGet('offset'));
-    if ($size === 0) $size = 500;
+    if ($size === 0) $size = 2;
     else if ($size < 0) $size = 0;
     if ($offset === 0)
         $offset = max(0, $page - 1) * $size;
-    if ($offset > 0)
-        $c = $model->countAllResults(false);
-    $r = $model->findAll($size, $offset);
+    // if ($offset > 0)
+    $c = $model->countAllResults(false);
+    // getting the C makes this easier to reverse
+    $o = $c - ($offset + 1) - ($c % $size);
+    $r = $model->findAll($size + min(0, $o), max(0, $o));
+    $r = array_reverse($r);
     // generate pagination
     $_SERVER['pagination'] = [
         'page' => ($size == 0 ? 0 : floor($offset / $size)) + 1,
