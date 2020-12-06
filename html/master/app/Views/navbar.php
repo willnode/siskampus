@@ -2,7 +2,10 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="/">
       <img src="<?= static_url('logo.png') ?>">
-      <span><?= \Config\Services::site()->shared->short_name ?></span>
+      <div>
+        <div><?= \Config\Services::site()->shared->short_name ?></div>
+        <div class="text-white-50"><small>Sistem Informasi Sentral</small></div>
+      </div>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

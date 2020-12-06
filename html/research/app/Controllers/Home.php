@@ -43,12 +43,7 @@ class Home extends BaseController
 
 	public function index()
 	{
-		if ($this->user->id) {
-			return view('index', [
-				'page' => 'index',
-			]);
-		} else
-			return $this->response->redirect('/login');
+		return $this->response->redirect($this->user->id ? '/proposal/' : '/login');
 	}
 
 	/** @param User $user */

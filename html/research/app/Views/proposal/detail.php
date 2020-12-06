@@ -36,7 +36,7 @@
               <?php endforeach ?>
             </ul>
             <form method="POST" class="d-flex mb-3 align-items-center">
-              <a href="/proposal" class="btn btn-outline-secondary btn-sm">
+              <a href="/proposal/" class="btn btn-outline-secondary btn-sm">
                 <i class="fa fa-arrow-left"></i>
               </a>
               <?php if ($status === 'pending' && $user->type === 'lecturer' && !array_search($user->id, $rvs)) : ?>

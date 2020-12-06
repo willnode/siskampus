@@ -13,6 +13,7 @@
   <div class="container mb-5 mt-3">
 
     <div class="d-flex">
+      <h1 class="h2">Daftar Proposal</h1>
       <div class="ml-auto">
         <?= shared_view('list/button', [
           'actions' => ['add', 'view'],

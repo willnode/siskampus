@@ -2,7 +2,10 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="/">
       <img src="<?= static_url('logo.png') ?>">
-      <span><?= \Config\Services::site()->shared->short_name ?></span>
+      <div>
+        <div><?= \Config\Services::site()->shared->short_name ?></div>
+        <div class="text-white-50"><small>Sistem Informasi Rapat</small></div>
+      </div>
     </a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <hr class="d-md-none">
