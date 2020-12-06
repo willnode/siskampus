@@ -74,6 +74,19 @@
           </div>
         </div>
       </div>
+
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <a class="btn btn-outline-primary d-block my-1" href="/go/meeting"><i class="fa fa-handshake mr-2"></i> Pertemuan</a>
+            <a class="btn btn-outline-primary d-block my-1" href="/go/course"><i class="fa fa-book mr-2"></i>Perkuliahan</a>
+            <a class="btn btn-outline-primary d-block my-1" href="/go/research"><i class="fa fa-scroll mr-2"></i>Tugas Akhir</a>
+            <a class="btn btn-outline-primary d-block my-1" href="/go/payment"><i class="fa fa-wallet mr-2"></i>Pembayaran</a>
+            <a class="btn btn-outline-primary d-block my-1" href="/go/welcome"><i class="fa fa-door-open mr-2"></i>Registrasi</a>
+            <a class="btn btn-outline-primary d-block my-1" href="/go/inventory"><i class="fa fa-building mr-2"></i>Inventaris</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

@@ -1,4 +1,4 @@
-<div class="row g-2">
+<div class="row g-2 my-3">
     <?php if ($data) : ?>
         <?php foreach ($data as $item) : ?>
             <div class="col-lg-4 col-md-6 my-2">

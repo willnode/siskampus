@@ -10,7 +10,7 @@
   <?= view('navbar') ?>
   <div class="container-fluid my-5">
     <?php /** @var \App\Entities\Minute $item */ ?>
-    <form class="row" method="POST" enctype='multipart/form-data'>
+    <form class="row" id="main-form" method="POST" enctype='multipart/form-data'>
       <div class="col-md-6 col-lg-4 mb-3">
         <div class="card" id="form" data-department="<?= esc($user->department_id) ?>">
           <div class="card-body">
@@ -40,7 +40,7 @@
             </div>
             <div class="mb-3">
               <label class="form-label">Waktu</label>
-              <input type="datetime-local" name="time" class="form-control">
+              <input type="datetime-local" name="time" class="form-control" value="<?= str_replace(' ', 'T', $item->time) ?>">
             </div>
             <div class="mb-3">
               <label class="form-label">Ruang</label>
@@ -49,8 +49,11 @@
               </select>
             </div>
             <div class="mb-3 d-flex">
-              <input type="submit" class="btn btn-primary" value="Submit">
-              <a href="/proposal" class="ml-auto btn btn-outline-secondary">Batalkan</a>
+              <input type="submit" onclick="prepareParts()" class="btn btn-primary mr-auto" value="Simpan">
+              <?php if ($item->id) : ?>
+                <label for="delete-form" class="btn btn-danger mr-2"><i class="fa fa-trash"></i></label>
+              <?php endif ?>
+              <a href="/minute/" class="btn btn-outline-secondary">Kembali</a>
             </div>
           </div>
         </div>
@@ -140,20 +143,22 @@
         width: '100%',
         theme: 'bootstrap4',
       });
-      $('#participants').DataTable({
+
+      window.partsTable = $('#participants').DataTable({
         columns: [{
-            data: 'id',
-            render: () => ''
-          }, {
-            data: 'name',
-          }
-        ],
+          data: 'id',
+          render: () => ''
+        }, {
+          data: 'name',
+        }],
         columnDefs: [{
           orderable: false,
           className: 'select-checkbox',
           targets: 0,
         }],
         data: Object.values(lecturers),
+        bLengthChange: false,
+        info: false,
         select: {
           style: 'multi',
           selector: 'td:first-child',
@@ -164,6 +169,13 @@
         responsive: true,
         language: <?php (@include lang('Interface.datatables-lang')) ?: '{}' ?>
       });
+
+      var partsIds = JSON.parse(`<?= json_encode(array_map(function ($x) {
+                                    return $x->id;
+                                  }, $item->participants)) ?>`);
+      window.partsTable.rows(function(idx, data, node) {
+        return partsIds.includes(data.id)
+      }).select();
     });
 
     function addFileForm(target) {
@@ -177,5 +189,19 @@
     function deleteForm(e) {
       $(e).parent().remove();
     }
+
+    function prepareParts() {
+      $('#main-form').append(Array.from(window.partsTable.rows({
+        selected: true
+      }).data()).map((x, i) => [
+        $('<input type="hidden">').attr('name', `participants[${i}][name]`).attr('value', x.name),
+        $('<input type="hidden">').attr('name', `participants[${i}][title]`).attr('value', x.title),
+        $('<input type="hidden">').attr('name', `participants[${i}][id]`).attr('value', x.id),
+      ]).flat());
+    }
   </script>
+
+  <form method="POST" action="/minute/delete/<?= $item->id ?>">
+    <input type="submit" hidden id="delete-form" onclick="return confirm('Yakin menghapus meeting ini?')">
+  </form>
 </body>

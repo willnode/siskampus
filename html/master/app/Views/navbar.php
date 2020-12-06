@@ -16,13 +16,6 @@
         <li class="nav-item">
           <a class="nav-link <?= ($page ?? '') === 'profile' ? 'active' : '' ?>" href="/profile">Edit Profil</a>
         </li>
-        <li class="d-none d-md-block border-right mx-2"></li>
-        <li class="nav-item ">
-          <a class="nav-link" href="/go/research">Penelitian</a>
-        </li>
-        <li class="nav-item ">
-          <a class="nav-link" href="/go/meeting">Rapat</a>
-        </li>
         <li class="nav-divider"></li>
       </ul>
       <hr class="d-md-none">

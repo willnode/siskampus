@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity;
+use CodeIgniter\I18n\Time;
 use Shared\Entities\Department;
 use Shared\Entities\Room;
 use Shared\Models\DepartmentModel;
@@ -57,6 +58,17 @@ class Minute extends Entity
         return  new MinutePerson(json_decode($this->attributes['reporter'] ?? '{}', true));
     }
 
+
+    public function setChairman($x)
+    {
+        $this->attributes['chairman'] = json_encode($x);
+    }
+
+    public function setReporter($x)
+    {
+        $this->attributes['reporter'] = json_encode($x);
+    }
+
     public function getGalleries()
     {
         return pg_array_decode($this->attributes['galleries'] ?? '');
@@ -81,7 +93,7 @@ class Minute extends Entity
     {
         return array_map(function ($x) {
             return new MinutePerson($x ?: []);
-        }, json_decode($this->attributes['participants'] ?? '[]'));
+        }, json_decode($this->attributes['participants'] ?? '[]', true));
     }
 
     public function setParticipants($x)

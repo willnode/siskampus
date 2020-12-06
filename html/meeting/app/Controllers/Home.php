@@ -9,27 +9,26 @@ use Shared\Controllers\BaseController;
 
 class Home extends BaseController
 {
-	protected function postMinute($id)
-	{
-		$minute = (new Minute($_POST));
-		$id = (new MinuteModel())->insert($minute);
-		return $this->response->redirect("/minute/detail/$id");
-	}
 
 	public function minute($page = 'list', $id = null)
 	{
 		if (!$this->user->id) {
 			return $this->response->redirect('/login');
 		}
-
 		if ($this->request->getMethod() === 'post') {
-			return $this->postMinute($id);
+			if ($page === 'delete') {
+				(new MinuteModel())->delete($id);
+				return $this->response->redirect('/minute/');
+			} else {
+				$id = (new MinuteModel())->processWeb($id);
+				return $this->response->redirect('/minute/detail/'.$id);
+			}
 		}
 		switch ($page) {
 			case 'list':
 				return view('minute/index', [
 					'user' => $this->user,
-					'page' => 'index',
+					'page' => 'minute',
 					'list' => find_with_filter(new MinuteModel()),
 				]);
 			case 'add':
@@ -46,7 +45,7 @@ class Home extends BaseController
 				if (!($item = (new MinuteModel())->find($id))) {
 					throw new PageNotFoundException();
 				}
-				return view('minute/'.$page, [
+				return view('minute/' . $page, [
 					'user' => $this->user,
 					'page' => $page,
 					'item' => $item,
@@ -58,12 +57,7 @@ class Home extends BaseController
 
 	public function index()
 	{
-		if ($this->user->id) {
-			return view('index', [
-				'page' => 'index',
-			]);
-		} else
-			return $this->response->redirect('/login');
+		return $this->response->redirect($this->user->id ? '/minute/' : '/login');
 	}
 
 	public function login()
