@@ -7,12 +7,20 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($data as $item) : ?>
+        <?php if ($data) : ?>
+            <?php foreach ($data as $item) : ?>
+                <tr>
+                    <?php foreach ($columns as $key => $value) : ?>
+                        <td><?= $value($item) ?></td>
+                    <?php endforeach ?>
+                </tr>
+            <?php endforeach ?>
+        <?php else : ?>
             <tr>
-                <?php foreach ($columns as $key => $value) : ?>
-                    <td><?= $value($item) ?></td>
-                <?php endforeach ?>
+                <td colspan="<?= count($columns)?>" class="text-center text-muted">
+                    Data saat ini sedang kosong
+                </td>
             </tr>
-        <?php endforeach ?>
+        <?php endif ?>
     </tbody>
 </table>

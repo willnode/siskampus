@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Entities\Proposal;
+use App\Entities\Seminar;
 use App\Models\ProposalModel;
 use App\Models\SeminarModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
@@ -192,39 +193,29 @@ class Home extends BaseController
 			return $this->response->redirect('/login');
 		}
 		if ($this->request->getMethod() === 'post') {
-			if (check_access($this->user, 'skripsi/seminar')) {
-				$post = $this->request->getPost();
-				if ($id === 'new') {
-					$post->status = 'scheduled';
-					unset($post->id);
-				} else {
-					$post->id = $id;
-				}
-				(new SeminarModel())->save($post);
-				return $this->response->redirect('/seminar');
-			}
-			throw new PageNotFoundException();
+			$post = new Seminar($this->request->getPost());
+			(new SeminarModel())->save($post);
+			return $this->response->redirect('/seminar/');
 		}
 		switch ($page) {
 			case 'list':
 				return view('seminar/index', [
 					'page' => 'seminar',
-					'site' => (new SiteModel())->get(),
 					'user' => $this->user,
 					'list' => $this->getSeminar(),
 				]);
 			case 'add':
 				return view('seminar/edit', [
 					'page' => 'seminar',
-					'site' => (new SiteModel())->get(),
-					'proposal' => (new ProposalModel())->find($_GET['from']),
+					'item' => (new Seminar())->setProposal((new ProposalModel())->find($_GET['from'])),
 					'user' => $this->user,
 				]);
+			case 'detail':
 			case 'edit':
 				if (!($item = (new SeminarModel())->find($id))) {
 					throw new PageNotFoundException();
 				}
-				return view('seminar/edit', [
+				return view('seminar/' . $page, [
 					'site' => (new SiteModel())->get(),
 					'item' => $item,
 					'user' => $this->user,

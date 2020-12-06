@@ -25,7 +25,7 @@
       'data' => $list,
       'columns' => [
         'Student' => function (\App\Entities\Seminar $x) {
-          return $x->student->name;
+          return $x->proposal->student->name;
         },
         'Title' => function (\App\Entities\Seminar $x) {
           return esc(mb_strimwidth($x->proposal->title, 0, 100, "…"));
