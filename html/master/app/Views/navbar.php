@@ -1,9 +1,9 @@
-<nav class="navbar navbar-expand-md <?= \Config\Services::site()->shared->navbar_theme ?>">
+<nav class="navbar navbar-expand-md navbar-dark navbar-success">
   <div class="container-fluid">
     <a class="navbar-brand" href="/">
       <img src="<?= static_url('logo.png') ?>">
       <div>
-        <div><?= \Config\Services::site()->shared->short_name ?></div>
+        <div>UNWAHA</div>
         <div class="text-white-50"><small>Sistem Informasi Sentral</small></div>
       </div>
     </a>
@@ -11,17 +11,15 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <hr class="d-md-none">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link <?= ($page ?? '') === 'index' ? 'active' : '' ?>" href="/"><i class="fa fa-home"></i> Beranda</a>
+          <a class="nav-link <?= ($page ?? '') === 'index' ? 'active' : '' ?>" href="/user/"><i class="fa fa-home"></i> Beranda</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link <?= ($page ?? '') === 'profile' ? 'active' : '' ?>" href="/profile">Edit Profil</a>
+          <a class="nav-link <?= ($page ?? '') === 'profile' ? 'active' : '' ?>" href="/user/profile">Edit Profil</a>
         </li>
         <li class="nav-divider"></li>
       </ul>
-      <hr class="d-md-none">
       <?= shared_view('navbar/dropdown') ?>
     </div>
   </div>

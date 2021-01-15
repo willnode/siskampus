@@ -41,7 +41,7 @@ class Autoload extends AutoloadConfig
 	 */
 	public $psr4 = [
 		APP_NAMESPACE => APPPATH, // For custom app namespace
-		'Config'      => APPPATH . 'Config',
+		'Config'      => SHAREDPATH . 'Config',
 		'Shared'   => SHAREDPATH,
 	];
 

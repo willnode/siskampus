@@ -18,6 +18,7 @@ namespace Shared\Controllers;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Session\Session;
 use Psr\Log\LoggerInterface;
 use Shared\Libraries\SiteConfig;
 use Shared\Libraries\UserSession;
@@ -56,8 +57,6 @@ class BaseController extends Controller
 		// E.g.:
 		// $this->session = \Config\Services::session();
 		$this->session = \Config\Services::session();
-		$this->site = \Config\Services::site();
-		$this->user = \Config\Services::user();
 		$this->db = \Config\Database::connect();
 	}
 }

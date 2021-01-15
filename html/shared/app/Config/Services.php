@@ -19,31 +19,6 @@ use CodeIgniter\Config\Services as CoreServices;
  */
 class Services extends CoreServices
 {
-
-	/**
-	 * @return \Shared\Libraries\SiteConfig
-	 */
-	public static function site($getShared = true)
-	{
-		if ($getShared) {
-			return static::getSharedInstance('site');
-		}
-
-		return new \Shared\Libraries\SiteConfig();
-	}
-
-	/**
-	 * @return \Shared\Libraries\UserSession
-	 */
-	public static function user($getShared = true)
-	{
-		if ($getShared) {
-			return static::getSharedInstance('user');
-		}
-
-		return new \Shared\Libraries\UserSession();
-	}
-
 	public static function shared_renderer(string $viewPath = null, $config = null, bool $getShared = true)
 	{
 		if ($getShared)

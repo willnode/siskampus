@@ -22,14 +22,14 @@ class Database extends \CodeIgniter\Database\Config
 	 *
 	 * @var string
 	 */
-	public $defaultGroup = 'master';
+	public $defaultGroup = 'default';
 
 	/**
 	 * The default database connection.
 	 *
 	 * @var array
 	 */
-	public $master = [
+	public $default = [
 		'DSN'      => '',
 		'hostname' => 'localhost',
 		'scheme' => '',
