@@ -4,11 +4,11 @@
 <link rel="shortcut icon" href="<?= static_url('logo.png') ?>">
 
 <link href="<?= module_url('@fortawesome/fontawesome-free/css/all.min.css') ?>" rel="stylesheet">
-<link href="<?= module_url('bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+<link href="<?= module_url('admin-lte/dist/css/adminlte.min.css') ?>" rel="stylesheet">
 <link href="<?= static_url('style.css') ?>" rel="stylesheet">
 <script defer src="<?= module_url('jquery/dist/jquery.min.js') ?>"></script>
 <script defer src="<?= module_url('popper.js/dist/umd/popper.min.js') ?>"></script>
-<script defer src="<?= module_url('bootstrap/dist/js/bootstrap.min.js') ?>"></script>
+<script defer src="<?= module_url('admin-lte/dist/js/adminlte.min.js') ?>"></script>
 <?php if (isset($datatables)) : ?>
     <link href="<?= module_url('datatables.net-dt/css/jquery.dataTables.min.css') ?>" rel="stylesheet">
     <link href="<?= module_url('datatables.net-select-bs4/css/select.bootstrap4.min.css') ?>" rel="stylesheet">

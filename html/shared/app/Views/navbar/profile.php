@@ -7,7 +7,7 @@
       <?php if ($avatar = \Config\Services::user()->avatar) : ?>
         <img src="<?= get_file('master/avatar', $avatar) ?>" alt="">
       <?php else : ?>
-        <i class="fa fa-user fa-2x d-block mx-3"></i>
+        <i class="fa fa-user text-white-50 fa-2x d-block mx-3"></i>
       <?php endif ?>
   </li>
 </ul>
