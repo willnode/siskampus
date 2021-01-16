@@ -2,8 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
-use CodeIgniter\Config\Services;
+use Shared\Models\UserModel;
 use Shared\Controllers\BaseController;
 
 class Home extends BaseController
@@ -13,23 +12,26 @@ class Home extends BaseController
 		return $this->response->redirect('/login');
 	}
 
-	public function go($site)
+	public function get_login()
 	{
-		if ($u = Services::user()) {
-			if (!$u->otp || !$this->session->get('TOKEN_SECURED')) {
-				$this->session->set('TOKEN_SECURED', 1);
-				$u->otp = random_int(111111, 9999999);
-				(new UserModel())->save($u);
+		if (isset($_GET['u'], $_GET['o'])) {
+			$login = (new UserModel())->atUsername($_GET['u']);
+			if ($login && $login->otp == $_GET['o']) {
+				return $this->response->setJSON([
+					'username' => $login->username,
+					'role' => $login->role,
+					'name' => $login->name,
+					'avatar' => $login->avatar,
+				]);
 			}
-			$token = urlencode(base64_encode($u->username . ':' . $u->otp));
-			return $this->response->redirect("//$site.$_SERVER[HOST_URL]/login?token=$token");
-		} else
-			return $this->response->redirect('/login');
+		} else {
+			return $this->response->setJSON(0);
+		}
 	}
 
 	public function check_login()
 	{
-		if ($this->session->id) {
+		if ($this->session->has('login')) {
 			return $this->response->redirect(parse_url($_GET['r'] ?? '/', PHP_URL_PATH));
 		} else {
 			return $this->response->redirect('/login?r=' . urlencode($_GET['r'] ?? '/'));
@@ -47,7 +49,7 @@ class Home extends BaseController
 		if ($this->request->getMethod() === 'post') {
 			$post = $this->request->getPost();
 			if (isset($post['username'], $post['password'])) {
-				$login = (new UserModel())->atEmail($post['username']);
+				$login = (new UserModel())->atUsername($post['username']);
 				if ($login && password_verify(
 					$post['password'],
 					$login->password

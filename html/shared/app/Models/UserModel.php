@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace Shared\Models;
 
-use App\Entities\User;
+use Shared\Entities\User;
 use CodeIgniter\Model;
 use Config\Services;
 
@@ -18,11 +18,11 @@ class UserModel extends Model
         'name', 'username', 'password', 'avatar', 'role', 'otp'
     ];
     protected $primaryKey = 'id';
-    protected $returnType = 'App\Entities\User';
+    protected $returnType = 'Shared\Entities\User';
     protected $useTimestamps = false;
 
     /** @return User|null */
-    public function atEmail($username)
+    public function atUsername($username)
     {
         $this->builder()->where('username', $username);
         return $this->find()[0] ?? null;
@@ -38,7 +38,7 @@ class UserModel extends Model
     public function register($data, $thenLogin = true)
     {
         $data = array_intersect_key($data, array_flip(
-            ['name', 'username', 'password']
+            ['name', 'username', 'password', 'avatar', 'role']
         ));
         $data['lang'] = Services::request()->getLocale();
         if (!empty($data['password']))

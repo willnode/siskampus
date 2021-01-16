@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark navbar-success">
+<nav class="navbar navbar-expand-md navbar-dark navbar-olive">
   <div class="container-fluid">
     <a class="navbar-brand" href="/">
       <img src="<?= static_url('logo.png') ?>">
@@ -13,7 +13,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link <?= ($page ?? '') === 'index' ? 'active' : '' ?>" href="/user/"><i class="fa fa-home"></i> Beranda</a>
+          <a class="nav-link <?= ($page ?? '') === 'dashboard' ? 'active' : '' ?>" href="/user/"><i class="fa fa-home"></i> Beranda</a>
         </li>
         <li class="nav-item">
           <a class="nav-link <?= ($page ?? '') === 'profile' ? 'active' : '' ?>" href="/user/profile">Edit Profil</a>

@@ -4,7 +4,6 @@ namespace Config;
 
 require_once SHAREDPATH . 'Config' . DIRECTORY_SEPARATOR . 'Services.php';
 
-use App\Models\UserModel;
 use Shared\Config\Services as SharedServices;
 
 /**
@@ -22,13 +21,4 @@ use Shared\Config\Services as SharedServices;
  */
 class Services extends SharedServices
 {
-	/** @return User */
-	public static function user($getShared = true)
-	{
-		if ($getShared) {
-			return static::getSharedInstance('user');
-		}
-
-		return (new UserModel())->find(Services::session()->login ?: 0);
-	}
 }

@@ -2,6 +2,7 @@
 
 use CodeIgniter\Entity;
 use Config\Services;
+use Config\View;
 
 define('STATICPATH', implode(DIRECTORY_SEPARATOR, [realpath(ROOTPATH . '../'), 'static', '']));
 

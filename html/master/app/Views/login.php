@@ -1,33 +1,87 @@
-<!--__________________      ____________________
-   /  __/___/ \ |  |  \    /  |      \   /   __/
-  /  /__/___\  \|  |   \  /   |  __  |  |   /__
- /_______   /  __  |    \/    |  |/  /  |__   /
-     /  /  /  / |  |  \    /  |  |  /|  |/   /
- ___/  /  /  /__|  |  |\  /|  |  |_/_|  |   /
-/_____/__/__/   |__|__| \/ |__|__|______|__/
-https://github.com/willnode/siskampus/-->
+<!DOCTYPE html>
+<html lang="en">
+<?= view('head') ?>
 
-<!doctype html>
-<html lang="id">
+<body class="text-center" style="background: url(https://images.unsplash.com/photo-1444723121867-7a241cacace9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1953&q=80) center/cover #004494; position: relative">
+    <style>
+        form {
+            border-radius: 10px;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            box-sizing: content-box;
+            width: calc(100% - 30px) !important;
+            border: 2px solid whitesmoke;
+            background: #0003;
+        }
 
-<head>
-    <?= view('head') ?>
-    <link href="signin.css" rel="stylesheet">
-</head>
+        form a {
+            font-weight: bold;
+            color: var(--light);
+        }
 
-<body class="text-center">
+        .signin-group>button {
+            width: 100%;
+            margin-bottom: .5em;
+            background: white;
+        }
 
-    <main class="form-signin">
-        <form method="POST">
-            <img class="mb-4" src="<?= static_url('logo.png') ?>" alt="" width="72">
-            <h1 class="h3 mb-3 font-weight-normal">Mohon masuk</h1>
-            <input type="text" name="username" class="form-control" placeholder="ID" required autofocus>
-            <input type="password" name="password" class="form-control" placeholder="Password" required>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Masuk</button>
-            <p class="mt-5 mb-3 text-muted">&copy; <?= date('Y') ?> Universitas Wahab Hasbullah</p>
+
+        .text-shadow {
+            text-shadow: 0px 0px 2px black;
+        }
+
+        .floating {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+        }
+
+        .floating a {
+            color: #fff6;
+            transition: color 0.2s;
+        }
+
+        .floating a:hover {
+            color: white;
+        }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            opacity: .8;
+        }
+
+        .separator::before,
+        .separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid white;
+        }
+
+        .separator::before {
+            margin-right: .5em;
+        }
+
+        .separator::after {
+            margin-left: .5em;
+        }
+    </style>
+    <div class="justify-content-center container d-flex flex-column" style="min-height: 100vh; max-width: 476px">
+        <p><a href="/"><img src="<?= static_url('logo.png')?>" alt="Logo" width="150px"></a></p>
+        <form method="POST" name="loginForm" class="container shadow d-flex flex-column justify-content-center pb-1 pt-3 text-white">
+            <?= csrf_field() ?>
+            <h1 class="mb-4">Masuk Ke Portal</h1>
+            <input type="text" name="username" placeholder="Username" class="form-control mb-2">
+            <input type="password" name="password" autocomplete="current-password" placeholder="Password" class="form-control mb-2">
+            <input type="submit" value="Masuk" class="btn-primary btn btn-block mb-3">
         </form>
-    </main>
-
+        <div class="floating">
+            <small>
+                <a href="https://unsplash.com/photos/ukvgqriuOgo" target="_blank" rel="noopener noreferrer">Background by Henning Witzel</a>
+            </small>
+        </div>
+    </div>
 </body>
 
 </html>

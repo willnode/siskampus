@@ -25,7 +25,7 @@
       <div class="col-md-6">
         <div class="card">
           <div class="card-body">
-            <a class="btn btn-outline-primary d-block my-1" href="/go/tugasakhir"><i class="fa fa-scroll mr-2"></i>Tugas Akhir</a>
+            <a class="btn btn-outline-primary d-block my-1" href="/user/go/tugasakhir"><i class="fa fa-scroll mr-2"></i>Tugas Akhir</a>
           </div>
         </div>
       </div>

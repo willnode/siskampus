@@ -3,6 +3,8 @@
 namespace Shared\Config;
 
 use CodeIgniter\Config\Services as CoreServices;
+use Shared\Entities\User;
+use Shared\Models\UserModel;
 
 /**
  * Services Configuration file.
@@ -32,5 +34,15 @@ class Services extends CoreServices
 		}
 
 		return new \CodeIgniter\View\View(new \Config\View(), $viewPath, static::locator(), CI_DEBUG, static::logger());
+	}
+
+	/** @return User */
+	public static function user($getShared = true)
+	{
+		if ($getShared) {
+			return static::getSharedInstance('user');
+		}
+
+		return (new UserModel())->find(Services::session()->login ?: 0);
 	}
 }
