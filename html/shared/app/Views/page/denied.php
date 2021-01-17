@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 <h1>Akses Ditolak</h1>
-                <p>Status akun anda tidak mengijinkan pendaftaran akun di sistem ini.</p>
+                <p>Status akun anda tidak mengijinkan mengakses halaman di sistem ini.</p>
                 <a href="javascript:history.back()" class="btn btn-outline-secondary btn-block mb-3">Kembali</a>
             </div>
         </div>
