@@ -1,6 +1,3 @@
-<?php
-
-/** @var Shared\Entities\Operator $user */ ?>
 <!DOCTYPE html>
 <html lang="id">
 
@@ -23,11 +20,11 @@
             <?= shared_view('list/rows') ?>
             <?php /** @var \App\Entities\User[] $data */ ?>
             <div class="d-flex">
-              <h1>Data Dosen</h1>
+              <h1>Data Mahasiswa</h1>
               <div class="ml-auto">
                 <?= shared_view('list/button', [
                   'actions' => ['import', 'export'],
-                  'target' => '',
+                  'target' => $_GET['angkatan'],
                   'size' => 'btn-lg'
                 ]); ?>
               </div>
@@ -35,13 +32,16 @@
             <?= shared_view('list/table', [
               'data' => $data,
               'columns' => [
-                'Nama' => function (\App\Entities\Dosen $x) {
+                'NIM' => function (\App\Entities\Mahasiswa $x) {
+                  return $x->id;
+                },
+                'Nama' => function (\App\Entities\Mahasiswa $x) {
                   return $x->nama;
                 },
-                'Departemen' => function (\App\Entities\Dosen $x) {
-                  return $x->departemen;
+                'Prodi' => function (\App\Entities\Mahasiswa $x) {
+                  return $x->prodi;
                 },
-                'Action' => function (\App\Entities\Dosen $x) {
+                'Action' => function (\App\Entities\Mahasiswa $x) {
                   return shared_view('list/button', [
                     'actions' => ['edit'],
                     'target' => $x->id,

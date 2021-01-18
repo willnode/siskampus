@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Entities\Mahasiswa;
 use CodeIgniter\Model;
 use Config\Services;
 
@@ -9,36 +10,33 @@ class MahasiswaModel extends Model
 {
     protected $table         = 'mahasiswa';
     protected $allowedFields = [
-        'id', 'nama', 'prodi', 'angkatan'
+        'nim', 'nama', 'prodi', 'angkatan'
     ];
-    protected $primaryKey = 'nis';
+    protected $primaryKey = 'id';
     protected $returnType = 'App\Entities\Mahasiswa';
 
-    public function withAktif()
+    public function withAngkatan($angkatan)
     {
-        $b = $this->builder();
-        $y = Services::config()->tahun;
-        $b->where('thn_masuk between ' . ($y - 2) . ' and ' . $y);
-        return $this;
-        # code...
-    }
-    public function withKelas($id)
-    {
-        if ($id) {
-            $id = explode(',', $id);
+        if ($angkatan) {
             $this->builder()->where([
-                'thn_masuk' => $id[0] ?? '',
-                'kelas' => $id[1] ?? '',
+                'angkatan' => $angkatan,
             ]);
         }
         return $this;
         # code...
     }
-    public function allKelas()
+    /** @return Mahasiswa|null */
+    public function atNim($nim)
+    {
+        return  $this->builder()->where([
+            'nim' => $nim,
+        ])->get()->getRow(0, $this->returnType);
+    }
+    public function allAngkatan()
     {
         $b = $this->builder();
-        $b->select('kelas, thn_masuk, COUNT(nis) as jumlah');
-        $b->groupBy('kelas, thn_masuk');
+        $b->select('angkatan, COUNT(id) as jumlah');
+        $b->groupBy('angkatan');
         return $b->get()->getResult($this->returnType);
     }
 }

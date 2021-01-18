@@ -24,8 +24,9 @@ class UserModel extends Model
     /** @return User|null */
     public function atUsername($username)
     {
-        $this->builder()->where('username', $username);
-        return $this->find()[0] ?? null;
+        return $this->builder()->where([
+            'username' => $username
+        ])->get()->getRow(0, $this->returnType);
     }
 
     public function login(User $data)

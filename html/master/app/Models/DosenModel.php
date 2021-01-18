@@ -9,36 +9,16 @@ class DosenModel extends Model
 {
     protected $table         = 'dosen';
     protected $allowedFields = [
-        'nama', 'id', 'departemen'
+        'nama', 'nid', 'departemen'
     ];
-    protected $primaryKey = 'nis';
+    protected $primaryKey = 'id';
     protected $returnType = 'App\Entities\Dosen';
 
-    public function withAktif()
+    /** @return Mahasiswa|null */
+    public function atNid($nid)
     {
-        $b = $this->builder();
-        $y = Services::config()->tahun;
-        $b->where('thn_masuk between ' . ($y - 2) . ' and ' . $y);
-        return $this;
-        # code...
-    }
-    public function withKelas($id)
-    {
-        if ($id) {
-            $id = explode(',', $id);
-            $this->builder()->where([
-                'thn_masuk' => $id[0] ?? '',
-                'kelas' => $id[1] ?? '',
-            ]);
-        }
-        return $this;
-        # code...
-    }
-    public function allKelas()
-    {
-        $b = $this->builder();
-        $b->select('kelas, thn_masuk, COUNT(nis) as jumlah');
-        $b->groupBy('kelas, thn_masuk');
-        return $b->get()->getResult($this->returnType);
+        return  $this->builder()->where([
+            'nid' => $nid,
+        ])->get()->getRow(0, $this->returnType);
     }
 }

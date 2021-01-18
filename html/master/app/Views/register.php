@@ -4,7 +4,6 @@
 
 <body class="text-center" style="background: url(https://web.unwaha.ac.id/wp-content/uploads/2020/09/IMG_20190624_105818.jpg) center/cover #007711; position: relative">
     <style>
-
         form {
             border-radius: 10px;
             -webkit-backdrop-filter: blur(10px);
@@ -25,6 +24,7 @@
             margin-bottom: .5em;
             background: white;
         }
+
 
         .text-shadow {
             text-shadow: 0px 0px 2px black;
@@ -71,18 +71,19 @@
         <p><a href="/"><img src="<?= static_url('logo.png') ?>" alt="Logo" width="150px"></a></p>
         <form method="POST" name="loginForm" class="container shadow d-flex flex-column justify-content-center pb-1 pt-3 text-white">
             <?= csrf_field() ?>
-            <h1 class="mb-4">Masuk Ke Portal</h1>
-			<?php if ($message) : ?>
-				<div class="alert alert-<?= isset($_GET['msg']) ? 'primary' : 'danger' ?>">
+            <h1 class="mb-4">Daftar Akun</h1>
+            <?php if ($message) : ?>
+				<div class="alert alert-danger">
 					<?= $message ?>
 				</div>
 			<?php endif ?>
-            <input type="text" name="username" placeholder="Username / NIM" class="form-control mb-2">
-            <input type="password" name="password" autocomplete="current-password" placeholder="Password" class="form-control mb-2">
-            <input type="submit" value="Masuk" class="btn-primary btn btn-block mb-3">
+            <input type="text" name="username" placeholder="NIM" class="form-control mb-2" required>
+            <input type="password" name="password" autocomplete="new-password" placeholder="Password Baru" class="form-control mb-2" required minlength="8">
+            <p>Registrasi ini hanya diperlukan untuk mahasiswa yang belum pernah mengakses sistem yang baru sebelumnya</p>
+            <input type="submit" value="Daftar" class="btn-primary btn btn-block mb-3">
             <div class="separator mb-3">Atau</div>
-            <a href="/register" class="btn d-flex align-items-center btn-light border-secondary mb-2">
-                <span class="mx-auto">Daftar</span>
+            <a href="/login" class="btn d-flex align-items-center btn-light border-secondary mb-2">
+                <span class="mx-auto">Masuk</span>
             </a>
         </form>
     </div>

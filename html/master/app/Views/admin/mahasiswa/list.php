@@ -1,7 +1,7 @@
 <?php
 
 /** @var Shared\Entities\Operator $user */ ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -36,15 +36,15 @@
               'data' => $data,
               'columns' => [
                 'Angkatan' => function (\App\Entities\Mahasiswa $x) {
-                  return $x->kelasFull;
+                  return $x->angkatan;
                 },
                 'Jumlah' => function (\App\Entities\Mahasiswa $x) {
                   return $x->jumlah;
                 },
                 'Action' => function (\App\Entities\Mahasiswa $x) {
-                  return view('shared/button', [
+                  return shared_view('list/button', [
                     'actions' => ['detail', 'export'],
-                    'target' => $x->thn_masuk . ',' . $x->kelas,
+                    'target' => $x->angkatan,
                     'size' => 'btn-sm'
                   ]);
                 }

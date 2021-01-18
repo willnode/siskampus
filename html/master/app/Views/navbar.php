@@ -18,9 +18,11 @@
         <li class="nav-item">
           <a class="nav-link <?= ($page ?? '') === 'profile' ? 'active' : '' ?>" href="/user/profile">Edit Profil</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link <?= ($page ?? '') === 'admin' ? 'active' : '' ?>" href="/admin/">Admin Center</a>
-        </li>
+        <?php if (\Config\Services::user()->role === 'admin') : ?>
+          <li class="nav-item">
+            <a class="nav-link <?= ($page ?? '') === 'admin' ? 'active' : '' ?>" href="/admin/">Admin Center</a>
+          </li>
+        <?php endif ?>
         <li class="nav-divider"></li>
       </ul>
       <?= shared_view('navbar/dropdown') ?>

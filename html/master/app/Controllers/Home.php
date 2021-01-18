@@ -2,8 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Models\MahasiswaModel;
 use Shared\Models\UserModel;
 use Shared\Controllers\BaseController;
+use Shared\Entities\User;
 
 class Home extends BaseController
 {
@@ -61,10 +63,37 @@ class Home extends BaseController
 					return $this->response->redirect(base_url($r ?: 'user'));
 				}
 			}
-			$m = lang('Interface.wrongLogin');
+			$m = "Salah username atau password, mohon coba lagi.";
 		}
 		return view('login', [
-			'message' => $m ?? (($_GET['msg'] ?? '') === 'emailsent' ? lang('Interface.emailSent') : null)
+			'message' => $m ?? (($_GET['msg'] ?? '') === 'registered' ? "Berhasil didaftarkan, silahkan masuk." : null)
+		]);
+	}
+
+	public function register()
+	{
+		if ($this->request->getMethod() === 'post' && isset($_POST['username'], $_POST['password'])) {
+			$um = new UserModel();
+			if ($u = $um->atUsername($_POST['username'])) {
+				$m = "Akun dengan NIM tersebut sudah didaftarkan";
+			} else if (!($m = (new MahasiswaModel())->atNim($_POST['username']))) {
+				$m = "Tidak ada data dengan NIM tersebut";
+			} else if (!isset($_POST['confirmed'])) {
+				return view('register_confirm', [
+					'item' => $m,
+				]);
+			}else {
+				$u = new User($_POST);
+				unset($u->id);
+				$u->password = password_hash($u->password, PASSWORD_BCRYPT);
+				$u->name = $m->nama;
+				$u->role = 'mahasiswa';
+				$um->save($u);
+				return $this->response->redirect('/login?msg=registered');
+			}
+		}
+		return view('register', [
+			'message' => $m ?? null
 		]);
 	}
 

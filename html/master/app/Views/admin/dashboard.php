@@ -1,7 +1,7 @@
 <?php
 
 /** @var Shared\Entities\Operator $user */ ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 
 <head>

@@ -15,34 +15,34 @@ use Shared\Entities\User as EntitiesUser;
 class Admin extends BaseController
 {
 
-    /** @var EntitiesUser  */
-    public $login;
+	/** @var EntitiesUser  */
+	public $login;
 
-    public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
-    {
-        parent::initController($request, $response, $logger);
+	public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
+	{
+		parent::initController($request, $response, $logger);
 
-        if (!($this->login = Services::user())) {
-             $this->response->redirect('/login/')->send();
-            exit;
-        }
-        if ($this->login->role !== 'operator') {
-            $this->response->setBody(shared_view('page/denied'));
-            $this->response->send();
-            exit;
-        }
-    }
+		if (!($this->login = Services::user())) {
+			$this->response->redirect('/login/')->send();
+			exit;
+		}
+		if ($this->login->role !== 'operator') {
+			$this->response->setBody(shared_view('page/denied'));
+			$this->response->send();
+			exit;
+		}
+	}
 
-    public function index()
-    {
-        return view('admin/dashboard', [
-            'page' => 'admin'
-        ]);
-    }
+	public function index()
+	{
+		return view('admin/dashboard', [
+			'page' => 'admin'
+		]);
+	}
 
-    public function mahasiswa($page = 'list', $id = null)
-    {
-        $model = new MahasiswaModel();
+	public function mahasiswa($page = 'list', $id = null)
+	{
+		$model = new MahasiswaModel();
 		if ($this->request->getMethod() === 'post') {
 			if ($page === 'delete' && $model->delete($id)) {
 				return $this->response->redirect('/admin/mahasiswa/');
@@ -52,10 +52,18 @@ class Admin extends BaseController
 		}
 		switch ($page) {
 			case 'list':
+				if ($a = $this->request->getGet('angkatan')) {
+					return view('admin/mahasiswa/detail', [
+						'data' => find_with_filter($model->withAngkatan($a)),
+						'page' => 'mahasiswa',
+					]);
+				}
 				return view('admin/mahasiswa/list', [
-					'data' => find_with_filter($model),
+					'data' => $model->allAngkatan(),
 					'page' => 'mahasiswa',
 				]);
+			case 'detail':
+				return $this->response->redirect('../?angkatan=' . $id);
 			case 'add':
 				return view('admin/mahasiswa/edit', [
 					'item' => new Mahasiswa()
@@ -69,12 +77,11 @@ class Admin extends BaseController
 				]);
 		}
 		throw new PageNotFoundException();
+	}
 
-    }
-
-    public function dosen($page = 'list', $id = null)
-    {
-        $model = new DosenModel();
+	public function dosen($page = 'list', $id = null)
+	{
+		$model = new DosenModel();
 		if ($this->request->getMethod() === 'post') {
 			if ($page === 'delete' && $model->delete($id)) {
 				return $this->response->redirect('/admin/dosen/');
@@ -101,12 +108,11 @@ class Admin extends BaseController
 				]);
 		}
 		throw new PageNotFoundException();
+	}
 
-    }
-
-    public function user($page = 'list', $id = null)
-    {
-        $model = new UserModel();
+	public function user($page = 'list', $id = null)
+	{
+		$model = new UserModel();
 		if ($this->request->getMethod() === 'post') {
 			if ($page === 'delete' && $model->delete($id)) {
 				return $this->response->redirect('/admin/user/');
@@ -133,5 +139,5 @@ class Admin extends BaseController
 				]);
 		}
 		throw new PageNotFoundException();
-    }
+	}
 }

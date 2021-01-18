@@ -1,5 +1,5 @@
 <?php $error_id = uniqid('error', true); ?>
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">

@@ -2,9 +2,8 @@
 <html lang="en">
 <?= view('head') ?>
 
-<body class="text-center" style="background: url(https://web.unwaha.ac.id/wp-content/uploads/2020/09/IMG_20190624_105818.jpg) center/cover #007711; position: relative">
+<body class="text-center" style="background: #007711; position: relative">
     <style>
-
         form {
             border-radius: 10px;
             -webkit-backdrop-filter: blur(10px);
@@ -25,6 +24,7 @@
             margin-bottom: .5em;
             background: white;
         }
+
 
         .text-shadow {
             text-shadow: 0px 0px 2px black;
@@ -71,18 +71,18 @@
         <p><a href="/"><img src="<?= static_url('logo.png') ?>" alt="Logo" width="150px"></a></p>
         <form method="POST" name="loginForm" class="container shadow d-flex flex-column justify-content-center pb-1 pt-3 text-white">
             <?= csrf_field() ?>
-            <h1 class="mb-4">Masuk Ke Portal</h1>
-			<?php if ($message) : ?>
-				<div class="alert alert-<?= isset($_GET['msg']) ? 'primary' : 'danger' ?>">
-					<?= $message ?>
-				</div>
-			<?php endif ?>
-            <input type="text" name="username" placeholder="Username / NIM" class="form-control mb-2">
-            <input type="password" name="password" autocomplete="current-password" placeholder="Password" class="form-control mb-2">
-            <input type="submit" value="Masuk" class="btn-primary btn btn-block mb-3">
+            <h1 class="mb-4">Konfirmasi Akun</h1>
+            <p class="text-left mx-auto">NIM: <?= esc($item->nim) ?>
+            <br>Nama: <?= esc($item->nama) ?>
+            <br>Prodi: <?= esc($item->prodi) ?></p>
+            <p>Jika ini benar akun anda, klik lanjutkan</p>
+            <input type="hidden" name="username" value="<?= esc($_POST['username']) ?>">
+            <input type="hidden" name="password" value="<?= esc($_POST['password']) ?>">
+            <input type="hidden" name="confirmed" value="1">
+            <input type="submit" value="Lanjutkan" class="btn-success btn btn-block mb-3">
             <div class="separator mb-3">Atau</div>
             <a href="/register" class="btn d-flex align-items-center btn-light border-secondary mb-2">
-                <span class="mx-auto">Daftar</span>
+                <span class="mx-auto">Batalkan</span>
             </a>
         </form>
     </div>
