@@ -19,7 +19,7 @@ class PembimbingModel extends Model
         'nid', 'nama', 'hp', 'email', 'tema',
     ];
     protected $primaryKey = 'id';
-    protected $returnType = 'App\Entities\Pendaftar';
+    protected $returnType = 'App\Entities\Pembimbing';
 
     public function withAvailableSeats($tema)
     {

@@ -34,6 +34,11 @@
             case 'import':
             ?>
                 <a href="<?= $value . '/' . $target ?>" class="btn <?= $size ?> btn-primary"><i class="fa fa-upload"></i></a>
+            <?php
+                break;
+            case 'archived':
+            ?>
+                <a href="?archived=<?=empty($_GET['archived']) ? '1' : ''?>" class="btn <?= $size ?> btn-dark"><i class="fa <?= empty($_GET['archived']) ? 'fa-archive' : 'fa-file' ?>"></i></a>
         <?php
                 break;
         } ?>

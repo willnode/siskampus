@@ -57,7 +57,7 @@ class Admin extends BaseController
 		switch ($page) {
 			case 'list':
 				return view('admin/pembimbing/list', [
-					'data' => $model->allAngkatan(),
+					'data' => find_with_filter($model),
 					'page' => 'pembimbing',
 				]);
 			case 'detail':
@@ -88,13 +88,7 @@ class Admin extends BaseController
 			}
 		}
 		switch ($page) {
-            case 'list':
-				if ($a = $this->request->getGet('angkatan')) {
-					return view('admin/pendaftar/detail', [
-						'data' => find_with_filter($model->withAngkatan($a)),
-						'page' => 'pendaftar',
-					]);
-				}
+			case 'list':
 				return view('admin/pendaftar/list', [
 					'data' => find_with_filter($model),
 					'page' => 'pendaftar',
@@ -108,6 +102,13 @@ class Admin extends BaseController
 					throw new PageNotFoundException();
 				}
 				return view('admin/pendaftar/edit', [
+					'item' => $item
+				]);
+			case 'detail':
+				if (!($item = $model->find($id))) {
+					throw new PageNotFoundException();
+				}
+				return view('admin/pendaftar/detail', [
 					'item' => $item
 				]);
 		}
