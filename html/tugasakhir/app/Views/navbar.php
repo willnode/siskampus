@@ -15,9 +15,16 @@
         <li class="nav-item">
           <a class="nav-link <?= ($page ?? '') === 'dashboard' ? 'active' : '' ?>" href="/user/"><i class="fa fa-home"></i> Beranda</a>
         </li>
+        <?php if (\Config\Services::user()->role === 'dosen') : ?>
         <li class="nav-item">
-          <a class="nav-link <?= ($page ?? '') === 'profile' ? 'active' : '' ?>" href="/user/profile">Edit Profil</a>
+          <a class="nav-link <?= ($page ?? '') === 'arsip' ? 'active' : '' ?>" href="/user/arsip/"> Arsip Bimbingan</a>
         </li>
+        <?php endif ?>
+        <?php if (\Config\Services::user()->role === 'operator') : ?>
+        <li class="nav-item">
+          <a class="nav-link <?= ($page ?? '') === 'admin' ? 'active' : '' ?>" href="/admin/">Admin Center</a>
+        </li>
+        <?php endif ?>
         <li class="nav-divider"></li>
       </ul>
       <?= shared_view('navbar/dropdown') ?>

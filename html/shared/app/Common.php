@@ -26,7 +26,7 @@ function post_file(Entity $entity, $name, string $folder = null)
     }
     $req = Services::request();
     $file = $req->getFile($name);
-    if ($file && $file->isValid() && $file->move($path)) {
+    if ($file && $file->isValid() && $file->move($path, date('Ymd').'-'.$file->getName())) {
         if ($entity->{$name} && is_file($path . $entity->{$name})) {
             unlink($path . $entity->{$name});
         }

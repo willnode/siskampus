@@ -12,17 +12,28 @@
         <div class="card-body">
           <form enctype="multipart/form-data" method="post">
             <div class="d-flex mb-3">
-              <h1 class="h3 mb-0 mr-auto">Edit Profile</h1>
-              <a href="/user/" class="btn btn-outline-secondary ml-2">Back</a>
+              <h1 class="h3 mb-0 mr-auto">Edit Profil</h1>
+              <a href="/user/" class="btn btn-outline-secondary ml-2">Kembali</a>
             </div>
-            <label class="d-block mb-3">
-              <span>Full Name</span>
-              <input type="text" class="form-control" name="name" value="<?= esc($item->name) ?>" required>
-            </label>
-            <label class="d-block mb-3">
-              <span>Email</span>
-              <input type="text" class="form-control" name="email" value="<?= esc($item->email) ?>" required>
-            </label>
+            <?php if ($item->role === 'mahasiswa') : ?>
+              <label class="d-block mb-3">
+                <span>Nama</span>
+                <input type="text" class="form-control" value="<?= esc($item->name) ?>" disabled>
+              </label>
+              <label class="d-block mb-3">
+                <span>NIM</span>
+                <input type="text" class="form-control" value="<?= esc($item->username) ?>" disabled>
+              </label>
+            <?php else : ?>
+              <label class="d-block mb-3">
+                <span>Nama</span>
+                <input type="text" class="form-control" name="name" value="<?= esc($item->name) ?>" required>
+              </label>
+              <label class="d-block mb-3">
+                <span>Username</span>
+                <input type="text" class="form-control" name="username" value="<?= esc($item->username) ?>" required>
+              </label>
+            <?php endif ?>
             <label class="d-block mb-3">
               <span>Avatar</span>
               <?= shared_view('form/file', [
@@ -34,10 +45,10 @@
             </label>
             <label class="d-block mb-3">
               <span>Password</span>
-              <input type="password" class="form-control" name="password" placeholder="<?= $item->id ? 'Only enter when you want to change your password' : '" required="required' ?>">
+              <input type="password" class="form-control" name="password" placeholder="<?= $item->id ? 'Masukkan password baru jika ingin dirubah' : '" required="required' ?>">
             </label>
             <div class="d-flex mb-3">
-              <input type="submit" value="Save" class="btn btn-primary mr-auto">
+              <input type="submit" value="Simpan" class="btn btn-primary mr-auto">
             </div>
           </form>
         </div>

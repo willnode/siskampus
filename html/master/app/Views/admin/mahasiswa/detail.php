@@ -33,7 +33,7 @@
               'data' => $data,
               'columns' => [
                 'NIM' => function (\App\Entities\Mahasiswa $x) {
-                  return $x->id;
+                  return $x->nim;
                 },
                 'Nama' => function (\App\Entities\Mahasiswa $x) {
                   return $x->nama;

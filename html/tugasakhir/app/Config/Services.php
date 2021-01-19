@@ -22,13 +22,4 @@ use Shared\Config\Services as SharedServices;
  */
 class Services extends SharedServices
 {
-	/** @return User */
-	public static function user($getShared = true)
-	{
-		if ($getShared) {
-			return static::getSharedInstance('user');
-		}
-
-		return (new UserModel())->find(Services::session()->login ?: 0);
-	}
 }

@@ -35,6 +35,9 @@
             <?= shared_view('list/table', [
               'data' => $data,
               'columns' => [
+                'NID' => function (\App\Entities\Dosen $x) {
+                  return $x->nid;
+                },
                 'Nama' => function (\App\Entities\Dosen $x) {
                   return $x->nama;
                 },

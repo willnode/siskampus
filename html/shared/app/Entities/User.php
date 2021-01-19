@@ -3,6 +3,7 @@
 namespace Shared\Entities;
 
 use CodeIgniter\Entity;
+use Config\Database;
 
 /**
  * @property int $id
@@ -30,5 +31,16 @@ class User extends Entity
             return '/uploads/avatar/' . $this->avatar;
         else
             return get_gravatar($this->email, 80, 'identicon');
+    }
+    public function getMasterData()
+    {
+        switch ($this->role) {
+            case 'mahasiswa':
+                return Database::connect('master')->table('mahasiswa')->where('nim', $this->username)->get()->getRow();
+            case 'dosen':
+                return Database::connect('master')->table('dosen')->where('nid', $this->username)->get()->getRow();
+            default:
+                return null;
+        }
     }
 }

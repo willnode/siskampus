@@ -18,7 +18,7 @@
         <li class="nav-item">
           <a class="nav-link <?= ($page ?? '') === 'profile' ? 'active' : '' ?>" href="/user/profile">Edit Profil</a>
         </li>
-        <?php if (\Config\Services::user()->role === 'admin') : ?>
+        <?php if (\Config\Services::user()->role === 'operator') : ?>
           <li class="nav-item">
             <a class="nav-link <?= ($page ?? '') === 'admin' ? 'active' : '' ?>" href="/admin/">Admin Center</a>
           </li>

@@ -6,7 +6,7 @@
         <span><?= \Config\Services::user()->username ?></span>
       </div>
       <?php if ($avatar = \Config\Services::user()->avatar) : ?>
-        <img src="<?= get_file('master/avatar', $avatar) ?>" alt="">
+        <img src="<?= get_file('avatar', $avatar) ?>" alt="">
       <?php else : ?>
         <i class="fa fa-user fa-2x d-block mx-3"></i>
       <?php endif ?>

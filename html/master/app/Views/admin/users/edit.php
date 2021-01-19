@@ -23,12 +23,12 @@
                 <a href="/admin/mahasiswa/" class="btn btn-outline-secondary ml-2">Kembali</a>
               </div>
               <label class="d-block mb-3">
-                <span>Full Name</span>
+                <span>Nama Lengkap</span>
                 <input type="text" class="form-control" name="name" value="<?= esc($item->name) ?>" required>
               </label>
               <label class="d-block mb-3">
-                <span>Email</span>
-                <input type="text" class="form-control" name="email" value="<?= esc($item->email) ?>" required>
+                <span>Username</span>
+                <input type="text" class="form-control" name="username" value="<?= esc($item->username) ?>" required>
               </label>
               <label class="d-block mb-3">
                 <span>Password</span>

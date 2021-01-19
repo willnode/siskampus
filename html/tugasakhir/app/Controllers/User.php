@@ -2,9 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Entities\Pendaftar;
+use App\Models\PembimbingModel;
+use App\Models\PendaftarModel;
+use CodeIgniter\Entity;
 use Shared\Models\UserModel;
 use Config\Services;
 use Shared\Controllers\BaseController;
+use Shared\Entities\User as EntitiesUser;
 
 class User extends BaseController
 {
@@ -22,12 +27,58 @@ class User extends BaseController
 			exit;
 		}
 	}
-
+	public function api_checkseats()
+	{
+		if (!empty($_GET['tema'])) {
+			return $this->response->setJSON(array_filter(array_map(function ($x) {
+				return $x->toArray();
+			}, (new PembimbingModel)->withAvailableSeats($_GET['tema'])), function ($x) {
+				return $x['seats'] > 0;
+			}));
+		}
+	}
 	public function index()
 	{
-		return view('page/dashboard', [
-			'page' => 'dashboard'
-		]);
+		return $this->login->role == 'operator' ? view('page/dashboard') :  $this->response->redirect('/user/info/');
+	}
+	public function info($page = 'view', $id = null)
+	{
+		if ($this->login->role == 'mahasiswa') {
+			$m = (new PendaftarModel());
+			$p = $m->atNim($this->login->username);
+		} else if ($this->login->role == 'dosen') {
+			$m = (new PembimbingModel());
+			$p = $m->atNid($this->login->username);
+			$k = find_with_filter((new PendaftarModel())->withPembimbing($this->login->username));
+		} else {
+			return;
+		}
+		switch ($page) {
+			case 'view':
+				return view("info/{$this->login->role}/view", [
+					'profile' => $p,
+					'user' => $this->login,
+					'bimbingan' => $k ?? [],
+				]);
+			case 'edit':
+				if (isset($k) && $id) {
+					if ($_POST) {
+						(new PendaftarModel())->processWeb($id ?? null);
+						return $this->response->redirect('/user/info/');
+					}
+					return view("info/dosen/edit_bimbingan", [
+						'item' => (new PendaftarModel())->find($id),
+					]);
+				}
+				if ($_POST) {
+					$m->processWeb($p->id ?? null);
+					return $this->response->redirect('/user/info');
+				}
+				return view("info/{$this->login->role}/edit", [
+					'profile' => $p ?? new Entity(),
+					'user' => $this->login,
+				]);
+		}
 	}
 
 	public function logout()
