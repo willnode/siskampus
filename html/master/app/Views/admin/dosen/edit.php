@@ -23,20 +23,20 @@
                 <a href="/admin/dosen/" class="btn btn-outline-secondary ml-2">Kembali</a>
               </div>
               <label class="d-block mb-3">
-                <span>ID</span>
-                <input type="text" class="form-control" name="name" value="<?= esc($item->id) ?>" disabled>
+                <span>NID</span>
+                <input type="text" class="form-control" name="nid" value="<?= esc($item->nid) ?>" <?= $item->nid ? 'disabled' : 'required' ?>>
               </label>
               <label class="d-block mb-3">
                 <span>Nama</span>
-                <input type="text" class="form-control" name="name" value="<?= esc($item->nama) ?>" required>
+                <input type="text" class="form-control" name="nama" value="<?= esc($item->nama) ?>" required>
               </label>
               <label class="d-block mb-3">
                 <span>Departemen</span>
-                <input type="text" class="form-control" name="prodi" value="<?= esc($item->prodi) ?>" required>
+                <input type="text" class="form-control" name="departemen" value="<?= esc($item->departemen) ?>" required>
               </label>
               <div class="d-flex mb-3">
                 <input type="submit" value="Save" class="btn btn-primary mr-auto">
-                <?php if ($item->id) : ?>
+                <?php if ($item->nid) : ?>
                   <label for="delete-form" class="btn btn-danger mb-0"><i class="fa fa-trash"></i></label>
                 <?php endif ?>
               </div>
@@ -47,7 +47,7 @@
     </div>
   </div>
 
-  <form method="POST" action="/admin/mahasiswa/delete/<?= $item->id ?>">
+  <form method="POST" action="/admin/dosen/delete/<?= $item->nid ?>">
     <input type="submit" hidden id="delete-form" onclick="return confirm('Yakin membuang data ini?')">
   </form>
 </body>

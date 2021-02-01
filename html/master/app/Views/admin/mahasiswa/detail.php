@@ -44,7 +44,7 @@
                 'Action' => function (\App\Entities\Mahasiswa $x) {
                   return shared_view('list/button', [
                     'actions' => ['edit'],
-                    'target' => $x->id,
+                    'target' => $x->nim,
                     'size' => 'btn-sm'
                   ]);
                 }

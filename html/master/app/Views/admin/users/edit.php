@@ -51,6 +51,7 @@
                       ' value="' . $x . '">' . ucfirst($x) . '</option>';
                   }, \Shared\Models\UserModel::$roles)) ?>
                 </select>
+                <p>Untuk role mhs/dosen pastikan username ada di data NIM/NID.</p>
               </label>
               <div class="d-flex mb-3">
                 <input type="submit" value="Save" class="btn btn-primary mr-auto">
@@ -65,7 +66,7 @@
     </div>
   </div>
 
-  <form method="POST" action="/user/manage/delete/<?= $item->id ?>">
+  <form method="POST" action="/admin/user/delete/<?= $item->id ?>">
     <input type="submit" hidden id="delete-form" onclick="return confirm('Do you want to delete this user permanently?')">
   </form>
 </body>

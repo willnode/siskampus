@@ -41,11 +41,12 @@ class PendaftarModel extends Model
             ]);
         }
         if ($aktif) {
-            $this->builder()->where("status != 'status'");
+            $this->builder()->where("status != 'selesai'");
         }
         return $this;
         # code...
     }
+
     /** @return Mahasiswa|null */
     public function atNim($nim)
     {
@@ -53,6 +54,7 @@ class PendaftarModel extends Model
             'nim' => $nim,
         ])->get()->getRow(0, $this->returnType);
     }
+
     public function allAngkatan()
     {
         $b = $this->builder();

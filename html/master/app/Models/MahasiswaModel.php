@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Entities\Mahasiswa;
 use CodeIgniter\Model;
-use Config\Services;
 
 class MahasiswaModel extends Model
 {
@@ -12,7 +11,7 @@ class MahasiswaModel extends Model
     protected $allowedFields = [
         'nim', 'nama', 'prodi', 'angkatan'
     ];
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'nim';
     protected $returnType = 'App\Entities\Mahasiswa';
 
     public function withAngkatan($angkatan)
@@ -35,8 +34,26 @@ class MahasiswaModel extends Model
     public function allAngkatan()
     {
         $b = $this->builder();
-        $b->select('angkatan, COUNT(id) as jumlah');
+        $b->select('angkatan, COUNT(nim) as jumlah');
         $b->groupBy('angkatan');
         return $b->get()->getResult($this->returnType);
+    }
+
+
+    public function processWeb($id)
+    {
+        if ($id === null) {
+            $item = (new Mahasiswa($_POST));
+            $id = $this->insert($item);
+            return $id;
+        } else if ($item = $this->find($id)) {
+            /** @var Mahasiswa $item */
+            $item->fill($_POST);
+            if ($item->hasChanged()) {
+                $this->save($item);
+            }
+            return $id;
+        }
+        return false;
     }
 }

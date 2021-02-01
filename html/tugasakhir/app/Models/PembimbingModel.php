@@ -16,7 +16,7 @@ class PembimbingModel extends Model
     ];
     protected $table         = 'pembimbing';
     protected $allowedFields = [
-        'nid', 'nama', 'hp', 'email', 'tema',
+        'nid', 'nama', 'hp', 'email', 'tema', 'deskripsi'
     ];
     protected $primaryKey = 'id';
     protected $returnType = 'App\Entities\Pembimbing';
@@ -27,7 +27,7 @@ class PembimbingModel extends Model
         if ($tema) {
             $b->where('tema', $tema);
         }
-        $b->select("nid, pembimbing.nama, 9-COALESCE(COUNT(nim), 0) as seats");
+        $b->select("nid, pembimbing.nama, deskripsi, 9-COALESCE(COUNT(nim), 0) as seats");
         $b->join('pendaftar', 'pendaftar.pembimbing = pembimbing.nid', 'left');
         $b->where("(status != 'selesai' or isnull(status))");
         $b->groupBy("nid");

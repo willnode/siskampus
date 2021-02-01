@@ -43,6 +43,10 @@
                 }, \App\Models\PembimbingModel::$temas)) ?>
               </select>
             </label>
+            <label class="d-block mb-3">
+              <span>Deskripsi Tema yang akan dibimbing</span>
+              <textarea id="deskripsi" name="deskripsi" class="form-control" required><?= esc($profile->deskripsi) ?> </textarea>
+            </label>
             <div class="d-flex mb-3">
               <input type="submit" value="Simpan" class="btn btn-primary mr-auto">
             </div>

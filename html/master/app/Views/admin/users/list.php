@@ -26,7 +26,7 @@
               <h1>Data User</h1>
               <div class="ml-auto">
                 <?= shared_view('list/button', [
-                  'actions' => ['import', 'export'],
+                  'actions' => ['add', 'import', 'export'],
                   'target' => '',
                   'size' => 'btn-lg'
                 ]); ?>

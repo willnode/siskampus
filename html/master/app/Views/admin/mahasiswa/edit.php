@@ -23,8 +23,8 @@
                 <a href="/admin/mahasiswa/" class="btn btn-outline-secondary ml-2">Kembali</a>
               </div>
               <label class="d-block mb-3">
-                <span>ID</span>
-                <input type="text" class="form-control" name="name" value="<?= esc($item->id) ?>" disabled>
+                <span>NIM</span>
+                <input type="text" class="form-control" name="nim" value="<?= esc($item->nim) ?>" <?= $item->nim ? 'disabled' : 'required' ?>>
               </label>
               <label class="d-block mb-3">
                 <span>Nama</span>
@@ -36,11 +36,11 @@
               </label>
               <label class="d-block mb-3">
                 <span>Angkatan</span>
-                <input type="text" class="form-control" name="angkatan" value="<?= esc($item->angkatan) ?>" required>
+                <input type="number" class="form-control" name="angkatan" min="2000" value="<?= esc($item->angkatan) ?>" required>
               </label>
               <div class="d-flex mb-3">
                 <input type="submit" value="Save" class="btn btn-primary mr-auto">
-                <?php if ($item->id) : ?>
+                <?php if ($item->nim) : ?>
                   <label for="delete-form" class="btn btn-danger mb-0"><i class="fa fa-trash"></i></label>
                 <?php endif ?>
               </div>
@@ -51,7 +51,7 @@
     </div>
   </div>
 
-  <form method="POST" action="/admin/mahasiswa/delete/<?= $item->id ?>">
+  <form method="POST" action="/admin/mahasiswa/delete/<?= $item->nim ?>">
     <input type="submit" hidden id="delete-form" onclick="return confirm('Yakin membuang data ini?')">
   </form>
 </body>

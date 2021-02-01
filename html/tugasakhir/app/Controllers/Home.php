@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\PembimbingModel;
+use App\Models\PendaftarModel;
 use CodeIgniter\Config\Services;
 use Config\Database;
 use Shared\Controllers\BaseController;

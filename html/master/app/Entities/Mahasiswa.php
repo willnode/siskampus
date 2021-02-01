@@ -5,7 +5,7 @@ namespace App\Entities;
 use CodeIgniter\Entity;
 
 /**
- * @property int $id
+ * @property int $nim
  * @property string $nama
  * @property string $prodi
  * @property string $angkatan
@@ -13,7 +13,6 @@ use CodeIgniter\Entity;
 class Mahasiswa extends Entity
 {
     protected $casts = [
-        'id' => 'integer',
         'angkatan' => 'integer',
     ];
 }

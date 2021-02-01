@@ -26,7 +26,7 @@
               <h1>Data Dosen</h1>
               <div class="ml-auto">
                 <?= shared_view('list/button', [
-                  'actions' => ['import', 'export'],
+                  'actions' => ['add', 'import', 'export'],
                   'target' => '',
                   'size' => 'btn-lg'
                 ]); ?>
@@ -47,7 +47,7 @@
                 'Action' => function (\App\Entities\Dosen $x) {
                   return shared_view('list/button', [
                     'actions' => ['edit'],
-                    'target' => $x->id,
+                    'target' => $x->nid,
                     'size' => 'btn-sm'
                   ]);
                 }

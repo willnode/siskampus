@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Entities\Dosen;
 use CodeIgniter\Model;
-use Config\Services;
 
 class DosenModel extends Model
 {
@@ -11,7 +11,7 @@ class DosenModel extends Model
     protected $allowedFields = [
         'nama', 'nid', 'departemen'
     ];
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'nid';
     protected $returnType = 'App\Entities\Dosen';
 
     /** @return Mahasiswa|null */
@@ -20,5 +20,22 @@ class DosenModel extends Model
         return  $this->builder()->where([
             'nid' => $nid,
         ])->get()->getRow(0, $this->returnType);
+    }
+
+    public function processWeb($id)
+    {
+        if ($id === null) {
+            $item = (new Dosen($_POST));
+            $id = $this->insert($item);
+            return $id;
+        } else if ($item = $this->find($id)) {
+            /** @var Dosen $item */
+            $item->fill($_POST);
+            if ($item->hasChanged()) {
+                $this->save($item);
+            }
+            return $id;
+        }
+        return false;
     }
 }
