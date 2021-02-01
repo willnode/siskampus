@@ -11,7 +11,7 @@ class App extends BaseConfig
 	{
 		parent::__construct();
 
-		define('STATIC_URL', $_SERVER['STATIC_URL'] ?? 'http://static.localhost');
+		defined('STATIC_URL') OR define('STATIC_URL', $_SERVER['STATIC_URL'] ?? 'http://static.localhost');
 	}
 
 	/*
