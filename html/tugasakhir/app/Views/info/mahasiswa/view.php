@@ -29,7 +29,8 @@
             Status: <b class="h5"><?= \App\Models\PendaftarModel::$statusesInHtml[$profile->status] ?? '?' ?></b><br>
             Judul Diterima: <b><?= esc($profile->judul) ?: '<i>Belum ditentukan</i>' ?></b><br>
           </p>
-          <?php if ($profile->status === 'pengerjaan') : $bio = (new \App\Models\PembimbingModel)->atNid($profile->pembimbing) ?>
+          <?php if ($bio = (new \App\Models\PembimbingModel)->atNid($profile->pembimbing)) : ?>
+            <hr>
             <p>
               Berikut kontak untuk menghubungi pembimbing,<br>silahkan digunakan untuk komunikasi sebijaknya:
             </p>
@@ -37,6 +38,8 @@
               Nama: <b><?= esc($bio->nama) ?></b></br>
               HP/WA: <b><?= esc($bio->hp) ?></b></br>
               Email: <b><?= esc($bio->email) ?></b></br>
+              Deskripsi Bimbingan:<br>
+              <span class="white-space-break"><?= esc($profile->deskripsi) ?></span>
             </p>
           <?php endif ?>
         <?php else : ?>

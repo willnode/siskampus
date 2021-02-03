@@ -49,17 +49,28 @@ class User extends BaseController
 		} else if ($this->login->role == 'dosen') {
 			$m = (new PembimbingModel());
 			$p = $m->atNid($this->login->username);
-			$k = find_with_filter((new PendaftarModel())->withPembimbing($this->login->username));
+			$k = find_with_filter((new PendaftarModel())->withPembimbing($this->login->username, !($_GET['arsip'] ?? '')));
 		} else {
 			return;
 		}
 		switch ($page) {
 			case 'view':
+				if ($_GET['arsip'] ?? '') {
+					return view("info/{$this->login->role}/arsip", [
+						'profile' => $p,
+						'user' => $this->login,
+						'page' => 'arsip',
+						'bimbingan' => $k ?? [],
+					]);
+				}
 				return view("info/{$this->login->role}/view", [
 					'profile' => $p,
 					'user' => $this->login,
+					'page' => 'info',
 					'bimbingan' => $k ?? [],
 				]);
+			case 'arsip':
+				return $this->response->redirect('/user/info/?arsip=1');
 			case 'edit':
 				if (isset($k) && $id) {
 					if ($_POST) {
@@ -72,7 +83,7 @@ class User extends BaseController
 				}
 				if ($_POST) {
 					$m->processWeb($p->id ?? null);
-					return $this->response->redirect('/user/info');
+					return $this->response->redirect('/user/info/');
 				}
 				return view("info/{$this->login->role}/edit", [
 					'profile' => $p ?? new Entity(),

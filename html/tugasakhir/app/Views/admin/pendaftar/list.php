@@ -39,7 +39,7 @@
                   return $x->nama;
                 },
                 'Status' => function (\App\Entities\Pendaftar $x) {
-                  return $x->status;
+                  return '<h5>'. \App\Models\PendaftarModel::$statusesInHtml[$x->status].'</h5>';
                 },
                 'Action' => function (\App\Entities\Pendaftar $x) {
                   return shared_view('list/button', [

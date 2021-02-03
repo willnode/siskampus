@@ -33,3 +33,6 @@
   border-radius: 100px;
   margin-left: 5px;
 }
+.white-space-break {
+  white-space: break-spaces;
+}

@@ -23,7 +23,7 @@
                 <a href="/admin/dosen/" class="btn btn-outline-secondary ml-2">Kembali</a>
               </div>
               <label class="d-block mb-3">
-                <span>NID</span>
+                <span>NIDN</span>
                 <input type="text" class="form-control" name="nid" value="<?= esc($item->nid) ?>" <?= $item->nid ? 'disabled' : 'required' ?>>
               </label>
               <label class="d-block mb-3">
@@ -35,7 +35,7 @@
                 <input type="text" class="form-control" name="departemen" value="<?= esc($item->departemen) ?>" required>
               </label>
               <div class="d-flex mb-3">
-                <input type="submit" value="Save" class="btn btn-primary mr-auto">
+                <input type="submit" value="Simpan" class="btn btn-primary mr-auto">
                 <?php if ($item->nid) : ?>
                   <label for="delete-form" class="btn btn-danger mb-0"><i class="fa fa-trash"></i></label>
                 <?php endif ?>

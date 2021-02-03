@@ -116,7 +116,14 @@ class Admin extends BaseController
 		if ($this->request->getMethod() === 'post') {
 			if ($page === 'delete' && $model->delete($id)) {
 				return $this->response->redirect('/admin/user/');
-			} else if ($id = $model->processWeb($id)) {
+			} else if ($model->processWeb($id)) {
+				if ($_POST['role'] === 'dosen' && !((new DosenModel())->find($_POST['username']))) {
+					(new DosenModel())->insert([
+						'nid' => $_POST['username'],
+						'nama' => $_POST['name'],
+						'departemen' => '',
+					]);
+				}
 				return $this->response->redirect('/admin/user/');
 			}
 		}

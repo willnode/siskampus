@@ -43,4 +43,8 @@ class User extends Entity
                 return null;
         }
     }
+    public function discardPassword()
+    {
+        $this->attributes['password'] = $this->original['password'];
+    }
 }

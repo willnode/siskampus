@@ -6,6 +6,7 @@ use App\Entities\Dosen;
 use App\Entities\Mahasiswa;
 use App\Entities\Pembimbing;
 use App\Entities\Pendaftar;
+use App\Models\ConfigModel;
 use App\Models\DosenModel;
 use App\Models\MahasiswaModel;
 use App\Models\PembimbingModel;
@@ -89,6 +90,7 @@ class Admin extends BaseController
 		}
 		switch ($page) {
 			case 'list':
+				$model->withAktif(($_GET['archived'] ?? ''));
 				return view('admin/pendaftar/list', [
 					'data' => find_with_filter($model),
 					'page' => 'pendaftar',
@@ -113,5 +115,19 @@ class Admin extends BaseController
 				]);
 		}
 		throw new PageNotFoundException();
+	}
+
+	public function config()
+	{
+		$model = new ConfigModel();
+		if ($this->request->getMethod() === 'post') {
+			if ($model->processWeb()) {
+				return $this->response->redirect('/admin/config/');
+			}
+		}
+		return view('admin/config', [
+			'item' => ConfigModel::get(),
+			'page' => 'config',
+		]);
 	}
 }

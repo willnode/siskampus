@@ -21,7 +21,7 @@
             <div class="mb-3">
               <p>
                 Nama: <b><?= esc($user->name) ?></b><br>
-                NID/Username: <b><?= esc($user->username) ?></b>
+                NIDN/Username: <b><?= esc($user->username) ?></b>
               </p>
             </div>
             <label class="d-block mb-3">
@@ -40,7 +40,7 @@
                 <?= implode('', array_map(function ($x) use ($profile) {
                   return '<option ' . ($profile->tema === $x ? 'selected' : '') .
                     ' value="' . $x . '">' . ucfirst($x) . '</option>';
-                }, \App\Models\PembimbingModel::$temas)) ?>
+                },  \App\Models\ConfigModel::get()->categories)) ?>
               </select>
             </label>
             <label class="d-block mb-3">

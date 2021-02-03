@@ -51,10 +51,10 @@
                       ' value="' . $x . '">' . ucfirst($x) . '</option>';
                   }, \Shared\Models\UserModel::$roles)) ?>
                 </select>
-                <p>Untuk role mhs/dosen pastikan username ada di data NIM/NID.</p>
+                <p>Untuk role mhs/dosen pastikan username ada di data NIM/NIDN.</p>
               </label>
               <div class="d-flex mb-3">
-                <input type="submit" value="Save" class="btn btn-primary mr-auto">
+                <input type="submit" value="Simpan" class="btn btn-primary mr-auto">
                 <?php if ($item->id) : ?>
                   <label for="delete-form" class="btn btn-danger mb-0"><i class="fa fa-trash"></i></label>
                 <?php endif ?>

@@ -18,6 +18,7 @@ class PendaftarModel extends Model
         'seminar',
         'selesai',
     ];
+
     public static $statusesInHtml = [
         'ditinjau' => '<span class="badge badge-info">Sedang Ditinjau</span>',
         'ditolak' => '<span class="badge badge-danger">Ditolak oleh Pembimbing</span>',
@@ -25,13 +26,14 @@ class PendaftarModel extends Model
         'seminar' => '<span class="badge badge-warning">Masa Seminar</span>',
         'selesai' => '<span class="badge badge-dark">Selesai</span>',
     ];
+
     protected $table         = 'pendaftar';
     protected $allowedFields = [
         'nim', 'nama', 'prodi', 'hp', 'status', 'judul', 'pembimbing'
     ];
     protected $primaryKey = 'id';
     protected $returnType = 'App\Entities\Pendaftar';
-	protected $useTimestamps = true;
+    protected $useTimestamps = true;
 
     public function withPembimbing($nid, $aktif = true)
     {
@@ -47,6 +49,18 @@ class PendaftarModel extends Model
         # code...
     }
 
+
+    public function withAktif($aktif = true)
+    {
+        if ($aktif) {
+            $this->builder()->where("status != 'selesai'");
+        } else {
+            $this->builder()->where("status = 'selesai'");
+        }
+        return $this;
+        # code...
+    }
+
     /** @return Mahasiswa|null */
     public function atNim($nim)
     {
@@ -55,13 +69,6 @@ class PendaftarModel extends Model
         ])->get()->getRow(0, $this->returnType);
     }
 
-    public function allAngkatan()
-    {
-        $b = $this->builder();
-        $b->select('angkatan, COUNT(id) as jumlah');
-        $b->groupBy('angkatan');
-        return $b->get()->getResult($this->returnType);
-    }
 
     public function processWeb($id)
     {

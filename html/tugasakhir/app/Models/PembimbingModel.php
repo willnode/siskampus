@@ -8,12 +8,6 @@ use Config\Services;
 
 class PembimbingModel extends Model
 {
-    public static $temas = [
-        'keagamaan',
-        'pendidikan',
-        'pertanian',
-        'teknologi',
-    ];
     protected $table         = 'pembimbing';
     protected $allowedFields = [
         'nid', 'nama', 'hp', 'email', 'tema', 'deskripsi'
@@ -27,7 +21,8 @@ class PembimbingModel extends Model
         if ($tema) {
             $b->where('tema', $tema);
         }
-        $b->select("nid, pembimbing.nama, deskripsi, 9-COALESCE(COUNT(nim), 0) as seats");
+        $slot = ConfigModel::get()->max_slot;
+        $b->select("nid, pembimbing.nama, deskripsi, $slot-COALESCE(COUNT(nim), 0) as seats");
         $b->join('pendaftar', 'pendaftar.pembimbing = pembimbing.nid', 'left');
         $b->where("(status != 'selesai' or isnull(status))");
         $b->groupBy("nid");

@@ -16,21 +16,6 @@
     <div class="card">
       <div class="card-body">
         <?php if ($profile) : ?>
-          <div class="d-flex">
-            <h1 class="mr-auto">Biodata Anda</h1>
-            <div class="">
-              <a href="/user/info/edit" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-            </div>
-          </div>
-          <p>
-            Nama: <b><?= esc($profile->nama) ?></b><br>
-            Email: <b><?= esc($profile->email ?: '-') ?></b><br>
-            HP/WA: <b><?= esc($profile->hp ?: '-') ?></b><br>
-            Tema: <b><?= ucfirst($profile->tema) ?></b><br>
-            Deskripsi Bimbingan: <br>
-            <span class="white-space-break"><?= esc($profile->deskripsi) ?></span>
-          </p>
-          <hr>
           <h2>Daftar Bimbingan Aktif</h2>
           <?= shared_view('list/table', [
               'data' => $bimbingan,

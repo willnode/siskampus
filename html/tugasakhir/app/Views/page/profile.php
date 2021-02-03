@@ -37,7 +37,7 @@
               <input type="password" class="form-control" name="password" placeholder="<?= $item->id ? 'Only enter when you want to change your password' : '" required="required' ?>">
             </label>
             <div class="d-flex mb-3">
-              <input type="submit" value="Save" class="btn btn-primary mr-auto">
+              <input type="submit" value="Simpan" class="btn btn-primary mr-auto">
             </div>
           </form>
         </div>

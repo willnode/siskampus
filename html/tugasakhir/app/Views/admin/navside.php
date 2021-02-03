@@ -31,7 +31,7 @@
         </li>
         <li class="nav-item">
           <a href="/admin/pendaftar/" class="nav-link <?= ($page ?? '') === 'pendaftar' ? 'active' : '' ?>">
-            <i class="nav-icon fas fa-scroll"></i>
+            <i class="nav-icon fas fa-users"></i>
             <p>
               Data Pendaftar
             </p>
@@ -39,9 +39,17 @@
         </li>
         <li class="nav-item">
           <a href="/admin/pembimbing/" class="nav-link <?= ($page ?? '') === 'pembimbing' ? 'active' : '' ?>">
-            <i class="nav-icon fas fa-scroll"></i>
+            <i class="nav-icon fas fa-book-reader"></i>
             <p>
               Data Pembimbing
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/admin/config/" class="nav-link <?= ($page ?? '') === 'config' ? 'active' : '' ?>">
+            <i class="nav-icon fas fa-cogs"></i>
+            <p>
+              Pengaturan Web
             </p>
           </a>
         </li>

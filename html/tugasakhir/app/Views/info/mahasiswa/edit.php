@@ -30,15 +30,14 @@
                   <?= implode('', array_map(function ($x) use ($profile) {
                     return '<option ' . ($profile->tema === $x ? 'selected' : '') .
                       ' value="' . $x . '">' . ucfirst($x) . '</option>';
-                  }, \App\Models\PembimbingModel::$temas)) ?>
+                  },  \App\Models\ConfigModel::get()->categories)) ?>
                 </select>
               </label>
               <label class="d-block mb-3">
                 <span>Pilih Dosen (yang tersedia)</span>
                 <select id="pembimbing" name="pembimbing" class="form-control" required onchange="updateInfo()"></select>
               </label>
-              <div class="alert alert-default-info mb-3" id="pembimbing-info">
-              </div>
+              <div class="alert alert-default-info mb-3 white-space-break" id="pembimbing-info"></div>
             <?php else : ?>
               <p><i>Pilihan dosen pembimbing tidak dapat diganti saat ini</i></p>
             <?php endif ?>

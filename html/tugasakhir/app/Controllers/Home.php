@@ -19,14 +19,14 @@ class Home extends BaseController
 
 	public function login()
 	{
-		if ($this->session->has('login')) {
+		if (!($tokenstr = $this->request->getGet('token')) && $this->session->has('login')) {
 			return $this->response->redirect('/user/');
 		}
 		if ($r = $this->request->getGet('r')) {
 			return $this->response->setCookie('r', $r, 0)->redirect('/login/');
 		}
-		if ($this->request->getGet('token')) {
-			$token = explode(':', base64_decode($this->request->getGet('token')), 2);
+		if ($tokenstr) {
+			$token = explode(':', base64_decode($tokenstr), 2);
 			if (isset($token[0], $token[1])) {
 				/** @var User $auth */
 				if ($auth = Database::connect('master')->table('user')->where([
@@ -48,13 +48,11 @@ class Home extends BaseController
 					} else {
 						return shared_view('page/register');
 					}
-					return $this->response->redirect('/');
+					return $this->response->redirect('/user/');
 				}
 			}
 		}
 		return $this->response->redirect("//master.$_SERVER[HOST_URL]/user/go/tugasakhir");
 	}
-
-	//--------------------------------------------------------------------
 
 }

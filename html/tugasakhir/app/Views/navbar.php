@@ -13,11 +13,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link <?= ($page ?? '') === 'dashboard' ? 'active' : '' ?>" href="/user/"><i class="fa fa-home"></i> Beranda</a>
+          <a class="nav-link <?= ($page ?? '') === 'info' ? 'active' : '' ?>" href="/user/"><i class="fa fa-home"></i> Beranda</a>
         </li>
         <?php if (\Config\Services::user()->role === 'dosen') : ?>
         <li class="nav-item">
-          <a class="nav-link <?= ($page ?? '') === 'arsip' ? 'active' : '' ?>" href="/user/arsip/"> Arsip Bimbingan</a>
+          <a class="nav-link <?= ($page ?? '') === 'arsip' ? 'active' : '' ?>" href="/user/info/arsip/"> Arsip Bimbingan</a>
         </li>
         <?php endif ?>
         <?php if (\Config\Services::user()->role === 'operator') : ?>

@@ -35,7 +35,7 @@
             <?= shared_view('list/table', [
               'data' => $data,
               'columns' => [
-                'NID' => function (\App\Entities\Pembimbing $x) {
+                'NIDN' => function (\App\Entities\Pembimbing $x) {
                   return $x->nid;
                 },
                 'Nama' => function (\App\Entities\Pembimbing $x) {
