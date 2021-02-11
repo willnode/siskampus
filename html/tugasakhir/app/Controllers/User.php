@@ -82,7 +82,7 @@ class User extends BaseController
 					]);
 				} else {
 					if ($_POST) {
-						if ($this->login->role == 'mahasiswa' && $p->id) {
+						if ($this->login->role == 'mahasiswa' && $p) {
 							if ($p->status == 'ditolak') {
 								if ($p->pembimbing == $_POST['pembimbing']) {
 									return "Anda tidak boleh memilih pembimbing yang sama ketika sudah ditolak";
