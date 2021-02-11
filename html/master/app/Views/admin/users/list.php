@@ -32,6 +32,11 @@
                 ]); ?>
               </div>
             </div>
+            <?php if (($_GET['msg'] ?? '') == 'created') : ?>
+            <div class="alert alert-warning">
+              Karena tidak ada ID dalam NIM/NID kami sudah menambahkan data bersangkutan secara otomatis.
+            </div>
+            <?php endif ?>
             <?= shared_view('list/table', [
               'data' => $data,
               'columns' => [

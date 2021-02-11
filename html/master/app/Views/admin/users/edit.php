@@ -51,7 +51,6 @@
                       ' value="' . $x . '">' . ucfirst($x) . '</option>';
                   }, \Shared\Models\UserModel::$roles)) ?>
                 </select>
-                <p>Untuk role mhs/dosen pastikan username ada di data NIM/NIDN.</p>
               </label>
               <div class="d-flex mb-3">
                 <input type="submit" value="Simpan" class="btn btn-primary mr-auto">

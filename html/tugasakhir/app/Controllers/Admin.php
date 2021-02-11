@@ -62,7 +62,7 @@ class Admin extends BaseController
 					'page' => 'pembimbing',
 				]);
 			case 'detail':
-				return $this->response->redirect('../?angkatan=' . $id);
+				return $this->response->redirect('/admin/pendaftar/?pembimbing=' . $id);
 			case 'add':
 				return view('admin/pembimbing/edit', [
 					'item' => new Pembimbing()
@@ -90,8 +90,13 @@ class Admin extends BaseController
 		}
 		switch ($page) {
 			case 'list':
-				$model->withAktif(($_GET['archived'] ?? ''));
+				$model->withAktif(!($_GET['archived'] ?? ''));
+				if ($p = ($_GET['pembimbing'] ?? '')) {
+					$model->withPembimbing($p, false);
+					$pp = (new PembimbingModel())->find($p);
+				}
 				return view('admin/pendaftar/list', [
+					'pembimbing' => $pp ?? '',
 					'data' => find_with_filter($model),
 					'page' => 'pendaftar',
 				]);

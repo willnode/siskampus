@@ -46,7 +46,7 @@
                 },
                 'Action' => function (\App\Entities\Pembimbing $x) {
                   return shared_view('list/button', [
-                    'actions' => ['edit'],
+                    'actions' => ['edit', 'detail'],
                     'target' => $x->id,
                     'size' => 'btn-sm'
                   ]);

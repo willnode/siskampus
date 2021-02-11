@@ -123,6 +123,16 @@ class Admin extends BaseController
 						'nama' => $_POST['name'],
 						'departemen' => '',
 					]);
+					return $this->response->redirect('/admin/user/?msg=created');
+				}
+				if ($_POST['role'] === 'mahasiswa' && !((new MahasiswaModel())->find($_POST['username']))) {
+					(new MahasiswaModel())->insert([
+						'nim' => $_POST['username'],
+						'nama' => $_POST['name'],
+						'prodi' => '',
+						'angkatan' => date('Y'),
+					]);
+					return $this->response->redirect('/admin/user/?msg=created');
 				}
 				return $this->response->redirect('/admin/user/');
 			}

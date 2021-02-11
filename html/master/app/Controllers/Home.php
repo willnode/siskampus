@@ -82,7 +82,7 @@ class Home extends BaseController
 				return view('register_confirm', [
 					'item' => $m,
 				]);
-			}else {
+			} else {
 				$u = new User($_POST);
 				unset($u->id);
 				$u->password = password_hash($u->password, PASSWORD_BCRYPT);

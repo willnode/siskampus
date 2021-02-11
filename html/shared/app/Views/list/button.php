@@ -38,7 +38,9 @@
                 break;
             case 'archived':
             ?>
-                <a href="?archived=<?=empty($_GET['archived']) ? '1' : ''?>" class="btn <?= $size ?> btn-dark"><i class="fa <?= empty($_GET['archived']) ? 'fa-archive' : 'fa-file' ?>"></i></a>
+                <a href="?<?= http_build_query(array_merge($_GET, [
+                                'archived' =>  empty($_GET['archived']) ? '1' : ''
+                            ])) ?>" class="btn <?= $size ?> <?= empty($_GET['archived']) ? 'btn-dark' : 'btn-outline-dark' ?>"><i class="fa <?= empty($_GET['archived']) ? 'fa-file-archive' : 'fa-file' ?>"></i></a>
         <?php
                 break;
         } ?>

@@ -39,7 +39,7 @@
               HP/WA: <b><?= esc($bio->hp) ?></b></br>
               Email: <b><?= esc($bio->email) ?></b></br>
               Deskripsi Bimbingan:<br>
-              <span class="white-space-break"><?= esc($profile->deskripsi) ?></span>
+              <span class="white-space-break"><?= esc($bio->deskripsi) ?></span>
             </p>
           <?php endif ?>
         <?php else : ?>

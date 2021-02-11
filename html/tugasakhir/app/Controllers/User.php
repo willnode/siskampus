@@ -80,15 +80,26 @@ class User extends BaseController
 					return view("info/dosen/edit_bimbingan", [
 						'item' => (new PendaftarModel())->find($id),
 					]);
+				} else {
+					if ($_POST) {
+						if ($this->login->role == 'mahasiswa' && $p->id) {
+							if ($p->status == 'ditolak') {
+								if ($p->pembimbing == $_POST['pembimbing']) {
+									return "Anda tidak boleh memilih pembimbing yang sama ketika sudah ditolak";
+								}
+								$_POST['status'] = 'ditinjau';
+							} else {
+								unset($_POST['status']);
+							}
+						}
+						$m->processWeb($p->id ?? null);
+						return $this->response->redirect('/user/info/');
+					}
+					return view("info/{$this->login->role}/edit", [
+						'profile' => $p ?? new Entity(),
+						'user' => $this->login,
+					]);
 				}
-				if ($_POST) {
-					$m->processWeb($p->id ?? null);
-					return $this->response->redirect('/user/info/');
-				}
-				return view("info/{$this->login->role}/edit", [
-					'profile' => $p ?? new Entity(),
-					'user' => $this->login,
-				]);
 		}
 	}
 

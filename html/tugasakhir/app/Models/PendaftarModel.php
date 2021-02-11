@@ -61,7 +61,7 @@ class PendaftarModel extends Model
         # code...
     }
 
-    /** @return Mahasiswa|null */
+    /** @return Pendaftar|null */
     public function atNim($nim)
     {
         return  $this->builder()->where([
