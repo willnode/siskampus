@@ -29,13 +29,11 @@ class User extends BaseController
 	}
 	public function api_checkseats()
 	{
-		if (!empty($_GET['tema'])) {
-			return $this->response->setJSON(array_filter(array_map(function ($x) {
-				return $x->toArray();
-			}, (new PembimbingModel)->withAvailableSeats($_GET['tema'])), function ($x) {
-				return $x['seats'] > 0;
-			}));
-		}
+		return $this->response->setJSON(array_filter(array_map(function ($x) {
+			return $x->toArray();
+		}, (new PembimbingModel)->withAvailableSeats($_GET['tema'] ?? '')), function ($x) {
+			return $x['seats'] > 0;
+		}));
 	}
 	public function index()
 	{
