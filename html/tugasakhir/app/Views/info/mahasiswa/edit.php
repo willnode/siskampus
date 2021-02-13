@@ -26,7 +26,7 @@
               <label class="d-block mb-3">
                 <span>Tema Tugas Akhir</span>
                 <select id="tema" name="tema" class="form-control" required>
-                  <option value="" selected disabled>-- Pilih Tema --</option>
+                  <option value="" selected>-- Semua --</option>
                   <?= implode('', array_map(function ($x) use ($profile) {
                     return '<option ' . ($profile->tema === $x ? 'selected' : '') .
                       ' value="' . $x . '">' . ucfirst($x) . '</option>';
@@ -67,6 +67,7 @@
               })
             });
             updateInfo();
+            $('#tema').trigger('change');
           });
 
           function updateInfo() {

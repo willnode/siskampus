@@ -2,7 +2,7 @@
 
 namespace Config;
 
-require_once SHAREDPATH . 'Config' . DIRECTORY_SEPARATOR . 'Services.php';
+require_once SHARED_PATH . 'Config' . DIRECTORY_SEPARATOR . 'Services.php';
 
 use Shared\Config\Services as SharedServices;
 

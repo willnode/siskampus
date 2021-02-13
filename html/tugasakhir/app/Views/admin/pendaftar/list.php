@@ -33,9 +33,10 @@
               </div>
             </div>
             <?php if ($pembimbing) : ?>
-            <h4>
-            <a href="/admin/pembimbing/" class="btn btn-sm btn-outline-secondary"><i class="fas fa-arrow-left"></i></a>
-            Dosen: <?= $pembimbing->nama ?> (<?= $pembimbing->nid ?>)</h4>
+              <h4>
+                <a href="/admin/pembimbing/" class="btn btn-sm btn-outline-secondary"><i class="fas fa-arrow-left"></i></a>
+                Dosen: <?= $pembimbing->nama ?> (<?= $pembimbing->nid ?>)
+              </h4>
             <?php endif ?>
             <?= shared_view('list/table', [
               'data' => $data,

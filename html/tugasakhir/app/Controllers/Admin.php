@@ -6,6 +6,8 @@ use App\Entities\Dosen;
 use App\Entities\Mahasiswa;
 use App\Entities\Pembimbing;
 use App\Entities\Pendaftar;
+use App\Libraries\PembimbingProcessor;
+use App\Libraries\PendaftarProcessor;
 use App\Models\ConfigModel;
 use App\Models\DosenModel;
 use App\Models\MahasiswaModel;
@@ -51,6 +53,9 @@ class Admin extends BaseController
 		if ($this->request->getMethod() === 'post') {
 			if ($page === 'delete' && $model->delete($id)) {
 				return $this->response->redirect('/admin/pembimbing/');
+			} else if ($page === 'import' && $file = $this->request->getFile('file')) {
+				$c = (new PembimbingProcessor)->import($file);
+				return $this->response->redirect("../?success_rows=$c");
 			} else if ($id = $model->processWeb($id)) {
 				return $this->response->redirect('/admin/pembimbing/');
 			}
@@ -62,7 +67,7 @@ class Admin extends BaseController
 					'page' => 'pembimbing',
 				]);
 			case 'detail':
-				return $this->response->redirect('/admin/pendaftar/?pembimbing=' . $id);
+				return $this->response->redirect('/admin/pendaftar/?pembimbing=' . $model->find($id)->nid ?? '');
 			case 'add':
 				return view('admin/pembimbing/edit', [
 					'item' => new Pembimbing()
@@ -74,6 +79,16 @@ class Admin extends BaseController
 				return view('admin/pembimbing/edit', [
 					'item' => $item
 				]);
+			case 'export':
+				(new PembimbingProcessor)->exportAndSend($model->findAll());
+			case 'import':
+				if ($file = $this->request->getFile('file')) {
+					$c = (new PembimbingProcessor)->import($file);
+					return $this->response->redirect("../?success_rows=$c");
+				}
+				return shared_view('page/upload', [
+					'page' => 'pembimbing'
+				]);
 		}
 		throw new PageNotFoundException();
 	}
@@ -84,6 +99,9 @@ class Admin extends BaseController
 		if ($this->request->getMethod() === 'post') {
 			if ($page === 'delete' && $model->delete($id)) {
 				return $this->response->redirect('/admin/pendaftar/');
+			} else if ($page === 'import' && $file = $this->request->getFile('file')) {
+				$c = (new PendaftarProcessor)->import($file);
+				return $this->response->redirect("../?success_rows=$c");
 			} else if ($id = $model->processWeb($id)) {
 				return $this->response->redirect('/admin/pendaftar/');
 			}
@@ -117,6 +135,12 @@ class Admin extends BaseController
 				}
 				return view('admin/pendaftar/detail', [
 					'item' => $item
+				]);
+			case 'export':
+				(new PendaftarProcessor)->exportAndSend($model->findAll());
+			case 'import':
+				return shared_view('page/upload', [
+					'page' => 'pendaftar'
 				]);
 		}
 		throw new PageNotFoundException();

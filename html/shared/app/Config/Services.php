@@ -30,7 +30,7 @@ class Services extends CoreServices
 
 		if (is_null($viewPath))
 		{
-			$viewPath = SHAREDPATH.'Views';
+			$viewPath = SHARED_PATH.'Views';
 		}
 
 		return new \CodeIgniter\View\View(new \Config\View(), $viewPath, static::locator(), CI_DEBUG, static::logger());

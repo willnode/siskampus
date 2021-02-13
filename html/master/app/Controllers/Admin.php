@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Entities\Dosen;
 use App\Entities\Mahasiswa;
+use App\Libraries\DosenProcessor;
+use App\Libraries\MahasiswaProcessor;
 use App\Models\DosenModel;
 use App\Models\MahasiswaModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
@@ -46,6 +48,9 @@ class Admin extends BaseController
 		if ($this->request->getMethod() === 'post') {
 			if ($page === 'delete' && $model->delete($id)) {
 				return $this->response->redirect('/admin/mahasiswa/');
+			} else if ($page === 'import' && $file = $this->request->getFile('file')) {
+				$c = (new MahasiswaProcessor)->import($file);
+				return $this->response->redirect("../?success_rows=$c");
 			} else if ($id = $model->processWeb($id)) {
 				return $this->response->redirect('/admin/mahasiswa/');
 			}
@@ -75,6 +80,15 @@ class Admin extends BaseController
 				return view('admin/mahasiswa/edit', [
 					'item' => $item
 				]);
+			case 'export':
+				if ($id) {
+					$model->withAngkatan($id);
+				}
+				(new MahasiswaProcessor)->exportAndSend($model->findAll());
+			case 'import':
+				return shared_view('page/upload', [
+					'page' => 'mahasiswa'
+				]);
 		}
 		throw new PageNotFoundException();
 	}
@@ -85,6 +99,9 @@ class Admin extends BaseController
 		if ($this->request->getMethod() === 'post') {
 			if ($page === 'delete' && $model->delete($id)) {
 				return $this->response->redirect('/admin/dosen/');
+			} else if ($page === 'import' && $file = $this->request->getFile('file')) {
+				$c = (new DosenProcessor)->import($file);
+				return $this->response->redirect("../?success_rows=$c");
 			} else if ($id = $model->processWeb($id)) {
 				return $this->response->redirect('/admin/dosen/');
 			}
@@ -105,6 +122,12 @@ class Admin extends BaseController
 				}
 				return view('admin/dosen/edit', [
 					'item' => $item
+				]);
+			case 'export':
+				(new DosenProcessor)->exportAndSend($model->findAll());
+			case 'import':
+				return shared_view('page/upload', [
+					'page' => 'dosen'
 				]);
 		}
 		throw new PageNotFoundException();
