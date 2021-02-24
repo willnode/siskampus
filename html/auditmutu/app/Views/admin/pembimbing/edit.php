@@ -44,7 +44,7 @@
                   <?= implode('', array_map(function ($x) use ($item) {
                     return '<option ' . ($item->status === $x ? 'selected' : '') .
                       ' value="' . $x . '">' . ucfirst($x) . '</option>';
-                  }, \App\Entities\Config::get()->categories)) ?>
+                  }, \App\Models\ConfigModel::get()->categories)) ?>
                 </select>
               </label>
               <div class="d-flex mb-3">

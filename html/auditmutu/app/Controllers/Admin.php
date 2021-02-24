@@ -2,14 +2,19 @@
 
 namespace App\Controllers;
 
-use App\Entities\Config;
+use App\Entities\Dosen;
+use App\Entities\Mahasiswa;
 use App\Entities\Pembimbing;
 use App\Entities\Pendaftar;
 use App\Libraries\PembimbingProcessor;
 use App\Libraries\PendaftarProcessor;
+use App\Models\ConfigModel;
+use App\Models\DosenModel;
+use App\Models\MahasiswaModel;
 use App\Models\PembimbingModel;
 use App\Models\PendaftarModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
+use Shared\Models\UserModel;
 use Config\Services;
 use Shared\Controllers\BaseController;
 use Shared\Entities\User as EntitiesUser;
@@ -143,14 +148,14 @@ class Admin extends BaseController
 
 	public function config()
 	{
+		$model = new ConfigModel();
 		if ($this->request->getMethod() === 'post') {
-			$c = Config::get();
-			$c->fill($_POST);
-			$c->save();
-			return $this->response->redirect('/admin/config/');
+			if ($model->processWeb()) {
+				return $this->response->redirect('/admin/config/');
+			}
 		}
 		return view('admin/config', [
-			'item' => Config::get(),
+			'item' => ConfigModel::get(),
 			'page' => 'config',
 		]);
 	}

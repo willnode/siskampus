@@ -2,33 +2,19 @@
 
 namespace App\Models;
 
-use App\Entities\Config;
 use App\Entities\Pembimbing;
 use CodeIgniter\Model;
 use Config\Services;
 
-class PembimbingModel extends Model
+class EntriModel extends Model
 {
-    protected $table         = 'pembimbing';
+    protected $table         = 'entri';
     protected $allowedFields = [
-        'nid', 'nama', 'hp', 'email', 'tema', 'deskripsi'
+        'id', 'user_id', 'judul'
     ];
     protected $primaryKey = 'id';
-    protected $returnType = 'App\Entities\Pembimbing';
+    protected $returnType = 'App\Entities\Entri';
 
-    public function withAvailableSeats($tema)
-    {
-        $b = $this->builder();
-        if ($tema) {
-            $b->where('tema', $tema);
-        }
-        $slot = Config::get()->max_slot;
-        $b->select("nid, pembimbing.nama, deskripsi, $slot-COALESCE(COUNT(nim), 0) as seats");
-        $b->join('pendaftar', 'pendaftar.pembimbing = pembimbing.nid', 'left');
-        $b->where("(status != 'selesai' or isnull(status))");
-        $b->groupBy("nid");
-        return $b->get()->getResult($this->returnType);
-    }
     /** @return Pembimbing|null */
     public function atNid($nid)
     {

@@ -30,7 +30,7 @@
                   <?= implode('', array_map(function ($x) use ($profile) {
                     return '<option ' . ($profile->tema === $x ? 'selected' : '') .
                       ' value="' . $x . '">' . ucfirst($x) . '</option>';
-                  },  \App\Entities\Config::get()->categories)) ?>
+                  },  \App\Models\ConfigModel::get()->categories)) ?>
                 </select>
               </label>
               <label class="d-block mb-3">

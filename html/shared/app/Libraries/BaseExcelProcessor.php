@@ -2,7 +2,6 @@
 
 namespace Shared\Libraries;
 
-use App\Entities\Pembimbing;
 use CodeIgniter\HTTP\Files\UploadedFile;
 use Config\Database;
 use Exception;
@@ -88,7 +87,6 @@ class BaseExcelProcessor
         }
     }
 
-    /** @param Pembimbing[] $data */
     public function export($data): Xlsx
     {
         $spreadsheet = new Spreadsheet();

@@ -7,14 +7,13 @@ use CodeIgniter\I18n\Time;
 
 /**
  * @property int $id
- * @property int $max_slot
- * @property string[] $categories
+ * @property int $user_id
+ * @property string $judul
  */
-class ConfigEntity extends Entity
+class Entri extends Entity
 {
     protected $casts = [
         'id' => 'integer',
-        'max_slot' => 'integer',
-        'categories' => 'json',
+        'user_id' => 'integer',
     ];
 }
